@@ -2,9 +2,9 @@
 Ember-based lightweight CMS and blog system with awesome search/analysis features.
 
 ## Todo
-- [ ] Connection CouchDB - Tobi
-- [ ] "Labor-Test" mit CouchDB (Wie lange dauert es, viele Daten lokal zu cachen?) - ?
+- [ ] Connection CouchDB - Tobias
+- [ ] "Labor-Test" mit CouchDB (Wie lange dauert es, viele Daten lokal zu cachen?) - Ben & Tobias
 - [ ] Improvement Layout/Design - Isabell
 - [ ] CMS Features - Sebastian
-- [ ] Analysis Feature - Ben?
-- [ ] Search Feature - Ben
+- [ ] Analysis Feature - Ben & Tobias
+- [ ] Search Feature - Ben & Tobias
