@@ -11,6 +11,15 @@ var posts = [{
   content: "I want this for my ORM, I want that for my template language, and let's finish it off with this routing library. Of course, you're going to have to know what you want, and you'll rarely have your horizon expanded if you always order the same thing, but there it is. It's a very popular way of consuming software.\n\nRails is not that. Rails is omakase."
 }, {
   id: '2',
+  title: "New test",
+  author: {
+    name: "bman"
+  },
+  date: new Date('12-27-2012'),
+  excerpt: "Simple test",
+  content: "Hallo"
+}, {
+  id: '3',
   title: "The Parley Letter",
   author: {
     name: "d2h"
@@ -104,8 +113,12 @@ App.PageController = Ember.ObjectController.extend({
  */
 var showdown = new Showdown.converter();
 
-Ember.Handlebars.helper('format-markdown', function (input) {
-  return new Handlebars.SafeString(showdown.makeHtml(input));
+Ember.Handlebars.helper('format-markdown', function(input) {
+  if (input == undefined) {
+    return "";
+  } else {
+    return new Handlebars.SafeString(showdown.makeHtml(input));
+  }
 });
 
 Ember.Handlebars.helper('format-date', function (date) {
