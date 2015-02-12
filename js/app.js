@@ -111,3 +111,31 @@ Ember.Handlebars.helper('format-markdown', function (input) {
 Ember.Handlebars.helper('format-date', function (date) {
   return moment(date).fromNow();
 });
+
+var db = new PouchDB('mydb');
+var remote = new PouchDB('http://localhost:5984/cms');
+ 
+function doSync() {
+  db.sync(remote, {live: true}).on('error', function (err) {
+    setTimeout(doSync, 1000); // retry 
+  });
+}
+
+function addPost(text, excerptText, contentText, tagsText) {
+  var post = {
+    _id: new Date().toISOString(),
+    title: text,
+	excerpt: excerptText,
+    content: contentText,
+	date: new Date().toISOString(),
+	tags: tagsText,
+  };
+  db.put(post, function callback(err, result) {
+    if (!err) {
+      console.log('Successfully posted a todo!');
+    }
+  });
+  doSync();
+}
+
+addPost('test3', 'test3', 'test3', 'test3');
