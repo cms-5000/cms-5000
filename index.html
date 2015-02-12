@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <meta charset="utf-8">
   <title>CMS 5000</title>
@@ -35,10 +36,10 @@
           <!-- Collect the nav links, forms, and other content for toggling -->
           <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
-              <li><a href='#/posts'>Posts</a>
-              </li>
-              <li><a href="#/about">About Us</a>
-              </li>
+              <li><a href='#/posts'>Posts</a></li>
+              <li><a href='#/page'>Page</a></li>
+              <li><a href='#/page/1'>Page 1</a></li>
+              <li><a href="#/about">About</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
               <li>
@@ -85,35 +86,55 @@
         </nav>
       </div>
     </div>
-    {{outlet}}
+    <div class="container-fluid">
+      {{outlet}}
+    </div>
+  </script>
+
+  <script type="text/x-handlebars" id="page/index">
+    <h1>This is not a page.</h1>
+    <p>You were probably looking for a specific page. Please select among the following:</p>
+    <ul>
+      {{#each page in pages}}
+        <li>
+          {{#link-to 'page' this}}{{title}}{{/link-to}}
+        </li>
+      {{/each}}
+    </ul>
+  </script>
+  
+  <script type="text/x-handlebars" id="page">
+    <h1>{{title}}</h1>
+    <div class="page-content">
+      {{content}}
+      <!-- {{format-markdown content}} -->
+    </div>
   </script>
 
   <script type="text/x-handlebars" id="posts">
-    <div class="container-fluid">
-      <div class="row-fluid">
-        <div class="col-md-3">
-          <table class='table'>
-            <thead>
-              <tr>
-                <th>Recent Posts</th>
-              </tr>
-            </thead>
+    <div class="row-fluid">
+      <div class="col-md-3">
+        <table class='table'>
+          <thead>
+            <tr>
+              <th>Recent Posts</th>
+            </tr>
+          </thead>
 
-            <tbody>
-              {{#each model}}
-              <tr>
-                <td>
-                  {{#link-to 'post' this}}{{title}} <small class='muted'>by {{author.name}}</small>{{/link-to}}
-                </td>
-              </tr>
-              {{/each}}
-            </tbody>
-          </table>
-        </div>
+          <tbody>
+            {{#each model}}
+            <tr>
+              <td>
+                {{#link-to 'post' this}}{{title}} <small class='muted'>by {{author.name}}</small>{{/link-to}}
+              </td>
+            </tr>
+            {{/each}}
+          </tbody>
+        </table>
+      </div>
 
-        <div class="col-md-9">
-          {{outlet}}
-        </div>
+      <div class="col-md-9">
+        {{outlet}}
       </div>
     </div>
   </script>
@@ -124,37 +145,33 @@
 
   <script type="text/x-handlebars" id="post">
     {{#if isEditing}} {{partial 'post/edit'}}
-    <button {{action 'doneEditing'}}>Done</button>
+      <button {{action 'doneEditing'}}>Done</button>
     {{else}}
-    <button {{action 'edit'}}>Edit</button>
+      <button {{action 'edit'}}>Edit</button>
     {{/if}}
 
     <h1>{{title}}</h1>
     <h2>by {{author.name}} <small class='muted'>({{format-date date}})</small></h2>
-
     <hr>
-
     <div class='intro'>
       {{format-markdown excerpt}}
     </div>
-
     <div class='below-the-fold'>
-      {{format-markdown body}}
+      {{format-markdown content}}
     </div>
   </script>
 
   <script type="text/x-handlebars" id="post/_edit">
     <p>{{input type="text" value=title}}</p>
     <p>{{input type="text" value=excerpt}}</p>
-    <p>{{textarea value=body}}</p>
+    <p>{{textarea value=content}}</p>
   </script>
 
   <script type="text/x-handlebars" id="about">
-    <div class='about'>
-      <p>
-        One day this will be editable...
-      </p>
+    <div class='page'>
+      <p>One day this will be editable...</p>
     </div>
   </script>
 </body>
+
 </html>
