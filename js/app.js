@@ -43,7 +43,7 @@ App.Router.map(function () {
       path: ':post_id'
     });
   });
-  this.resource('posts', { path: '/' });
+  //  this.resource('posts', { path: '/' });
 });
 
 
