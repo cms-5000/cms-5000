@@ -39,7 +39,7 @@ $(document).ready(function () {
     });
 });
 
-function buttonUp() {
+function searchboxHover() {
     var inputVal = $('.searchbox-input').val();
     inputVal = $.trim(inputVal).length;
     if (inputVal !== 0) {
