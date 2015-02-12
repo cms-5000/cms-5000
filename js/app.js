@@ -114,6 +114,7 @@ Ember.Handlebars.helper('format-date', function (date) {
 
 var db = new PouchDB('mydb');
 var remote = new PouchDB('http://localhost:5984/cms');
+//var remote = new PouchDB('https://cms5000:web5000@cms5000.iriscouch.com/cms');
  
 function doSync() {
   db.sync(remote, {live: true}).on('error', function (err) {
@@ -138,4 +139,27 @@ function addPost(text, excerptText, contentText, tagsText) {
   doSync();
 }
 
-addPost('test3', 'test3', 'test3', 'test3');
+//addPost('test3', 'test3', 'test3', 'test3');
+
+function showPosts() {
+  db.allDocs({include_docs: true, descending: true}, function(err, doc) {
+	  postsDoc = doc.rows;
+	  posts=[];
+	  var counter = 0;
+	postsDoc.forEach(function(postDoc) {
+		console.log(counter);
+	var post = {
+		id: postDoc.doc._id,
+		title: postDoc.doc.title,
+		excerpt: postDoc.doc.excerpt,
+		content: postDoc.doc.content,
+		date: postDoc.doc.date,
+		tags: postDoc.doc.tags
+	};
+		posts[counter] = post;
+		counter = counter + 1;
+	});
+  });
+}
+
+//showPosts();
