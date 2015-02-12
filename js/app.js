@@ -112,6 +112,10 @@ Ember.Handlebars.helper('format-date', function (date) {
   return moment(date).fromNow();
 });
 
+
+/*
+ * POUCHDB
+ */
 var db = new PouchDB('mydb');
 var remote = new PouchDB('http://localhost:5984/cms');
  
