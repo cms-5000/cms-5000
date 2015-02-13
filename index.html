@@ -39,7 +39,7 @@
               <form class="searchbox">
                 <input type="search" placeholder="Search..." name="search" class="searchbox-input" onkeyup="searchboxHover();" required>
                 <input type="submit" class="searchbox-submit" value="">
-                <span class="searchbox-icon"><img src="images/magnifier.svg" alt=""></span>
+                <img src="images/magnifier.svg" alt="" class="searchbox-icon">
               </form>
             </li>
             <li class="dropdown">
@@ -75,7 +75,7 @@
 
   <script type="text/x-handlebars" id="posts">
     <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".modal-add-post">Add a Post</button>
-    <div class="modal fade modal-add-post" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal fade modal-add-post" tabindex="-1" role="dialog" aria-labelledby="add-post" aria-hidden="true">
       <div class="modal-dialog modal-lg">
         <div class="modal-content">
           <div class="modal-header">
@@ -122,12 +122,14 @@
               </ul>
               <div class="tab-content">
                 <div role="tabpanel" class="tab-pane active" id="editor">
-                  <p>{{input type="text" value=post.title class="form-control" required="true"}}</p>
-                  <p>{{textarea value=post.excerpt cols="80" rows="4" class="form-control" required="true"}}</p>
-                  <p>{{textarea value=post.body cols="80" rows="4" class="form-control"}}</p>
-                  <p>{{input type="text" value=post.tags class="form-control"}}</p>
-                  <button {{action 'editPost'}} class="btn btn-primary">Save</button>
-                  <button {{action 'toggleEdit'}} class="btn btn-default">Cancel</button>
+                  <label for="title">Title</label>
+                  <p>{{input type="text" value=post.title class="form-control" id="title" required="true"}}</p>
+                  <label for="excerpt">Excerpt</label>
+                  <p>{{textarea value=post.excerpt cols="80" rows="4" class="form-control" id="excerpt" required="true"}}</p>
+                  <label for="body">Content</label>
+                  <p>{{textarea value=post.body cols="80" rows="4" class="form-control" id="body"}}</p>
+                  <label for="Tags">Tags</label>
+                  <p>{{input type="text" value=post.tags class="form-control" id="tags"}}</p>
                 </div>
                 <div role="tabpanel" class="tab-pane" id="preview">
                   <h1>{{post.title}}</h1>
@@ -137,6 +139,8 @@
                   <p class="tags">Tags: <span class="tags-content">{{post.tags}}</span></p>
                 </div>
               </div>
+              <button {{action 'editPost'}} class="btn btn-primary">Save</button>
+              <button {{action 'toggleEdit'}} class="btn btn-default">Cancel</button>
             </div>
         {{else}}
           <!--        {{#link-to 'post' this}}{{post.title}}{{/link-to}}-->
@@ -144,7 +148,7 @@
           <p class="excerpt">{{format-markdown post.excerpt}}</p>
           <p class="metadata">{{format-date post.date}}</p>
           <p class="tags">Tags: <span class="tags-content">{{post.tags}}</span></p>
-          <button type="button" {{action 'toggleEdit'}} class="btn btn-default"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></button>
+          <button type="button" {{action 'toggleEdit'}} class="btn btn-default" title="Edit this post."><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></button>
         {{/if}}
         </article>
       {{/each}}
@@ -193,9 +197,10 @@
 -->
 
   <script type="text/x-handlebars" id="about">
-    <div class='page'>
+    <article class='page'>
+      <h1>About</h1>
       <p>One day this will be editable...</p>
-    </div>
+    </article>
   </script>
 
 </body>
