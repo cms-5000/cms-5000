@@ -2,20 +2,9 @@
 window.App = Ember.Application.create({});
 App.ApplicationAdapter = DS.FixtureAdapter.extend();
 
-var pages = [{
-  id: '1',
-  title: 'My Test Page',
-  content: 'Hello, this is a test page.'
-}, {
-  id: '2',
-  title: 'My Second Test Page',
-  content: 'Hello, this is another test page. Lorem ipsum and stuff.'
-}];
-
-
 App.Router.map(function () {
+  this.resource('posts', { path: '/' });
   this.resource('about');
-  this.resource('addpost');
   //  this.resource('page', function () {
   //    this.resource('page', {
   //      path: ':page_id'
@@ -26,19 +15,12 @@ App.Router.map(function () {
   //      path: ':post_id'
   //    });
   //  });
-  this.resource('posts', { path: '/' });
 });
 
 
 /* 
  * POSTS
  */
-//App.PostsRoute = Ember.Route.extend({
-//  model: function () {
-//    return posts;
-//  }
-//});
-//
 //App.PostRoute = Ember.Route.extend({
 //  model: function (params) {
 //    return posts.findBy('id', params.post_id);

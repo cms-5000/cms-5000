@@ -1,10 +1,17 @@
+// Navbar Dropdown
 $(document).ready(function () {
-    //Handles menu drop down
     $('.dropdown-menu').find('form').click(function (e) {
         e.stopPropagation();
     });
 });
 
+// Tabs
+$('#myTab a').click(function (e) {
+  e.preventDefault()
+  $(this).tab('show')
+});
+
+// Search Box Animation
 $(document).ready(function () {
     var submitIcon = $('.searchbox-icon');
     var inputBox = $('.searchbox-input');

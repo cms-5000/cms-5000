@@ -61,3 +61,8 @@
 .searchbox-open {
   width: 100%;
 }
+
+.post-editing {
+  padding: 10px;
+  border: 1px solid #ddd;
+}
