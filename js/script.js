@@ -1,10 +1,17 @@
+// Navbar Dropdown
 $(document).ready(function () {
-    //Handles menu drop down
     $('.dropdown-menu').find('form').click(function (e) {
         e.stopPropagation();
     });
 });
 
+// Tabs
+$('#myTab a').click(function (e) {
+  e.preventDefault()
+  $(this).tab('show')
+});
+
+// Search Box Animation
 $(document).ready(function () {
     var submitIcon = $('.searchbox-icon');
     var inputBox = $('.searchbox-input');
@@ -39,7 +46,7 @@ $(document).ready(function () {
     });
 });
 
-function buttonUp() {
+function searchboxHover() {
     var inputVal = $('.searchbox-input').val();
     inputVal = $.trim(inputVal).length;
     if (inputVal !== 0) {

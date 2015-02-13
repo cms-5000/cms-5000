@@ -4,145 +4,164 @@
 <head>
   <meta charset="utf-8">
   <title>CMS 5000</title>
-  <script src="js/libs/jquery-2.1.1.min.js"></script>
+  <script src="js/libs/jquery-1.11.1.min.js"></script>
+  <link rel="stylesheet" href="css/normalize.css">
   <link rel="stylesheet" href="css/bootstrap.min.css">
   <link rel="stylesheet" href="css/bootstrap-theme.min.css">
+  <link rel="stylesheet" href="css/style.css">
   <script src="js/libs/bootstrap.min.js"></script>
+  <script src="js/libs/ember-template-compiler-1.12.0-beta.1.js"></script>
   <script src="js/libs/handlebars-v1.3.0.js"></script>
-  <script src="js/libs/ember-1.6.1.min.js"></script>
+  <script src="js/libs/ember-1.10.0.min.js"></script>
+  <script src="js/libs/ember-data-1.0.0-beta-11.js"></script>
   <script src="js/libs/showdown-0.3.1.min.js"></script>
   <script src="js/libs/moment.min.js"></script>
   <script src="js/libs/pouchdb-3.3.0.min.js"></script>
   <script src="js/app.js"></script>
-  <link rel="stylesheet" href="css/normalize.css">
-  <link rel="stylesheet" href="css/style.css">
   <script src="js/script.js"></script>
+  <script src="js/models/post.js"></script>
+  <script src="js/models/page.js"></script>
+
 </head>
 
 <body>
   <script type="text/x-handlebars">
-    <div class="row">
-      <div class="col-md-12">
-        <nav class="navbar navbar-default" role="navigation">
-          <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="container-fluid">
+      <nav class="navbar navbar-default">
+        <div class="container-fluid">
           <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-              <span class="sr-only">Toggle navigation</span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="#">CMS5000</a>
+            <a class="navbar-brand" href="#">cms-5000</a>
           </div>
-          <!-- Collect the nav links, forms, and other content for toggling -->
-          <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <ul class="nav navbar-nav">
-              <li><a href='#/posts'>Posts</a></li>
-              <li><a href='#/page'>Page</a></li>
-              <li><a href='#/page/1'>Page 1</a></li>
-              <li><a href="#/about">About</a></li>
-            </ul>
-            <ul class="nav navbar-nav navbar-right">
-              <li>
-                <form class="searchbox">
-                  <input type="search" placeholder="Search..." name="search" class="searchbox-input" onkeyup="buttonUp();" required>
-                  <input type="submit" class="searchbox-submit" value="">
-                  <span class="searchbox-icon"><svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	                 width="50px" height="50px" viewBox="0 0 50 50" enable-background="new 0 0 50 50" xml:space="preserve">
-                  <path d="M30.075,13.341c-4.613-4.614-12.121-4.614-16.734,0c-4.612,4.614-4.612,12.121,0,16.735
-                      c4.108,4.107,10.506,4.547,15.116,1.34c0.097,0.459,0.32,0.897,0.676,1.254l6.718,6.717c0.978,0.977,2.56,0.977,3.535,0
-                      c0.978-0.977,0.978-2.559,0-3.535l-6.718-6.719c-0.355-0.355-0.794-0.578-1.253-0.674C34.624,23.847,34.184,17.451,30.075,13.341z
-                       M27.954,27.955c-3.444,3.444-9.048,3.444-12.492,0c-3.442-3.444-3.442-9.048,0-12.492c3.444-3.444,9.048-3.444,12.492,0
-                      S31.398,24.511,27.954,27.955z"/>
-                  </svg></span>
-                </form>
-              </li>
-              <li class="dropdown">
-                <a href="" class="dropdown-toggle" data-toggle="dropdown">Sign in <b class="caret"></b></a>
+          <ul class="nav navbar-nav">
+            <li><a href="#/about">About</a></li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li>
+              <form class="searchbox">
+                <input type="search" placeholder="Search..." name="search" class="searchbox-input" onkeyup="searchboxHover();" required>
+                <input type="submit" class="searchbox-submit" value="">
+                <span class="searchbox-icon"><img src="images/magnifier.svg" alt=""></span>
+              </form>
+            </li>
+            <li class="dropdown">
+                <a href="" class="dropdown-toggle" data-toggle="dropdown">Login <b class="caret"></b></a>
                 <ul class="dropdown-menu" style="padding: 15px;min-width: 250px;">
                   <li>
-                    <div class="row">
-                      <div class="col-md-12">
-                        <form class="form" role="form" method="post" action="login" accept-charset="UTF-8" id="login-nav">
-                          <div class="form-group">
-                            <label class="sr-only" for="exampleInputEmail2">Email address</label>
-                            <input type="email" class="form-control" id="exampleInputEmail2" placeholder="Email address" required>
-                          </div>
-                          <div class="form-group">
-                            <label class="sr-only" for="exampleInputPassword2">Password</label>
-                            <input type="password" class="form-control" id="exampleInputPassword2" placeholder="Password" required>
-                          </div>
-                          <div class="form-group">
-                            <button type="submit" class="btn btn-success btn-block">Sign in</button>
-                          </div>
-                        </form>
+                    <form class="form" role="form" method="post" action="login" accept-charset="UTF-8" id="login-nav">
+                      <div class="form-group">
+                        <label class="sr-only" for="login-email">Email Address</label>
+                        <input type="email" class="form-control" id="login-email" placeholder="Email Address" required>
                       </div>
-                    </div>
+                      <div class="form-group">
+                        <label class="sr-only" for="login-password">Password</label>
+                        <input type="password" class="form-control" id="login-password" placeholder="Password" required>
+                      </div>
+                      <div class="form-group">
+                        <button type="submit" class="btn btn-success btn-block">Login</button>
+                      </div>
+                    </form>
                   </li>
                 </ul>
               </li>
-            </ul>
-          </div>
-          <!-- /.navbar-collapse -->
-        </nav>
-      </div>
-    </div>
-    <div class="container-fluid">
-      {{outlet}}
-    </div>
-  </script>
-
-  <script type="text/x-handlebars" id="page/index">
-    <h1>This is not a page.</h1>
-    <p>You were probably looking for a specific page. Please select among the following:</p>
-    <ul>
-      {{#each page in pages}}
-        <li>
-          hi
-<!--          {{#link-to 'page' this}}{{title}}{{/link-to}}-->
-        </li>
-      {{/each}}
-    </ul>
-  </script>
-  
-  <script type="text/x-handlebars" id="page">
-    <div class="page">
-      <h1>{{title}}</h1>
-      <div class="page-content">
-        {{content}}
-        <!-- {{format-markdown content}} -->
+          </ul>
+        </div>
+      </nav>
+      <div class="row">
+        <div class="col-md-offset-2 col-md-8">
+          {{outlet}}
+        </div>
       </div>
     </div>
   </script>
 
   <script type="text/x-handlebars" id="posts">
-    <div class="row-fluid">
-      <div class="col-md-3">
-        <table class='table'>
-          <thead>
-            <tr>
-              <th>Recent Posts</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            {{#each model}}
-            <tr>
-              <td>
-                {{#link-to 'post' this}}{{title}} <small class='muted'>by me</small>{{/link-to}}
-              </td>
-            </tr>
-            {{/each}}
-          </tbody>
-        </table>
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".modal-add-post">Add a Post</button>
+    <div class="modal fade modal-add-post" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">Add a Post</h4>
+          </div>
+          <div class="modal-body">
+            <div role="tabpanel">
+              <ul class="nav nav-tabs" role="tablist">
+                <li role="presentation" class="active"><a href="#newEditor" aria-controls="newEditor" role="tab" data-toggle="tab">Editor</a></li>
+                <li role="presentation"><a href="#newPreview" aria-controls="newPreview" role="tab" data-toggle="tab">Preview</a></li>
+              </ul>
+              <div class="tab-content">
+                <div role="tabpanel" class="tab-pane active" id="newEditor">
+                  <p>{{input type="text" value=newTitle placeholder="Title" class="form-control" required="true"}}</p>
+                  <p>{{textarea value=newExcerpt placeholder="Excerpt" cols="80" rows="4" class="form-control" required="true"}}</p>
+                  <p>{{textarea value=newBody placeholder="Main Content" cols="80" rows="4" class="form-control"}}</p>
+                  <p>{{input type="text" value=newTags placeholder="Tags" class="form-control"}}</p>
+                </div>
+                <div role="tabpanel" class="tab-pane" id="newPreview">
+                  <h1>{{newTitle}}</h1>
+                  <p class="excerpt">{{format-markdown newExcerpt}}</p>
+                  <p class="body">{{format-markdown newBody}}</p>
+                  <p class="tags">Tags: <span class="tags-content">{{newTags}}</span></p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button {{action 'addPost'}} class="btn btn-primary">Save</button>
+            <button type="button" data-dismiss="modal" aria-label="Close" class="btn btn-default">Cancel</button>
+          </div>
+        </div>
       </div>
-
-      <div class="col-md-9">
-        {{outlet}}
-      </div>
+    </div>
+    <div class="row">
+      {{#each post in model itemController="post"}}
+        <article class="post">
+        {{#if post.isEditing}}
+            <div class="post-editing" role="tabpanel">
+              <ul class="nav nav-tabs" role="tablist">
+                <li role="presentation" class="active"><a href="#editor" aria-controls="editor" role="tab" data-toggle="tab">Editor</a></li>
+                <li role="presentation"><a href="#preview" aria-controls="preview" role="tab" data-toggle="tab">Preview</a></li>
+              </ul>
+              <div class="tab-content">
+                <div role="tabpanel" class="tab-pane active" id="editor">
+                  <p>{{input type="text" value=post.title class="form-control" required="true"}}</p>
+                  <p>{{textarea value=post.excerpt cols="80" rows="4" class="form-control" required="true"}}</p>
+                  <p>{{textarea value=post.body cols="80" rows="4" class="form-control"}}</p>
+                  <p>{{input type="text" value=post.tags class="form-control"}}</p>
+                  <button {{action 'editPost'}} class="btn btn-primary">Save</button>
+                  <button {{action 'toggleEdit'}} class="btn btn-default">Cancel</button>
+                </div>
+                <div role="tabpanel" class="tab-pane" id="preview">
+                  <h1>{{post.title}}</h1>
+                  <p class="excerpt">{{format-markdown post.excerpt}}</p>
+                  <p class="body">{{format-markdown post.body}}</p>
+                  <p class="metadata">{{format-date post.date}}</p>
+                  <p class="tags">Tags: <span class="tags-content">{{post.tags}}</span></p>
+                </div>
+              </div>
+            </div>
+        {{else}}
+          <!--        {{#link-to 'post' this}}{{post.title}}{{/link-to}}-->
+          <h1>{{post.title}}</h1>
+          <p class="excerpt">{{format-markdown post.excerpt}}</p>
+          <p class="metadata">{{format-date post.date}}</p>
+          <p class="tags">Tags: <span class="tags-content">{{post.tags}}</span></p>
+          <button type="button" {{action 'toggleEdit'}} class="btn btn-default"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></button>
+        {{/if}}
+        </article>
+      {{/each}}
     </div>
   </script>
 
+  <!--
+  <script type="text/x-handlebars" id="post/_edit">
+    <p>{{input type="text" value=title}}</p>
+    <p>{{input type="text" value=excerpt}}</p>
+    <p>{{textarea value=content}}</p>
+    <p>{{input type="text" value=tags }}</p>
+  </script>
+-->
+
+  <!--
   <script type="text/x-handlebars" id="posts/index">
     <p class="text-warning">Please select a post</p>
   </script>
@@ -166,18 +185,35 @@
     </div>
   </script>
 
-  <script type="text/x-handlebars" id="post/_edit">
-    <p>{{input type="text" value=title}}</p>
-    <p>{{input type="text" value=excerpt}}</p>
-    <p>{{textarea value=content}}</p>
+
+  <script type="text/x-handlebars" id="page/index">
+    <h1>This is not a page.</h1>
+    <p>You were probably looking for a specific page. Please select among the following:</p>
+    <ul>
+      {{#each page in pages}}
+        <li>
+          hi
+        </li>
+      {{/each}}
+    </ul>
   </script>
+  
+  <script type="text/x-handlebars" id="page">
+    <div class="page">
+      <h1>{{title}}</h1>
+      <div class="page-content">
+        {{format-markdown content}} 
+      </div>
+    </div>
+  </script>
+-->
 
   <script type="text/x-handlebars" id="about">
     <div class='page'>
       <p>One day this will be editable...</p>
     </div>
   </script>
-  
+
 </body>
 
 </html>
