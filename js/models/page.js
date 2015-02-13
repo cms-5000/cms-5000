@@ -1,11 +1,10 @@
 App.Page = DS.Model.extend({
-  id: DS.attr('number'),
   title: DS.attr('string'),
   body: DS.attr('string')
 });
 
 
-var pages = [{
+App.Page.FIXTURES = [{
   id: '1',
   title: 'My Test Page',
   body: 'Hello, this is a test page.'
