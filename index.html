@@ -139,8 +139,13 @@
                   <p class="tags">Tags: <span class="tags-content">{{post.tags}}</span></p>
                 </div>
               </div>
-              <button {{action 'editPost'}} class="btn btn-primary">Save</button>
-              <button {{action 'toggleEdit'}} class="btn btn-default">Cancel</button>
+              <div class="btn-group" role="group">
+                <button {{action 'editPost'}} class="btn btn-primary">Save</button>
+                <button {{action 'toggleEdit'}} class="btn btn-default">Cancel</button>
+              </div>
+              <button {{action 'removePost'}} class="btn btn-danger pull-right">
+                <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+              </button>
             </div>
         {{else}}
           <!--        {{#link-to 'post' this}}{{post.title}}{{/link-to}}-->

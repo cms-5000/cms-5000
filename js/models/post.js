@@ -53,7 +53,16 @@ App.PostController = Ember.ObjectController.extend({
       } else {
         this.set('isEditing', false);
       }
-    }
+    },
+    editPost: function(){
+      this.set('isEditing', false);
+      this.get('model').save();
+    },
+    removePost: function () {
+      var post = this.get('model');
+      post.deleteRecord();
+      post.save();
+  }
   },
   isEditing: false
 });
