@@ -3,66 +3,17 @@ window.App = Ember.Application.create({});
 App.ApplicationAdapter = DS.FixtureAdapter.extend();
 
 App.Router.map(function () {
-  this.resource('posts', { path: '/' });
+  this.resource('posts', { path: '/' } , function () {
+    this.route('new');
+    this.route('view', { path: '/:post_id' });
+  });
   this.resource('about');
   //  this.resource('page', function () {
   //    this.resource('page', {
   //      path: ':page_id'
   //    });
   //  });
-  //  this.resource('posts', function () {
-  //    this.resource('post', {
-  //      path: ':post_id'
-  //    });
-  //  });
 });
-
-
-/* 
- * POSTS
- */
-//App.PostRoute = Ember.Route.extend({
-//  model: function (params) {
-//    return posts.findBy('id', params.post_id);
-//  }
-//});
-//
-//App.PostController = Ember.ObjectController.extend({
-//  isEditing: false,
-//
-//  actions: {
-//    edit: function () {
-//      this.set('isEditing', true);
-//    },
-//
-//    doneEditing: function () {
-//      this.set('isEditing', false);
-//    }
-//  }
-//});
-//
-///* 
-// * PAGES
-// */
-//App.PageRoute = Ember.Route.extend({
-//  model: function (params) {
-//    return pages.findBy('id', params.page_id);
-//  }
-//});
-//
-//App.PageController = Ember.ObjectController.extend({
-//  isEditing: false,
-//
-//  actions: {
-//    edit: function () {
-//      this.set('isEditing', true);
-//    },
-//
-//    doneEditing: function () {
-//      this.set('isEditing', false);
-//    }
-//  }
-//});
 
 /*
  * HELPERS

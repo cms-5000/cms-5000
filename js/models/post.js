@@ -10,13 +10,26 @@ App.Post = DS.Model.extend({
   tags: DS.attr('string')
 });
 
+/* ROUTES */
 App.PostsRoute = Ember.Route.extend({
   model: function(){
     return this.store.find('post');
   }
 });
 
-App.PostsController = Ember.ArrayController.extend({
+App.PostsIndexRoute = Ember.Route.extend({
+  model: function() {
+    return this.modelFor('posts');
+  }
+});
+
+App.PostRoute = Ember.Route.extend({
+  model: function (params) {
+    return this.store.findBy('id', params.post_id);
+  }
+});
+
+App.PostsIndexController = Ember.ArrayController.extend({
   actions: {
     addPost: function() {
       var title = this.get('newTitle');
@@ -26,7 +39,7 @@ App.PostsController = Ember.ArrayController.extend({
       var tags = this.get('newTags');
 
       var post = this.store.createRecord('post', {
-        // id: 50,
+        // id: ?,
         title: title,
         excerpt: excerpt,
         body: body,
