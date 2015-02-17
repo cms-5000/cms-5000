@@ -1,18 +1,13 @@
 App.Post = DS.Model.extend({
-  title: DS.attr('string'),
+  title:   DS.attr('string'),
   excerpt: DS.attr('string'),
-  body: DS.attr('string'),
-  date: DS.attr('date', {
-    defaultValue: function () {
-      return new Date();
-    }
-  }),
-  tags: DS.attr('string')
+  body:    DS.attr('string'),
+  date:    DS.attr('date', { defaultValue: function () { return new Date(); }}),
+  tags:    DS.attr('string')
 });
 
-/* ROUTES */
 App.PostsRoute = Ember.Route.extend({
-  model: function(){
+  model: function() {
     return this.store.find('post');
   }
 });
@@ -23,51 +18,47 @@ App.PostsIndexRoute = Ember.Route.extend({
   }
 });
 
-App.PostRoute = Ember.Route.extend({
-  model: function (params) {
-    return this.store.findBy('id', params.post_id);
+App.PostsAddRoute = Ember.Route.extend({
+  actions: {
+    addPost: function() {
+      var title   = this.get('newTitle');
+      var excerpt = this.get('newExcerpt');
+      var body    = this.get('newBody');
+      var date    = this.get('newDate');
+      var tags    = this.get('newTags');
+      
+      // TODO Validate entries.
+
+      var post = this.store.createRecord('post', {
+        title:   title,
+        excerpt: excerpt,
+        body:    body,
+        date:    date,
+        tags:    tags
+      });
+      post.save();
+      
+      // TODO: redirect with this.transitionTo('posts'); and show message about newly created post.
+    }
   }
 });
 
-App.PostsIndexController = Ember.ArrayController.extend({
-  actions: {
-    addPost: function() {
-      var title = this.get('newTitle');
-      var excerpt = this.get('newExcerpt');
-      var body = this.get('newBody');
-      var date = this.get('newDate');
-      var tags = this.get('newTags');
-
-      var post = this.store.createRecord('post', {
-        // id: ?,
-        title: title,
-        excerpt: excerpt,
-        body: body,
-        date: date,
-        tags: tags
-      });
-
-      this.set('newTitle', '');
-      this.set('newExcerpt', '');
-      this.set('newBody', '');
-      this.set('newDate', '');
-      this.set('newTags', '');
-      
-      post.save();
-    }
+App.PostRoute = Ember.Route.extend({
+  model: function(params) {
+    return this.store.find('post', params.post_id);
   }
 });
 
 App.PostController = Ember.ObjectController.extend({
   actions: {
     toggleEdit: function() {
-      if(!this.get('isEditing')){
-        this.set('isEditing', true);
-      } else {
+      if (this.get('isEditing')) {
         this.set('isEditing', false);
+      } else {
+        this.set('isEditing', true);
       }
     },
-    editPost: function(){
+    editPost: function() {
       this.set('isEditing', false);
       this.get('model').save();
     },
@@ -75,7 +66,7 @@ App.PostController = Ember.ObjectController.extend({
       var post = this.get('model');
       post.deleteRecord();
       post.save();
-  }
+    }
   },
   isEditing: false
 });

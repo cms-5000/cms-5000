@@ -1,6 +1,7 @@
 App.Page = DS.Model.extend({
+  slug:  DS.attr('string'),
   title: DS.attr('string'),
-  body: DS.attr('string')
+  body:  DS.attr('string')
 });
 
 
@@ -14,10 +15,6 @@ App.Page.FIXTURES = [{
   body: 'Hello, this is another test page. Lorem ipsum and stuff.'
 }];
 
-
-///* 
-// * PAGES
-// */
 //App.PageRoute = Ember.Route.extend({
 //  model: function (params) {
 //    return pages.findBy('id', params.page_id);
