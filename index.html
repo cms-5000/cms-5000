@@ -36,11 +36,9 @@
           </ul>
           <ul class="nav navbar-nav navbar-right">
             <li>
-              <!-- FIXME Properly integrate searchbox into navbar. -->
-              <form class="searchbox">
-                <input type="search" placeholder="Search..." name="search" class="searchbox-input" onkeyup="searchboxHover();" required>
-                <input type="submit" class="searchbox-submit" value="">
-                <img src="images/magnifier.svg" alt="" class="searchbox-icon">
+              <form class="navbar-form searchbox" role="search">
+                <input type="text" class="form-control">
+                <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
               </form>
             </li>
             <li>
