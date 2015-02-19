@@ -41,11 +41,8 @@ App.AddPostController = Ember.ArrayController.extend({
       var body    = this.get('newBody');
       var tags    = this.get('newTags');
       
-      console.log('Title:   ' + title);
-      console.log('Excerpt: ' + excerpt);
+      // TODO Validate entries, e.g. with https://github.com/dockyard/ember-validations
       
-      // TODO Validate entries. Maybe possible via input fields?
-
       var post = this.store.createRecord('post', {
         title:   title,
         excerpt: excerpt,
@@ -62,7 +59,6 @@ App.AddPostController = Ember.ArrayController.extend({
       
       this.transitionTo('posts');
       // TODO: Show alert message about newly created post.
-      
     }
   }
 });
@@ -76,6 +72,12 @@ App.AddPostController = Ember.ArrayController.extend({
 App.PostRoute = Ember.Route.extend({
   model: function(params) {
     return this.store.find('post', params.post_id);
+  },
+  shortcuts: {
+    'escape': 'returnToPosts'
+  },
+  actions: {
+    returnToPosts: function() { this.transitionTo('posts'); }
   }
 });
 
