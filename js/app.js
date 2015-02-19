@@ -2,6 +2,10 @@
 window.App = Ember.Application.create({});
 App.ApplicationAdapter = DS.FixtureAdapter.extend();
 
+Ember.TextSupport.reopen({  
+    attributeBindings: ["required"]
+}) 
+
 App.Router.map(function() {
   this.resource('posts', { path: '/' });
   this.resource('post',  { path: '/post/:post_id' });

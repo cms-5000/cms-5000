@@ -13,6 +13,7 @@
   <script src="js/libs/handlebars-v1.3.0.js"></script>
   <script src="js/libs/ember-1.10.0.min.js"></script>
   <script src="js/libs/ember-data-1.0.0-beta-11.js"></script>
+  <script src="js/libs/ember-shortcuts.js"></script>
   <script src="js/libs/showdown-0.3.1.min.js"></script>
   <script src="js/libs/moment.min.js"></script>
   <script src="js/libs/pouchdb-3.3.0.min.js"></script>
@@ -68,11 +69,18 @@
         </div>
       </nav>
       <div class="row">
-        <div class="col-md-offset-2 col-md-8 col-xs-12">
+        <div class="col-md-offset-2 col-md-8 col-xs-12" style="margin-bottom: 10px;">
+          <div id="alert">
+            {{outlet "alert"}}
+          </div>
           {{outlet}}
         </div>
       </div>
     </div>
+  </script>
+  
+  <script type="text/x-handlebars" data-template-name="alert">
+    <div class="alert alert-{{view.class}}" role="alert">{{view.message}}</div>
   </script>
     
   <script type="text/x-handlebars" id="posts">
@@ -126,10 +134,9 @@
       </ul>
       <div class="tab-content">
         <div role="tabpanel" class="tab-pane active" id="editor">
-          <label for="title">Title</label>
-          <p>{{input type="text" value=post.title class="form-control input-lg" id="title" required="true"}}</p>
+          <p>{{input type="text" value=post.title class="form-control input-lg"}}</p>
           <label for="excerpt">Excerpt</label>
-          <p>{{textarea value=post.excerpt cols="80" rows="4" class="form-control" id="excerpt" required="true"}}</p>
+          <p>{{textarea value=post.excerpt cols="80" rows="4" class="form-control" id="excerpt"}}</p>
           <label for="body">Content</label>
           <p>{{textarea value=post.body cols="80" rows="4" class="form-control" id="body"}}</p>
           <label for="Tags">Tags</label>
@@ -164,9 +171,9 @@
       </ul>
       <div class="tab-content">
         <div role="tabpanel" class="tab-pane active" id="newEditor" style="margin-top: 10px;">
-          <p>{{input type="text" value=newTitle class="form-control input-lg" required="true" placeholder="Title"}}</p>
+          <p>{{input type="text" value=newTitle class="form-control input-lg" placeholder="Title"}}</p>
           <label for="newExcerpt">Excerpt</label>
-          <p>{{textarea value=newExcerpt cols="80" rows="4" class="form-control" id="newExcerpt" required="true"}}</p>
+          <p>{{textarea value=newExcerpt cols="80" rows="4" class="form-control" id="newExcerpt"}}</p>
           <label for="newBody">Content</label>
           <p>{{textarea value=newBody cols="80" rows="4" class="form-control" id="newBody"}}</p>
           <label for="newTags">Tags</label>
@@ -203,7 +210,7 @@
       <p>One day this will be editable...</p>
     </article>
   </script>
-
+  
 </body>
 
 </html>

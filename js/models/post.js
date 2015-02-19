@@ -9,6 +9,12 @@ App.Post = DS.Model.extend({
 App.PostsRoute = Ember.Route.extend({
   model: function() {
     return this.store.find('post');
+  },
+  shortcuts: {
+    'a': 'goToAddPost'
+  },
+  actions: {
+    goToAddPost: function() { this.transitionTo('add-post'); }
   }
 });
 
@@ -19,7 +25,12 @@ App.PostsIndexRoute = Ember.Route.extend({
 });
 
 App.AddPostRoute = Ember.Route.extend({
-  
+  shortcuts: {
+    'escape': 'returnToPosts'
+  },
+  actions: {
+    returnToPosts: function() { this.transitionTo('posts'); }
+  }
 });
 
 App.AddPostController = Ember.ArrayController.extend({
@@ -51,9 +62,16 @@ App.AddPostController = Ember.ArrayController.extend({
       
       this.transitionTo('posts');
       // TODO: Show alert message about newly created post.
+      
     }
   }
 });
+
+//App.AlertView = Ember.View.extend({
+//  templateName: 'alert',
+//  message: 'Post has been successfully created!',
+//  class: 'success'
+//});
 
 App.PostRoute = Ember.Route.extend({
   model: function(params) {
