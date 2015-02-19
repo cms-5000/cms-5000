@@ -42,7 +42,7 @@
               </form>
             </li>
             <li>
-              {{#link-to 'posts.add'}}Add a Post{{/link-to}}
+              {{#link-to 'add-post'}}Add a Post{{/link-to}}
             </li>
             <li class="dropdown">
               <a href="" class="dropdown-toggle" data-toggle="dropdown">Login <b class="caret"></b></a>
@@ -127,7 +127,7 @@
       <div class="tab-content">
         <div role="tabpanel" class="tab-pane active" id="editor">
           <label for="title">Title</label>
-          <p>{{input type="text" value=post.title class="form-control" id="title" required="true"}}</p>
+          <p>{{input type="text" value=post.title class="form-control input-lg" id="title" required="true"}}</p>
           <label for="excerpt">Excerpt</label>
           <p>{{textarea value=post.excerpt cols="80" rows="4" class="form-control" id="excerpt" required="true"}}</p>
           <label for="body">Content</label>
@@ -143,21 +143,19 @@
           <p class="tags">Tags: <span class="tags-content">{{post.tags}}</span></p>
         </div>
       </div>
-      <div class="btn-group" role="group">
-        <button {{action 'editPost'}} class="btn btn-success">
-          <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-        </button>
-        <button {{action 'toggleEdit'}} class="btn btn-default">
-          <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-        </button>
-      </div>
+      <button {{action 'editPost'}} class="btn btn-success">
+        <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Save
+      </button>
+      <button {{action 'toggleEdit'}} class="btn btn-default">
+        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Cancel
+      </button>
       <button {{action 'removePost'}} class="btn btn-danger pull-right">
-        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete
       </button>
     </div>
   </script>
   
-  <script type="text/x-handlebars" id="posts/add">
+  <script type="text/x-handlebars" id="add-post">
     <h1>Add a Post</h1>
     <div role="tabpanel">
       <ul class="nav nav-tabs" role="tablist">
@@ -165,11 +163,14 @@
         <li role="presentation"><a href="#newPreview" aria-controls="newPreview" role="tab" data-toggle="tab">Preview</a></li>
       </ul>
       <div class="tab-content">
-        <div role="tabpanel" class="tab-pane active" id="newEditor">
-          <p>{{input type="text" value=newTitle placeholder="Title" class="form-control" required="true"}}</p>
-          <p>{{textarea value=newExcerpt placeholder="Excerpt" cols="80" rows="4" class="form-control" required="true"}}</p>
-          <p>{{textarea value=newBody placeholder="Main Content" cols="80" rows="4" class="form-control"}}</p>
-          <p>{{input type="text" value=newTags placeholder="Tags" class="form-control"}}</p>
+        <div role="tabpanel" class="tab-pane active" id="newEditor" style="margin-top: 10px;">
+          <p>{{input type="text" value=newTitle class="form-control input-lg" required="true" placeholder="Title"}}</p>
+          <label for="newExcerpt">Excerpt</label>
+          <p>{{textarea value=newExcerpt cols="80" rows="4" class="form-control" id="newExcerpt" required="true"}}</p>
+          <label for="newBody">Content</label>
+          <p>{{textarea value=newBody cols="80" rows="4" class="form-control" id="newBody"}}</p>
+          <label for="newTags">Tags</label>
+          <p>{{input type="text" value=newTags class="form-control" id="newTags"}}</p>
         </div>
         <div role="tabpanel" class="tab-pane" id="newPreview">
           <h1>{{newTitle}}</h1>
@@ -182,16 +183,17 @@
     <button {{action 'addPost'}} class="btn btn-success">
       <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Save &amp; Publish
     </button>
+    {{#link-to 'posts' class="btn btn-default" role="button"}}<span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Cancel{{/link-to}}
   </script>
   
 <!--
   <script type="text/x-handlebars" id="page">
-    <div class="page">
+    <article class='page'>
       <h1>{{title}}</h1>
       <div class="page-content">
         {{format-markdown content}} 
       </div>
-    </div>
+    </article>
   </script>
 -->
 

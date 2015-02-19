@@ -3,16 +3,11 @@ window.App = Ember.Application.create({});
 App.ApplicationAdapter = DS.FixtureAdapter.extend();
 
 App.Router.map(function() {
-  this.resource('posts', { path: '/' }, function() {
-    this.route('add');
-  });
+  this.resource('posts', { path: '/' });
   this.resource('post',  { path: '/post/:post_id' });
+  this.route('add-post');
   this.route('about');
-  //  this.resource('page', function () {
-  //    this.resource('page', {
-  //      path: ':page_id'
-  //    });
-  //  });
+  //    this.resource('page', { path: ':page_id' });
 });
 
 /*

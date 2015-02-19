@@ -18,27 +18,39 @@ App.PostsIndexRoute = Ember.Route.extend({
   }
 });
 
-App.PostsAddRoute = Ember.Route.extend({
+App.AddPostRoute = Ember.Route.extend({
+  
+});
+
+App.AddPostController = Ember.ArrayController.extend({
   actions: {
     addPost: function() {
       var title   = this.get('newTitle');
       var excerpt = this.get('newExcerpt');
       var body    = this.get('newBody');
-      var date    = this.get('newDate');
       var tags    = this.get('newTags');
       
-      // TODO Validate entries.
+      console.log('Title:   ' + title);
+      console.log('Excerpt: ' + excerpt);
+      
+      // TODO Validate entries. Maybe possible via input fields?
 
       var post = this.store.createRecord('post', {
         title:   title,
         excerpt: excerpt,
         body:    body,
-        date:    date,
         tags:    tags
       });
+      
+      this.set('newTitle', '');
+      this.set('newExcerpt', '');
+      this.set('newBody', '');
+      this.set('newTags', '');
+      
       post.save();
       
-      // TODO: redirect with this.transitionTo('posts'); and show message about newly created post.
+      this.transitionTo('posts');
+      // TODO: Show alert message about newly created post.
     }
   }
 });
@@ -70,6 +82,7 @@ App.PostController = Ember.ObjectController.extend({
   },
   isEditing: false
 });
+
 
 App.Post.FIXTURES = [{
   id: 1,
