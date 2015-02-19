@@ -1,5 +1,5 @@
 # cms-5000
-Ember-based lightweight CMS and blog system with awesome search/analysis features.
+Ember-based lightweight CMS and blog system with markdown syntax and awesome search/analysis features.
 
 ## Todo
 - [ ] Preparation of first presentation (for Feb. 17) - Sebastian
