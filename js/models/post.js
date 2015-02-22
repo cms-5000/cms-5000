@@ -41,7 +41,7 @@ App.AddPostController = Ember.ArrayController.extend({
       var body    = this.get('newBody');
       var tags    = this.get('newTags');
       
-      // TODO Validate entries, e.g. with https://github.com/dockyard/ember-validations
+      // TODO Validate entries with validators.js
       
       var post = this.store.createRecord('post', {
         title:   title,
