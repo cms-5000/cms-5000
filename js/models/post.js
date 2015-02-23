@@ -3,7 +3,8 @@ App.Post = DS.Model.extend({
   excerpt: DS.attr('string'),
   body:    DS.attr('string'),
   date:    DS.attr('date', { defaultValue: function () { return new Date(); }}),
-  tags:    DS.attr('string')
+  tags:    DS.attr('string'),
+  rev :    DS.attr('string')
 });
 
 App.PostsRoute = Ember.Route.extend({
