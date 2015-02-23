@@ -152,6 +152,19 @@ alert ("sorted post 0 \n\t" +
         "excerpt = \t" + sortedPosts[2].excerpt + "\n\t" +
         "body = \t" + sortedPosts[2].body + "\n\n\n");
 
+// use to create new
+var post = App.Post.store.createRecord('post', {
+        title:   'title',
+        excerpt: 'excerpt',
+        body:    'body',
+        tags:    'b'
+      });
+
+//use to destroy
+App.Post.store.find('post', 2).then(function (post) {
+  post.destroyRecord(); // => DELETE to /posts/2
+});
+
 
 var result = generateSortedPosts(generateScoredHits(generateHitsInPosts("the", App.Post.FIXTURES)));
 */
