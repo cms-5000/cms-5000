@@ -109,3 +109,9 @@ App.PostEditorComponent = Ember.Component.extend({
     removePost: function (post) { this.sendAction('removePost', post); }
   }
 });
+
+App.PostViewerComponent = Ember.Component.extend({
+  actions: {
+    toggleEdit: function (post) { this.sendAction('toggleEdit', post); },
+  }
+});
