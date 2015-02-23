@@ -28,11 +28,11 @@ App.PostsIndexRoute = Ember.Route.extend({
 
 App.PostRoute = Ember.Route.extend({
   model: function (params) {
-    return this.modelFor('posts').findBy('slug', params.post_slug); 
+    return this.modelFor('posts').findBy('slug', params.post_id);
     //return this.store.find('post', params.post_id);
   },
   serialize: function (model) {
-    return { post_slug: model.get('slug') };
+    return { post_id: model.get('slug') };
   },
   shortcuts: {
     'escape': 'returnToPosts'
@@ -53,7 +53,15 @@ App.PostController = Ember.ObjectController.extend({
     },
     editPost: function () {
       this.set('isEditing', false);
+      
+      if(this.get('model').changedAttributes().hasOwnProperty('slug')) {
+        var slugHasChanged = true;
+      }
       this.get('model').save();
+      
+      if(slugHasChanged) {
+        this.transitionTo('posts'); // TODO Should rather forward to the new address ('post/new-slug').
+      }
     },
     removePost: function () {
       var post = this.get('model');
@@ -61,6 +69,9 @@ App.PostController = Ember.ObjectController.extend({
       if(confirmed) {
         post.deleteRecord();
         post.save();
+        this.transitionTo('posts');
+        this.set('isEditing', false);
+        // TODO Show success message.
       }
     }
   },
@@ -104,7 +115,7 @@ App.AddPostController = Ember.ArrayController.extend({
       post.save();
       
       this.transitionTo('posts');
-      // TODO: Show alert message about newly created post --> Use a component.
+      // TODO: Show success message about newly created post --> Use a component.
     }
   }
 });
