@@ -47,12 +47,11 @@
                 <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
               </form>
             </li>
-            <li>
-              {{#link-to 'add-post'}}Add a Post{{/link-to}}
-            </li>
+            <li>{{#link-to 'add-post'}}Add a Post{{/link-to}}</li>
+            <li>{{#link-to 'add-page'}}Add a Page{{/link-to}}</li>
             <li class="dropdown">
               <a href="" class="dropdown-toggle" data-toggle="dropdown">Login <b class="caret"></b></a>
-              <ul class="dropdown-menu" style="padding: 15px;min-width: 250px;">
+              <ul class="dropdown-menu" style="padding: 15px 15px 0 15px; min-width: 280px;">
                 <li>
                   <form class="form" role="form" method="post" action="login" accept-charset="UTF-8" id="login-nav">
                     <div class="form-group">
@@ -64,7 +63,9 @@
                       <input type="password" class="form-control" id="login-password" placeholder="Password" required>
                     </div>
                     <div class="form-group">
-                      <button type="submit" class="btn btn-success btn-block">Login</button>
+                      <button {{action 'login'}} class="btn btn-success btn-block">
+                        <span class="glyphicon glyphicon-lock" aria-hidden="true"></span> Login
+                      </button>
                     </div>
                   </form>
                 </li>
@@ -94,7 +95,7 @@
       {{#each post in model itemController="post"}}
         <article class="post">
         {{#if post.isEditing}}
-          {{partial 'post/edit'}}
+          {{post-editor post=post editPost='editPost' toggleEdit='toggleEdit' removePost='removePost'}}
         {{else}}
           {{partial 'post/view'}}
         {{/if}}
@@ -108,15 +109,19 @@
   </script>
   
   <script type="text/x-handlebars" id="post">
-    <h1>{{title}}</h1>
-    <p class="excerpt">{{format-markdown excerpt}}</p>
-    <p class="body">{{format-markdown body}}</p>
-    <p class="date">{{format-date date}}</p>
-    <p class="tags">Tags: <span class="tags-content">{{tags}}</span></p>
-    <!-- TODO: Only show edit button for admins. -->
-    <button type="button" {{action 'toggleEdit'}} class="btn btn-default" title="Edit this post.">
-      <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
-    </button>
+    {{#if isEditing}}
+      {{post-editor post=this editPost='editPost' toggleEdit='toggleEdit' removePost='removePost'}}
+    {{else}}
+      <h1>{{title}}</h1>
+      <p class="excerpt">{{format-markdown excerpt}}</p>
+      <p class="body">{{format-markdown body}}</p>
+      <p class="date">{{format-date date}}</p>
+      <p class="tags">Tags: <span class="tags-content">{{tags}}</span></p>
+      <!-- TODO: Only show edit button for admins. -->
+      <button type="button" {{action 'toggleEdit'}} class="btn btn-default" title="Edit this post.">
+        <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+      </button>
+    {{/if}}
   </script>
   
   
@@ -134,7 +139,10 @@
     </button>
   </script>
   
-  <script type="text/x-handlebars" id="post/_edit">
+  <script type="text/x-handlebars" id="components/post-viewer">
+  </script>
+  
+  <script type="text/x-handlebars" id="components/post-editor">
     <div class="post-editing" role="tabpanel">
       <ul class="nav nav-tabs" role="tablist">
         <li role="presentation" class="active"><a href="#editor" aria-controls="editor" role="tab" data-toggle="tab">Editor</a></li>
@@ -142,8 +150,8 @@
       </ul>
       <div class="tab-content">
         <div role="tabpanel" class="tab-pane active" id="editor" style="margin-top: 10px;">
-          <p>{{input type="text" value=post.title class="form-control input-lg"}}</p>
-          <label for="excerpt">Excerpt</label>
+          <p>{{input type="text" value=post.title class="form-control input-lg" placeholder="Title*"}}</p>
+          <label for="excerpt">Excerpt*</label>
           <p>{{textarea value=post.excerpt cols="80" rows="4" class="form-control" id="excerpt"}}</p>
           <label for="body">Content</label>
           <p>{{textarea value=post.body cols="80" rows="4" class="form-control" id="body"}}</p>
@@ -151,20 +159,22 @@
           <p>{{input type="text" value=post.tags class="form-control" id="tags"}}</p>
         </div>
         <div role="tabpanel" class="tab-pane" id="preview">
-          <h1>{{post.title}}</h1>
+          <h1>{{title}}</h1>
           <p class="excerpt">{{format-markdown post.excerpt}}</p>
           <p class="body">{{format-markdown post.body}}</p>
           <p class="metadata">{{format-date post.date}}</p>
-          <p class="tags">Tags: <span class="tags-content">{{post.tags}}</span></p>
+          {{#if post.tags}}
+            <p class="tags">Tags: <span class="tags-content">{{post.tags}}</span></p>
+          {{/if}}
         </div>
       </div>
-      <button {{action 'editPost'}} class="btn btn-success">
+      <button {{action 'editPost' post}} class="btn btn-success">
         <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Save
       </button>
-      <button {{action 'toggleEdit'}} class="btn btn-default">
+      <button {{action 'toggleEdit' post}} class="btn btn-default">
         <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Cancel
       </button>
-      <button {{action 'removePost'}} class="btn btn-danger pull-right">
+      <button {{action 'removePost' post}} class="btn btn-danger pull-right">
         <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete
       </button>
     </div>
@@ -179,8 +189,8 @@
       </ul>
       <div class="tab-content">
         <div role="tabpanel" class="tab-pane active" id="newEditor" style="margin-top: 10px;">
-          <p>{{input type="text" value=newTitle class="form-control input-lg" placeholder="Title"}}</p>
-          <label for="newExcerpt">Excerpt</label>
+          <p>{{input type="text" value=newTitle class="form-control input-lg" placeholder="Title*"}}</p>
+          <label for="newExcerpt">Excerpt*</label>
           <p>{{textarea value=newExcerpt cols="80" rows="4" class="form-control" id="newExcerpt"}}</p>
           <label for="newBody">Content</label>
           <p>{{textarea value=newBody cols="80" rows="4" class="form-control" id="newBody"}}</p>
@@ -190,12 +200,44 @@
         <div role="tabpanel" class="tab-pane" id="newPreview">
           <h1>{{newTitle}}</h1>
           <p class="excerpt">{{format-markdown newExcerpt}}</p>
-          <p class="body">{{format-markdown newBody}}</p>
-          <p class="tags">Tags: <span class="tags-content">{{newTags}}</span></p>
+          {{#if newBody}}
+            <p class="body">{{format-markdown newBody}}</p>
+          {{else}}
+            <p class="body" style="color: #aaa">(No content.)</p>
+          {{/if}}
+          {{#if newTags}}
+            <p class="tags">Tags: <span class="tags-content">{{newTags}}</span></p>
+          {{/if}}
         </div>
       </div>
     </div>
     <button {{action 'addPost'}} class="btn btn-success">
+      <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Save &amp; Publish
+    </button>
+    {{#link-to 'posts' class="btn btn-default" role="button"}}<span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Cancel{{/link-to}}
+  </script>
+  
+  <script type="text/x-handlebars" id="add-page">
+    <h1>Add a Page</h1>
+    <div role="tabpanel">
+      <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation" class="active"><a href="#newEditorPage" aria-controls="newEditorPage" role="tab" data-toggle="tab">Editor</a></li>
+        <li role="presentation"><a href="#newPreviewPage" aria-controls="newPreviewPage" role="tab" data-toggle="tab">Preview</a></li>
+      </ul>
+      <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active" id="newEditorPage" style="margin-top: 10px;">
+          <p>{{input type="text" value=newPageTitle class="form-control input-lg" placeholder="Title*"}}</p>
+          <p>{{input type="text" value=newPageSlug class="form-control" placeholder="Slug (Short URL)*"}}</p>
+          <label for="newBody">Content*</label>
+          <p>{{textarea value=newPageBody cols="80" rows="6" class="form-control" id="newPageBody"}}</p>
+        </div>
+        <div role="tabpanel" class="tab-pane" id="newPreviewPage">
+          <h1>{{newPageTitle}}</h1>
+          <p class="body">{{format-markdown newPageBody}}</p>
+        </div>
+      </div>
+    </div>
+    <button {{action 'addPage'}} class="btn btn-success">
       <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Save &amp; Publish
     </button>
     {{#link-to 'posts' class="btn btn-default" role="button"}}<span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Cancel{{/link-to}}

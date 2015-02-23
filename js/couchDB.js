@@ -11,6 +11,6 @@ function doSync() {
 
 doSync();
 
-App.ApplicationAdapter = EmberPouch.Adapter.extend({
-  db: db
-});
+//App.ApplicationAdapter = EmberPouch.Adapter.extend({
+//  db: db
+//});

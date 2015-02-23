@@ -1,5 +1,6 @@
 App.Post = DS.Model.extend({
   title:   DS.attr('string'),
+  slug:    DS.attr('string'),
   excerpt: DS.attr('string'),
   body:    DS.attr('string'),
   date:    DS.attr('date', { defaultValue: function () { return new Date(); }}),
@@ -8,19 +9,19 @@ App.Post = DS.Model.extend({
 });
 
 App.PostsRoute = Ember.Route.extend({
-  model: function() {
+  model: function () {
     return this.store.find('post');
   },
   shortcuts: {
     '⌘+⇧+a, ctrl+shift+a': 'goToAddPost'
   },
   actions: {
-    goToAddPost: function() { this.transitionTo('add-post'); }
+    goToAddPost: function () { this.transitionTo('add-post'); }
   }
 });
 
 App.PostsIndexRoute = Ember.Route.extend({
-  model: function() {
+  model: function () {
     return this.modelFor('posts');
   }
 });
@@ -30,13 +31,13 @@ App.AddPostRoute = Ember.Route.extend({
     'escape': 'returnToPosts'
   },
   actions: {
-    returnToPosts: function() { this.transitionTo('posts'); }
+    returnToPosts: function () { this.transitionTo('posts'); }
   }
 });
 
 App.AddPostController = Ember.ArrayController.extend({
   actions: {
-    addPost: function() {
+    addPost: function () {
       var title   = this.get('newTitle');
       var excerpt = this.get('newExcerpt');
       var body    = this.get('newBody');
@@ -64,42 +65,47 @@ App.AddPostController = Ember.ArrayController.extend({
   }
 });
 
-//App.AlertView = Ember.View.extend({
-//  templateName: 'alert',
-//  message: 'Post has been successfully created!',
-//  class: 'success'
-//});
-
 App.PostRoute = Ember.Route.extend({
-  model: function(params) {
+  model: function (params) {
     return this.store.find('post', params.post_id);
   },
   shortcuts: {
     'escape': 'returnToPosts'
   },
   actions: {
-    returnToPosts: function() { this.transitionTo('posts'); }
+    returnToPosts: function () { this.transitionTo('posts'); }
   }
 });
 
 App.PostController = Ember.ObjectController.extend({
   actions: {
-    toggleEdit: function() {
+    toggleEdit: function () {
       if (this.get('isEditing')) {
         this.set('isEditing', false);
       } else {
         this.set('isEditing', true);
       }
     },
-    editPost: function() {
+    editPost: function () {
       this.set('isEditing', false);
       this.get('model').save();
     },
     removePost: function () {
       var post = this.get('model');
-      post.deleteRecord();
-      post.save();
+      var confirmed = confirm("Are you sure you want to remove the post \"" + this.get('title') + "\"?");
+      if(confirmed) {
+        post.deleteRecord();
+        post.save();
+      }
     }
   },
   isEditing: false
+});
+
+App.PostEditorComponent = Ember.Component.extend({
+  actions: {
+    toggleEdit: function (post) { this.sendAction('toggleEdit', post); },
+    editPost:   function (post) { this.sendAction('editPost',   post); },
+    removePost: function (post) { this.sendAction('removePost', post); }
+  }
 });

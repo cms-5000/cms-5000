@@ -7,5 +7,6 @@ https://github.com/dockyard/ember-validations
 - kein Text angegeben
 - zu langer Text (z.B. bei Post-/Page-Titeln)
 - bereits vergeben (z.B. bei Page-Slugs)
+- verbotene Slugs (unsere Routen: posts, add-post, add-page etc.)
 
 */
