@@ -26,48 +26,13 @@ App.PostsIndexRoute = Ember.Route.extend({
   }
 });
 
-App.AddPostRoute = Ember.Route.extend({
-  shortcuts: {
-    'escape': 'returnToPosts'
-  },
-  actions: {
-    returnToPosts: function () { this.transitionTo('posts'); }
-  }
-});
-
-App.AddPostController = Ember.ArrayController.extend({
-  actions: {
-    addPost: function () {
-      var title   = this.get('newTitle');
-      var excerpt = this.get('newExcerpt');
-      var body    = this.get('newBody');
-      var tags    = this.get('newTags');
-      
-      // TODO Validate entries with validators.js
-      
-      var post = this.store.createRecord('post', {
-        title:   title,
-        excerpt: excerpt,
-        body:    body,
-        tags:    tags
-      });
-      
-      this.set('newTitle', '');
-      this.set('newExcerpt', '');
-      this.set('newBody', '');
-      this.set('newTags', '');
-      
-      post.save();
-      
-      this.transitionTo('posts');
-      // TODO: Show alert message about newly created post.
-    }
-  }
-});
-
 App.PostRoute = Ember.Route.extend({
   model: function (params) {
-    return this.store.find('post', params.post_id);
+    return this.modelFor('posts').findBy('slug', params.post_slug); 
+    //return this.store.find('post', params.post_id);
+  },
+  serialize: function (model) {
+    return { post_slug: model.get('slug') };
   },
   shortcuts: {
     'escape': 'returnToPosts'
@@ -100,6 +65,48 @@ App.PostController = Ember.ObjectController.extend({
     }
   },
   isEditing: false
+});
+
+App.AddPostRoute = Ember.Route.extend({
+  shortcuts: {
+    'escape': 'returnToPosts'
+  },
+  actions: {
+    returnToPosts: function () { this.transitionTo('posts'); }
+  }
+});
+
+App.AddPostController = Ember.ArrayController.extend({
+  actions: {
+    addPost: function () {
+      var title   = this.get('newTitle');
+      var slug    = this.get('newSlug');
+      var excerpt = this.get('newExcerpt');
+      var body    = this.get('newBody');
+      var tags    = this.get('newTags');
+      
+      // TODO Validate entries with validators.js
+      
+      var post = this.store.createRecord('post', {
+        title:   title,
+        slug:    slug,
+        excerpt: excerpt,
+        body:    body,
+        tags:    tags
+      });
+      
+      this.set('newTitle',   '');
+      this.set('newSlug',    '');
+      this.set('newExcerpt', '');
+      this.set('newBody',    '');
+      this.set('newTags',    '');
+      
+      post.save();
+      
+      this.transitionTo('posts');
+      // TODO: Show alert message about newly created post --> Use a component.
+    }
+  }
 });
 
 App.PostEditorComponent = Ember.Component.extend({

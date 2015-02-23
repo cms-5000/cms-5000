@@ -117,14 +117,14 @@
       {{#if single}}
         <h1>{{post.title}}</h1>
       {{else}}
-        {{#link-to 'post' post.id}}<h1>{{post.title}}</h1>{{/link-to}}
+        {{#link-to 'post' post.slug}}<h1>{{post.title}}</h1>{{/link-to}}
       {{/if}}
       <p class="excerpt">{{format-markdown post.excerpt}}</p>
       {{#if single}}
         <p class="body">{{format-markdown post.body}}</p>
       {{else}}
         {{#if post.body}}
-          <p class="body">{{#link-to 'post' post.id}}Read more{{/link-to}}</p>
+          <p class="body">{{#link-to 'post' post.slug}}Read more{{/link-to}}</p>
         {{/if}}
       {{/if}}
       <p class="date">{{format-date post.date}}</p>
@@ -145,6 +145,7 @@
       <div class="tab-content">
         <div role="tabpanel" class="tab-pane active" id="editor" style="margin-top: 10px;">
           <p>{{input type="text" value=post.title class="form-control input-lg" placeholder="Title*"}}</p>
+          <p>{{input type="text" value=post.slug class="form-control" placeholder="Slug (Short URL)*"}}</p>
           <label for="excerpt">Excerpt*</label>
           <p>{{textarea value=post.excerpt cols="80" rows="4" class="form-control" id="excerpt"}}</p>
           <label for="body">Content</label>
@@ -184,6 +185,7 @@
       <div class="tab-content">
         <div role="tabpanel" class="tab-pane active" id="newEditor" style="margin-top: 10px;">
           <p>{{input type="text" value=newTitle class="form-control input-lg" placeholder="Title*"}}</p>
+          <p>{{input type="text" value=newSlug class="form-control" placeholder="Slug (Short URL)*"}}</p>
           <label for="newExcerpt">Excerpt*</label>
           <p>{{textarea value=newExcerpt cols="80" rows="4" class="form-control" id="newExcerpt"}}</p>
           <label for="newBody">Content</label>

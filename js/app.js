@@ -11,7 +11,7 @@ Ember.TextSupport.reopen({
 
 App.Router.map(function() {
   this.resource('posts', { path: '/' });
-  this.resource('post',  { path: '/post/:post_id' });
+  this.resource('post',  { path: '/post/:post_slug' });
   this.route('add-post');
   this.resource('page', { path: '/:page_id' });
   this.route('add-page');
