@@ -1,5 +1,5 @@
 body {
-  padding-top: 5px;
+  padding: 10px 0;
 }
 
 .searchbox input[type="text"] {
@@ -46,4 +46,9 @@ body {
 .post-editing {
   padding: 10px;
   border: 1px solid #ddd;
+}
+
+.post .date, .post .tags {
+  font-size: 0.8em;
+  line-height: 0.7;
 }

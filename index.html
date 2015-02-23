@@ -70,7 +70,7 @@
         </div>
       </nav>
       <div class="row">
-        <div class="col-md-offset-2 col-md-8 col-xs-12" style="margin-bottom: 10px;">
+        <div class="col-md-offset-2 col-md-8 col-xs-12">
           <div id="alert">
             {{outlet "alert"}}
           </div>
@@ -180,7 +180,7 @@
           <p>{{textarea value=newExcerpt cols="80" rows="4" class="form-control" id="newExcerpt"}}</p>
           <label for="newBody">Content</label>
           <p>{{textarea value=newBody cols="80" rows="4" class="form-control" id="newBody"}}</p>
-          <label for="newTags">Tags</label>
+          <label for="newTags">Tags</label> <small>(Seperate with commas.)</small>
           <p>{{input type="text" value=newTags class="form-control" id="newTags"}}</p>
         </div>
         <div role="tabpanel" class="tab-pane" id="newPreview">

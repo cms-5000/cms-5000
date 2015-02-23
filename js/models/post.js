@@ -11,7 +11,7 @@ App.PostsRoute = Ember.Route.extend({
     return this.store.find('post');
   },
   shortcuts: {
-    'a': 'goToAddPost'
+    '⌘+⇧+a, ctrl+shift+a': 'goToAddPost'
   },
   actions: {
     goToAddPost: function() { this.transitionTo('add-post'); }
