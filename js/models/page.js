@@ -1,7 +1,8 @@
 App.Page = DS.Model.extend({
   slug:  DS.attr('string'),
   title: DS.attr('string'),
-  body:  DS.attr('string')
+  body:  DS.attr('string'),
+  rev :  DS.attr('string')
 });
 
 //App.PageRoute = Ember.Route.extend({
