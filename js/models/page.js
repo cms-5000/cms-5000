@@ -4,17 +4,6 @@ App.Page = DS.Model.extend({
   body:  DS.attr('string')
 });
 
-
-App.Page.FIXTURES = [{
-  id: '1',
-  title: 'My Test Page',
-  body: 'Hello, this is a test page.'
-}, {
-  id: '2',
-  title: 'My Second Test Page',
-  body: 'Hello, this is another test page. Lorem ipsum and stuff.'
-}];
-
 //App.PageRoute = Ember.Route.extend({
 //  model: function (params) {
 //    return pages.findBy('id', params.page_id);

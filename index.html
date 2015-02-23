@@ -119,6 +119,9 @@
   <script type="text/x-handlebars" id="post/_view">
     <h1>{{#link-to 'post' post.id}}{{post.title}}{{/link-to}}</h1>
     <p class="excerpt">{{format-markdown post.excerpt}}</p>
+    {{#if post.body}}
+      <p class="body">{{#link-to 'post' post.id}}Read more{{/link-to}}</p>
+    {{/if}}
     <p class="date">{{format-date post.date}}</p>
     <p class="tags">Tags: <span class="tags-content">{{post.tags}}</span></p>
     <!-- TODO: Only show edit button for admins. -->
