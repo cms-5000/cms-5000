@@ -14,6 +14,7 @@
   <script src="js/libs/ember-1.10.0.min.js"></script>
   <script src="js/libs/ember-data-1.0.0-beta-11.js"></script>
   <script src="js/libs/ember-shortcuts.js"></script>
+  <script src="js/libs/ember-localstorage_adapter.js"></script>
   <script src="js/libs/showdown-0.3.1.min.js"></script>
   <script src="js/libs/moment.min.js"></script>
   <script src="js/libs/pouchdb-3.3.0.min.js"></script>
@@ -96,7 +97,7 @@
         </article>
       {{else}}
         <p class="info">There aren't any posts yet.</p>
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".modal-add-post">Add a Post</button>
+        {{#link-to 'add-post' class='btn btn-primary'}}Add a Post{{/link-to}}
       {{/each}}
       </div>
     </div>

@@ -1,6 +1,9 @@
 // General Setup
 window.App = Ember.Application.create({});
-App.ApplicationAdapter = DS.FixtureAdapter.extend();
+
+App.ApplicationAdapter = DS.LSAdapter.extend({
+  namespace: 'cms-5000'
+});
 
 Ember.TextSupport.reopen({  
     attributeBindings: ["required"]
