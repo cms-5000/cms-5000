@@ -1,6 +1,7 @@
 App.Post = DS.Model.extend({
   title:   DS.attr('string'),
   slug:    DS.attr('string'),
+//  slug: function() { return this.get('name').replace(/\s+/g, '-').toLowerCase(); }.property('name'),
   excerpt: DS.attr('string'),
   body:    DS.attr('string'),
   date:    DS.attr('date', { defaultValue: function () { return new Date(); }}),
@@ -20,20 +21,7 @@ App.PostsRoute = Ember.Route.extend({
   }
 });
 
-App.PostsIndexRoute = Ember.Route.extend({
-  model: function () {
-    return this.modelFor('posts');
-  }
-});
-
 App.PostRoute = Ember.Route.extend({
-  model: function (params) {
-    return this.modelFor('posts').findBy('slug', params.post_id);
-    //return this.store.find('post', params.post_id);
-  },
-  serialize: function (model) {
-    return { post_id: model.get('slug') };
-  },
   shortcuts: {
     'escape': 'returnToPosts'
   },
@@ -43,6 +31,10 @@ App.PostRoute = Ember.Route.extend({
 });
 
 App.PostController = Ember.ObjectController.extend({
+  model: function (params) {
+    return this.store.find('post', params.post_id);
+    //return this.modelFor('posts').find('id', params.post_id);
+  },  
   actions: {
     toggleEdit: function () {
       if (this.get('isEditing')) {
@@ -59,14 +51,14 @@ App.PostController = Ember.ObjectController.extend({
       }
       this.get('model').save();
       
-      if(slugHasChanged) {
+      if (slugHasChanged) {
         this.transitionTo('posts'); // TODO Should rather forward to the new address ('post/new-slug').
       }
     },
     removePost: function () {
       var post = this.get('model');
       var confirmed = confirm("Are you sure you want to remove the post \"" + this.get('title') + "\"?");
-      if(confirmed) {
+      if (confirmed) {
         post.deleteRecord();
         post.save();
         this.transitionTo('posts');

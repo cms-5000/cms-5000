@@ -13,10 +13,11 @@ App.Router.map(function() {
   this.resource('posts', { path: '/' });
   this.resource('post',  { path: '/post/:post_id' });
   this.route('add-post');
-  this.resource('page', { path: '/:page_id' });
+  this.resource('pages', { path: '/pages' });
+  this.resource('page',  { path: '/page/:page_id' });
   this.route('add-page');
-  this.route('about');
   //  this.resource('search', { path: '/search' });
+  // TODO: Handle non-existant routes: http://emberjs.com/guides/routing/defining-your-routes/#toc_wildcard-globbing-routes
 });
 
 /*

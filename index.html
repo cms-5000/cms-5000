@@ -38,7 +38,7 @@
             {{#link-to 'posts' class='navbar-brand'}}cms-5000{{/link-to}}
           </div>
           <ul class="nav navbar-nav">
-            <li>{{#link-to 'about'}}About{{/link-to}}</li>
+            <li>{{#link-to 'pages'}}Pages{{/link-to}}</li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
             <li>
@@ -76,9 +76,7 @@
       </nav>
       <div class="row">
         <div class="col-md-offset-2 col-md-8 col-xs-12">
-          <div id="alert">
-            {{outlet "alert"}}
-          </div>
+          {{outlet 'alert'}}
           {{outlet}}
         </div>
       </div>
@@ -90,18 +88,18 @@
   </script>
     
   <script type="text/x-handlebars" id="posts">
-      {{#each post in model itemController="post"}}
-        <article class="post">
+    {{#each post in model itemController="post"}}
+      <article class="post">
         {{#if post.isEditing}}
           {{post-editor post=post editPost='editPost' toggleEdit='toggleEdit' removePost='removePost'}}
         {{else}}
           {{post-viewer post=post toggleEdit='toggleEdit'}}
         {{/if}}
-        </article>
-      {{else}}
-        <p class="info">There aren't any posts yet.</p>
-        {{#link-to 'add-post' class='btn btn-primary'}}Add a Post{{/link-to}}
-      {{/each}}
+      </article>
+    {{else}}
+      <p class="info">There aren't any posts yet.</p>
+      {{#link-to 'add-post' class='btn btn-primary'}}Add a Post{{/link-to}}
+    {{/each}}
   </script>
   
   <script type="text/x-handlebars" id="post">
@@ -117,14 +115,14 @@
       {{#if single}}
         <h1>{{post.title}}</h1>
       {{else}}
-        {{#link-to 'post' post.slug}}<h1>{{post.title}}</h1>{{/link-to}}
+        {{#link-to 'post' post.id}}<h1>{{post.title}}</h1>{{/link-to}}
       {{/if}}
       <p class="excerpt">{{format-markdown post.excerpt}}</p>
       {{#if single}}
         <p class="body">{{format-markdown post.body}}</p>
       {{else}}
         {{#if post.body}}
-          <p class="body">{{#link-to 'post' post.slug}}Read more{{/link-to}}</p>
+          <p class="body">{{#link-to 'post' post.id}}Read more{{/link-to}}</p>
         {{/if}}
       {{/if}}
       <p class="date">{{format-date post.date}}</p>
@@ -213,7 +211,26 @@
     {{#link-to 'posts' class="btn btn-default" role="button"}}<span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Cancel{{/link-to}}
   </script>
   
+  <script type="text/x-handlebars" id="pages">
+    {{#each page in model}}
+      {{#link-to 'page' page.id}}{{page.title}}{{/link-to}}
+    {{else}}
+      <p class="info">There aren't any pages yet.</p>
+      {{#link-to 'add-page' class='btn btn-primary'}}Add a Page{{/link-to}}
+    {{/each}}
+    
+  </script>
+  
+  <script type="text/x-handlebars" id="page">
+    {{#if isEditing}}
+      {{page-editor page=this editPage='editPage' toggleEdit='toggleEdit' removePage='removePage'}}
+    {{else}}
+      {{page-viewer page=this toggleEdit='toggleEdit' single=true}}
+    {{/if}}
+  </script>
+  
   <script type="text/x-handlebars" id="add-page">
+<!--    {{page-editor addPage='addPage' page=null new=true}}-->
     <h1>Add a Page</h1>
     <div role="tabpanel">
       <ul class="nav nav-tabs" role="tablist">
@@ -239,24 +256,45 @@
     {{#link-to 'posts' class="btn btn-default" role="button"}}<span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Cancel{{/link-to}}
   </script>
   
-<!--
-  <script type="text/x-handlebars" id="page">
+  <script type="text/x-handlebars" id="components/page-viewer">
     <article class="page">
-      <h1>{{title}}</h1>
-      <div class="body">
-        {{format-markdown body}} 
-      </div>
+      <h1>{{page.title}}</h1>
+      <p class="body">{{format-markdown page.body}}</p>
+      <!-- TODO: Only show edit button for admins. -->
+      <button type="button" {{action 'toggleEdit' page}} class="btn btn-default" title="Edit this page.">
+        <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+      </button>
     </article>
   </script>
--->
-
-  <script type="text/x-handlebars" id="about">
-    <article class="page">
-      <h1>About</h1>
-      <div class="body">
-        <p>One day this will be editable...</p>
+    
+  <script type="text/x-handlebars" id="components/page-editor">
+    <div role="tabpanel">
+      <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation" class="active"><a href="#editorPage" aria-controls="editorPage" role="tab" data-toggle="tab">Editor</a></li>
+        <li role="presentation"><a href="#previewPage" aria-controls="previewPage" role="tab" data-toggle="tab">Preview</a></li>
+      </ul>
+      <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active" id="editorPage" style="margin-top: 10px;">
+          <p>{{input type="text" value=page.title class="form-control input-lg" placeholder="Title*"}}</p>
+          <p>{{input type="text" value=page.slug class="form-control" placeholder="Slug (Short URL)*"}}</p>
+          <label for="body">Content*</label>
+          <p>{{textarea value=page.body cols="80" rows="6" class="form-control" id="body"}}</p>
+        </div>
+        <div role="tabpanel" class="tab-pane" id="previewPage">
+          <h1>{{page.title}}</h1>
+          <p class="body">{{format-markdown page.body}}</p>
+        </div>
       </div>
-    </article>
+    </div>
+    <button {{action 'editPage' page}} class="btn btn-success">
+      <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Save
+    </button>
+    <button {{action 'toggleEdit' page}} class="btn btn-default">
+      <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Cancel
+    </button>
+    <button {{action 'removePage' page}} class="btn btn-danger pull-right">
+      <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete
+    </button>
   </script>
   
 </body>
