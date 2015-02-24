@@ -16,6 +16,7 @@ App.Router.map(function() {
   this.resource('page', { path: '/:page_id' });
   this.route('add-page');
   this.route('about');
+  this.route('search');
   //  this.resource('search', { path: '/search' });
 });
 

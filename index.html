@@ -39,6 +39,7 @@
           </div>
           <ul class="nav navbar-nav">
             <li>{{#link-to 'about'}}About{{/link-to}}</li>
+            <li>{{#link-to 'search'}}Search{{/link-to}}</li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
             <li>
@@ -99,7 +100,7 @@
         {{/if}}
         </article>
       {{else}}
-        <p class="info">There aren't any posts yet.</p>
+        <p class="info">There aren&#31;t any posts yet.</p>
         {{#link-to 'add-post' class='btn btn-primary'}}Add a Post{{/link-to}}
       {{/each}}
   </script>
@@ -257,6 +258,21 @@
         <p>One day this will be editable...</p>
       </div>
     </article>
+  </script>
+
+<script type="text/x-handlebars" id="search">
+      {{#each post in model itemController="post"}}
+        <article class="post">
+        {{#if post.isEditing}}
+          {{post-editor post=post editPost='editPost' toggleEdit='toggleEdit' removePost='removePost'}}
+        {{else}}
+          {{post-viewer post=post toggleEdit='toggleEdit'}}
+        {{/if}}
+        </article>
+      {{else}}
+        <p class="info">There aren&#31;t any posts yet.</p>
+        {{#link-to 'add-post' class='btn btn-primary'}}Add a Post{{/link-to}}
+      {{/each}}
   </script>
   
 </body>
