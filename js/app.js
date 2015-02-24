@@ -16,7 +16,7 @@ App.Router.map(function() {
   this.resource('pages', { path: '/pages' });
   this.resource('page',  { path: '/page/:page_id' });
   this.route('add-page');
-  //  this.resource('search', { path: '/search' });
+  this.route('search');
   // TODO: Handle non-existant routes: http://emberjs.com/guides/routing/defining-your-routes/#toc_wildcard-globbing-routes
 });
 

@@ -39,6 +39,7 @@
           </div>
           <ul class="nav navbar-nav">
             <li>{{#link-to 'pages'}}Pages{{/link-to}}</li>
+            <li>{{#link-to 'search'}}Search{{/link-to}}</li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
             <li>
@@ -95,11 +96,11 @@
         {{else}}
           {{post-viewer post=post toggleEdit='toggleEdit'}}
         {{/if}}
-      </article>
-    {{else}}
-      <p class="info">There aren't any posts yet.</p>
-      {{#link-to 'add-post' class='btn btn-primary'}}Add a Post{{/link-to}}
-    {{/each}}
+        </article>
+      {{else}}
+        <p class="info">There aren&#31;t any posts yet.</p>
+        {{#link-to 'add-post' class='btn btn-primary'}}Add a Post{{/link-to}}
+      {{/each}}
   </script>
   
   <script type="text/x-handlebars" id="post">
@@ -295,6 +296,21 @@
     <button {{action 'removePage' page}} class="btn btn-danger pull-right">
       <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete
     </button>
+  </script>
+
+<script type="text/x-handlebars" id="search">
+      {{#each post in model itemController="post"}}
+        <article class="post">
+        {{#if post.isEditing}}
+          {{post-editor post=post editPost='editPost' toggleEdit='toggleEdit' removePost='removePost'}}
+        {{else}}
+          {{post-viewer post=post toggleEdit='toggleEdit'}}
+        {{/if}}
+        </article>
+      {{else}}
+        <p class="info">There aren&#31;t any posts yet.</p>
+        {{#link-to 'add-post' class='btn btn-primary'}}Add a Post{{/link-to}}
+      {{/each}}
   </script>
   
 </body>
