@@ -15,6 +15,7 @@
   <script src="js/libs/ember-data-1.0.0-beta-15.min.js"></script>
   <script src="js/libs/ember-shortcuts.js"></script>
   <script src="js/libs/ember-localstorage_adapter.js"></script>
+<!--  <script src="js/libs/ember-notify.js"></script>-->
   <script src="js/libs/showdown-0.3.1.min.js"></script>
   <script src="js/libs/moment.min.js"></script>
   <script src="js/libs/pouchdb-3.3.0.min.js"></script>
@@ -49,7 +50,7 @@
           <ul class="nav navbar-nav navbar-right">
             <li>
               <form class="navbar-form searchbox" role="search">
-                <input type="text" class="form-control">
+                {{input type="text" value=search class="form-control" placeholder="Search..."}}
                 <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
               </form>
             </li>
@@ -62,11 +63,11 @@
                   <form class="form" role="form" method="post" action="login" accept-charset="UTF-8" id="login-nav">
                     <div class="form-group">
                       <label class="sr-only" for="login-email">Email Address</label>
-                      <input type="email" class="form-control" id="login-email" placeholder="Email Address" required>
+                      {{input type="email" value=login-email class="form-control" id="login-email" placeholder="Email Address" required=true}}
                     </div>
                     <div class="form-group">
                       <label class="sr-only" for="login-password">Password</label>
-                      <input type="password" class="form-control" id="login-password" placeholder="Password" required>
+                      {{input type="password" value=login-password class="form-control" id="login-password" placeholder="Password" required=true}}
                     </div>
                     <div class="form-group">
                       <button {{action 'login'}} class="btn btn-success btn-block">
@@ -82,17 +83,13 @@
       </nav>
       <div class="row">
         <div class="col-md-offset-2 col-md-8 col-xs-12">
-          {{outlet 'alert'}}
+<!--          {{ember-notify messageStyle='bootstrap'}}-->
           {{outlet}}
         </div>
       </div>
     </div>
   </script>
   
-  <script type="text/x-handlebars" data-template-name="alert">
-    <div class="alert alert-{{view.class}}" role="alert">{{view.message}}</div>
-  </script>
-    
   <script type="text/x-handlebars" id="posts">
     {{#each post in model itemController="post"}}
       <article class="post">
@@ -188,14 +185,29 @@
       </ul>
       <div class="tab-content">
         <div role="tabpanel" class="tab-pane active" id="newEditor" style="margin-top: 10px;">
-          <p>{{input type="text" value=newTitle class="form-control input-lg" placeholder="Title*"}}</p>
-          <p>{{input type="text" value=newSlug class="form-control" placeholder="Slug (Short URL)*"}}</p>
-          <label for="newExcerpt">Excerpt*</label>
-          <p>{{textarea value=newExcerpt cols="80" rows="4" class="form-control" id="newExcerpt"}}</p>
-          <label for="newBody">Content</label>
-          <p>{{textarea value=newBody cols="80" rows="4" class="form-control" id="newBody"}}</p>
-          <label for="newTags">Tags</label> <small>(Seperate with commas.)</small>
-          <p>{{input type="text" value=newTags class="form-control" id="newTags"}}</p>
+          <div {{bind-attr class=":form-group titleError:has-error"}}>
+            {{#if titleError}}<label class="control-label">{{titleError}}</label>{{/if}}
+            {{input type="text" value=newTitle class="form-control input-lg" placeholder="Title*"}}
+          </div>
+          <div {{bind-attr class=":form-group slugError:has-error"}}>
+            {{#if slugError}}<label class="control-label">{{slugError}}</label>{{/if}}
+            {{input type='text' value=newSlug class='form-control' placeholder='Slug (Short URL)*'}}
+          </div>
+          <div {{bind-attr class=":form-group excerptError:has-error"}}>
+            <label class="control-label" for="newExcerpt">Excerpt*</label>
+            {{#if excerptError}}<label class="control-label">{{excerptError}}</label>{{/if}}
+            {{textarea value=newExcerpt cols="80" rows="3" class="form-control" id="newExcerpt"}}
+          </div>
+          <div {{bind-attr class=":form-group bodyError:has-error"}}>
+            <label class="control-label" for="newBody">Content</label>
+            {{#if bodyError}}<label class="control-label">{{bodyError}}</label>{{/if}}
+            {{textarea value=newBody cols="80" rows="5" class="form-control" id="newBody"}}
+          </div>
+          <div {{bind-attr class=":form-group tagsError:has-error"}}>
+            <label class="control-label" for="newTags">Tags</label> <small>(Seperate with commas.)</small>
+            {{#if tagsError}}<label class="control-label">{{tagsError}}</label>{{/if}}
+            {{input type="text" value=newTags class="form-control" id="newTags"}}
+          </div>
         </div>
         <div role="tabpanel" class="tab-pane" id="newPreview">
           <h1>{{newTitle}}</h1>
@@ -214,7 +226,9 @@
     <button {{action 'addPost'}} class="btn btn-success">
       <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Save &amp; Publish
     </button>
-    {{#link-to 'posts' class="btn btn-default" role="button"}}<span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Cancel{{/link-to}}
+    <button {{action 'cancelPost'}} class="btn btn-default">
+      <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Cancel
+    </button>
   </script>
   
   <script type="text/x-handlebars" id="pages">
@@ -304,18 +318,18 @@
   </script>
 
 <script type="text/x-handlebars" id="search">
-      {{#each post in model itemController="post"}}
-        <article class="post">
-        {{#if post.isEditing}}
-          {{post-editor post=post editPost='editPost' toggleEdit='toggleEdit' removePost='removePost'}}
-        {{else}}
-          {{post-viewer post=post toggleEdit='toggleEdit'}}
-        {{/if}}
-        </article>
-      {{else}}
-        <p class="info">There aren&#31;t any posts yet.</p>
-        {{#link-to 'add-post' class='btn btn-primary'}}Add a Post{{/link-to}}
-      {{/each}}
+  {{#each post in model itemController="post"}}
+    <article class="post">
+    {{#if post.isEditing}}
+      {{post-editor post=post editPost='editPost' toggleEdit='toggleEdit' removePost='removePost'}}
+    {{else}}
+      {{post-viewer post=post toggleEdit='toggleEdit'}}
+    {{/if}}
+    </article>
+  {{else}}
+    <p class="info">There aren&#31;t any posts yet.</p>
+    {{#link-to 'add-post' class='btn btn-primary'}}Add a Post{{/link-to}}
+  {{/each}}
   </script>
   
 </body>

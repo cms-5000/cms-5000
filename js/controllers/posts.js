@@ -10,12 +10,6 @@ App.PostsRoute = Ember.Route.extend({
   }
 });
 
-//App.PostsIndexRoute = Ember.Route.extend({
-//  model: function () {
-//    return this.modelFor('posts');
-//  }
-//});
-
 App.PostRoute = Ember.Route.extend({
   shortcuts: {
     'escape': 'returnToPosts'
@@ -29,7 +23,7 @@ App.PostController = Ember.ObjectController.extend({
   model: function (params) {
     return this.store.find('post', params.post_id);
     //return this.modelFor('posts').find('id', params.post_id);
-  },  
+  },
   actions: {
     toggleEdit: function () {
       if (this.get('isEditing')) {
@@ -51,14 +45,14 @@ App.PostController = Ember.ObjectController.extend({
       }
     },
     removePost: function () {
-      var post = this.get('model');
       var confirmed = confirm("Are you sure you want to remove the post \"" + this.get('title') + "\"?");
       if (confirmed) {
+        this.set('isEditing', false);
+        var post = this.get('model');
         post.deleteRecord();
         post.save();
         this.transitionTo('posts');
-        this.set('isEditing', false);
-        // TODO Show success message.
+        this.notify.success('It worked.');
       }
     }
   },
@@ -83,26 +77,66 @@ App.AddPostController = Ember.ArrayController.extend({
       var body    = this.get('newBody');
       var tags    = this.get('newTags');
       
-      // TODO Validate entries with validators.js
+      // TODO Waiting for Ben's validator meta methods.
+//      switch (checkStringStuff(title)) {
+//        case 0: this.set('titleError', false);
+//        case 1: this.set('titleError', 'Please choose a title.');
+//        case 2: this.set('titleError', 'Your title is too long, please make it shorter.');
+//      }
       
-      var post = this.store.createRecord('post', {
-        title:   title,
-        slug:    slug,
-        excerpt: excerpt,
-        body:    body,
-        tags:    tags
-      });
+//      switch (checkSlugStuff(slug)) {
+//        case 0: this.set('slugError', false);
+//        case 1: this.set('slugError', 'Please define a slug (short url) for your post.');
+//        case 2: this.set('slugError', 'This slug is already being used. Please choose another one.');
+//        case 3: this.set('slugError', 'Only a-z, A-Z, 0-9 and \"_\" are allowed for your slug.');
+//        case 4: this.set('slugError', 'Please don\'t use any of the following keywords: post(s), page(s), add-post, add-page or search.');
+//      }
       
+//      switch (checkStringStuff(excerpt)) {
+//        case 0: this.set('excerptError', false);
+//        case 1: this.set('excerptError', 'Please write a short excerpt.');
+//        case 2: this.set('excerptError', 'Your excerpt is too long, please make it shorter.');
+//      }
+      
+//      switch (checkStringStuff(body)) {
+//        case 0: this.set('bodyError', false);
+//        case 1: this.set('bodyError', false); // non-mandatory field
+//        case 2: this.set('bodyError', 'Your content is too long, please make it shorter.');
+//      }
+      
+      var inputIsFine = (!this.get('titleError') && !this.get('slugError') && !this.get('excerptError'));
+      if (inputIsFine) {
+        var post = this.store.createRecord('post', {
+          title:   title,
+          slug:    slug,
+          excerpt: excerpt,
+          body:    body,
+          tags:    tags
+        });
+
+        this.set('newTitle',   '');
+        this.set('newSlug',    '');
+        this.set('newExcerpt', '');
+        this.set('newBody',    '');
+        this.set('newTags',    '');
+
+        post.save();
+        this.transitionTo('posts');
+        // TODO: Show success message about newly created post --> Use a component.
+      }
+    },
+    cancelPost: function () {
       this.set('newTitle',   '');
       this.set('newSlug',    '');
       this.set('newExcerpt', '');
       this.set('newBody',    '');
       this.set('newTags',    '');
-      
-      post.save();
-      
       this.transitionTo('posts');
-      // TODO: Show success message about newly created post --> Use a component.
     }
-  }
+  },
+  titleError: false,
+  slugError: false,
+  excerptError: false,
+  bodyError: false,
+  tagsError: false
 });
