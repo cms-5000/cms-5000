@@ -27,8 +27,8 @@ function isEmpty(string) {
 }
 
 // 2 test if string is to long
-function isTooLong(string) {
-    if (string.length > maxNumberOfCharacters) return 1;
+function isTooLong(string, maxlength) {
+    if (string.length > maxlength) return 1;
     return 0;
 }
 
@@ -50,7 +50,7 @@ function isSlugUsed(slugstring) {
 
 // 4 test if string for slug is not allowed
 function isSlugForbidden(slugstring) {
-    //%%TODO%% extend the list for forbidden slugs
+    //%%TODO%% extend the list for forbidden slugs (especially if you can generate new ones by adding pages!)
     var invalidChars = ['posts','post','add-post','pages','page','add-page','search']
     var forbiddenLength = forbiddenSlugs.length;
     for (var i = 0; i < forbiddenLength; i++) {
@@ -63,6 +63,29 @@ function isSlugForbidden(slugstring) {
 function isSlugInvalid(slugstring) {
     //(only a-z, A-Z, 0-9 and "_" are allowed as characters!)
     var forbiddenCharRegex = /^\w+$/;
-    if (! forbiddenCharRegex.test(slugstring)) {return 1;}
+    if (!forbiddenCharRegex.test(slugstring)) {return 1;}
     else {return 0;}
+}
+
+// wrapper method to test string fields
+function checkStringStuff(string) {
+    if (isEmpty(string)) return 1;
+    if (isTooLong(string, 1024)) return 2;
+    return 0;
+}
+
+// wrapper method to test string fields
+function checkTitleStuff(string) {
+    if (isEmpty(string)) return 1;
+    if (isTooLong(string, 30)) return 2;
+    return 0;
+}
+
+// wrapper method to test string fields
+function checkSlugStuff(slugstring) {
+    if (isEmpty(slugstring)) return 1;
+    if (isSlugUsed(slugstring)) return 2;
+    if (isSlugInvalid(slugstring)) return 3;
+    if (isSlugForbidden(slugstring)) return 4;
+    return 0;
 }

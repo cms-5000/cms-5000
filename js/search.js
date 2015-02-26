@@ -2,36 +2,47 @@
  * 
  */
 /*
-// %%TODO%% REMOVE DUMMY DATA AFTER TESTING
-var posts = [{
-    id: '1',
-    title: "Rails is Omakase",
-    author: {
-        name: "d2h"
-    },
-    date: new Date('12-27-2012'),
-    excerpt: "There are lots of à la carte software environments in this world. Places where in order to eat, you must first carefully look over the menu of options to order exactly what you want.",
-    body: "I want this for my ORM, I want that for my template language, and let's finish it off with this routing library. Of course, you're going to have to know what you want, and you'll rarely have your horizon expanded if you always order the same thing, but there it is. It's a very popular way of consuming software.\n\nRails is not that. Rails is omakase."
-}, {
-    id: '2',
-    title: "The Parley Letter",
-    author: {
-        name: "d2h"
-    },
-    date: new Date('12-24-2012'),
-    excerpt: "My [appearance on the Ruby Rogues podcast](http://rubyrogues.com/056-rr-david-heinemeier-hansson/) recently came up for discussion again on the private Parley mailing list.",
-    body: "This A long list of topics were raised and I took a time to ramble at large about all of them at once. Apologies for not taking the time to be more succinct, but at least each topic has a header so you can skip stuff you don't care about.\n\n### Maintainability\n\nIt's simply not true to say that I don't care about maintainability. I still work on the oldest Rails app in the world."
-}, {
-    id: '7',
-    title: "Test",
-    author: {
-        name: "d2h"
-    },
-    date: new Date('12-21-2012'),
-    excerpt: "blab balsb on this the my bob",
-    body: "blab balsb on this the my bob"
-}];
+--> things I need to know:
+    1) what fields can possibly be empty?
+    2) what fields you want to use within the search algorithm?
+        -> title
+        -> excerpt
+        -> body
+        -> tags ? 
+        -> slug ?
 */
+
+// 
+function fieldContainsSearchString(fieldstring, searchstring) {
+    if (fieldstring.indexOf(searchString) > -1) return 1;
+    return 0;
+}
+
+function countHitsInFieldString(fieldstring, searchstring) {
+    //%%TODO%% REMOVE AFTER TESTING!!!!
+    var date = new Date();
+    date.get
+
+
+    var boolNoHit = 0;
+    var indexShift = 0;
+    var hitCounter = 0;
+    // start indexOf from current position to get total number of 
+    // hits and not only one hit (use while to iterate until you reach the last index
+    // or get no hit anymore!)
+    while (!boolNoHit) {
+        var indexOfHit = fieldstring.indexOf(searchstring, indexShift);
+        if (indexOfHit > -1) {
+            hitCounter++;
+            indexShift = indexOfHit + 1;
+        }
+        else {
+            boolNoHit = 1;
+        }
+    }
+    return hitCounter;
+}
+
 function checkPhrase(phrase) {
     // check type of variable
     if ((typeof phrase) != "string") {
@@ -53,7 +64,6 @@ function generateHitsInPosts(phrase, posts) {
         return;
     }
     var newPhrase = phrase.toLocaleLowerCase();
-    
     var length = posts.length;
     var hitPosts = new Array(0);
     
@@ -115,13 +125,11 @@ function generateSortedPosts(scoredhits) {
     var sortedHits = scoredHits.sort(function(a,b) {
         return a[1] < b[1];
     });
-
     for (var i = 0; i < hitLength; i++) {
         var tempId = sortedHits[i][0];
         sortedPosts.push(getPostById(tempId,App.Post.FIXTURES));
     }
     return sortedPosts;
-
 }
 
 function getPostById(id, posts) {
