@@ -20,14 +20,16 @@
   <script src="js/libs/moment.min.js"></script>
   <script src="js/libs/pouchdb-3.3.0.min.js"></script>
   <script src="js/libs/pouchdb.relational-pouch.min.js"></script>
-  <script src="js/libs/main.js"></script>
+  <script src="js/libs/ember-pouch-adapter.js"></script>
   <script src="js/libs/bootstrap.min.js"></script>
   <script src="js/app.js"></script>
   <script src="js/models/post.js"></script>
   <script src="js/models/page.js"></script>
+  <script src="js/models/user.js"></script>
   <script src="js/controllers/pages.js"></script>
   <script src="js/controllers/posts.js"></script>
   <script src="js/controllers/search.js"></script>
+  <script src="js/controllers/users.js"></script>
   <script src="js/bootstrap-features.js"></script>
   <script src="js/components.js"></script>
   <script src="js/couchDB.js"></script>
@@ -58,22 +60,23 @@
             <li>{{#link-to 'add-page'}}Add a Page{{/link-to}}</li>
             <li class="dropdown">
               <a href="" class="dropdown-toggle" data-toggle="dropdown">Login <b class="caret"></b></a>
-              <ul class="dropdown-menu" style="padding: 15px 15px 0 15px; min-width: 280px;">
+              <ul class="dropdown-menu" style="padding: 15px; min-width: 280px;">
                 <li>
                   <form class="form" role="form" method="post" action="login" accept-charset="UTF-8" id="login-nav">
-                    <div class="form-group">
-                      <label class="sr-only" for="login-email">Email Address</label>
-                      {{input type="email" value=login-email class="form-control" id="login-email" placeholder="Email Address" required=true}}
+                    <div {{bind-attr class=":form-group loginUsernameError:has-error"}}>
+                      <label class="sr-only" for="login-username">Username</label>
+                      {{#if loginUsernameError}}<label class="control-label">{{loginUsernameError}}</label>{{/if}}
+                      {{input type="text" value=loginUsername class="form-control" id="login-username" placeholder="Username" required=true}}
                     </div>
-                    <div class="form-group">
+                    <div {{bind-attr class=":form-group loginPasswordError:has-error"}}>
                       <label class="sr-only" for="login-password">Password</label>
-                      {{input type="password" value=login-password class="form-control" id="login-password" placeholder="Password" required=true}}
+                      {{#if loginPasswordError}}<label class="control-label">{{loginPasswordError}}</label>{{/if}}
+                      {{input type="password" value=loginPassword class="form-control" id="login-password" placeholder="Password" required=true}}
                     </div>
-                    <div class="form-group">
-                      <button {{action 'login'}} class="btn btn-success btn-block">
-                        <span class="glyphicon glyphicon-lock" aria-hidden="true"></span> Login
-                      </button>
-                    </div>
+                    <button {{action 'doLogin'}} class="btn btn-success">
+                      <span class="glyphicon glyphicon-lock" aria-hidden="true"></span> Login
+                    </button>
+                    {{#link-to 'register' class='register-link btn btn-default' role='button'}}Register{{/link-to}}
                   </form>
                 </li>
               </ul>
@@ -129,7 +132,9 @@
         {{/if}}
       {{/if}}
       <p class="date">{{format-date post.date}}</p>
-      <p class="tags">Tags: <span class="tags-content">{{post.tags}}</span></p>
+      {{#if post.tags}}
+        <p class="tags">Tags: <span class="tags-content">{{post.tags}}</span></p>
+      {{/if}}
       <!-- TODO: Only show edit button for admins. -->
       <button type="button" {{action 'toggleEdit' post}} class="btn btn-default" title="Edit this post.">
         <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
@@ -329,19 +334,35 @@
     </button>
   </script>
 
-<script type="text/x-handlebars" id="search">
-  {{#each post in model itemController="post"}}
-    <article class="post">
-    {{#if post.isEditing}}
-      {{post-editor post=post editPost='editPost' toggleEdit='toggleEdit' removePost='removePost'}}
+  <script type="text/x-handlebars" id="search">
+    {{#each post in model itemController="post"}}
+      <article class="post">
+      {{#if post.isEditing}}
+        {{post-editor post=post editPost='editPost' toggleEdit='toggleEdit' removePost='removePost'}}
+      {{else}}
+        {{post-viewer post=post toggleEdit='toggleEdit'}}
+      {{/if}}
+      </article>
     {{else}}
-      {{post-viewer post=post toggleEdit='toggleEdit'}}
-    {{/if}}
-    </article>
-  {{else}}
-    <p class="info">There aren&#39;t any posts yet.</p>
-    {{#link-to 'add-post' class='btn btn-primary'}}Add a Post{{/link-to}}
-  {{/each}}
+      <p class="info">There aren&#39;t any posts yet.</p>
+      {{#link-to 'add-post' class='btn btn-primary'}}Add a Post{{/link-to}}
+    {{/each}}
+  </script> 
+  
+  <script type="text/x-handlebars" id="register">
+    <h1>Registration</h1>
+    <p>Register your user account here.</p>
+    <div {{bind-attr class=":form-group usernameError:has-error"}}>
+      {{#if usernameError}}<label class="control-label">{{usernameError}}</label>{{/if}}
+      {{input type="text" value=registerUsername class="form-control" placeholder="Username*"}}
+    </div>
+    <div {{bind-attr class=":form-group passwordError:has-error"}}>
+      {{#if passwordError}}<label class="control-label">{{passwordError}}</label>{{/if}}
+      {{input type="password" value=registerPassword class="form-control" placeholder="Password*"}}
+    </div>
+    <button {{action 'addUser'}} class="btn btn-success">
+      <span class="glyphicon glyphicon-user" aria-hidden="true"></span> Register
+    </button>
   </script>
   
 </body>

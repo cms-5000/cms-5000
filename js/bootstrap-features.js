@@ -1,12 +1,17 @@
-// Navbar Dropdown
 $(document).ready(function () {
-    $('.dropdown-menu').find('form').click(function (e) {
-        e.stopPropagation();
-    });
-});
-
-// Tabs
-$('#myTab a').click(function (e) {
-  e.preventDefault()
-  $(this).tab('show')
+  // Navbar Dropdown
+  $('.dropdown-menu').find('form').click(function (e) {
+      e.stopPropagation();
+  });
+  
+  $(".dropdown-menu a").click(function() {
+    console.log('lol');
+    $(this).closest(".dropdown-menu").prev().dropdown("toggle");
+  });
+  
+  // Tabs
+  $('#myTab a').click(function (e) {
+    e.preventDefault()
+    $(this).tab('show')
+  });
 });
