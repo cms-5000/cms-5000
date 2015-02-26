@@ -33,6 +33,8 @@ App.PostController = Ember.ObjectController.extend({
       }
     },
     editPost: function () {
+      // TODO: Validate inputs!
+      
       this.set('isEditing', false);
       
       if(this.get('model').changedAttributes().hasOwnProperty('slug')) {
@@ -43,6 +45,7 @@ App.PostController = Ember.ObjectController.extend({
       if (slugHasChanged) {
         this.transitionTo('posts'); // TODO Should rather forward to the new address ('post/new-slug').
       }
+      // TODO Show notification about updated post.
     },
     removePost: function () {
       var confirmed = confirm("Are you sure you want to remove the post \"" + this.get('title') + "\"?");
@@ -52,7 +55,7 @@ App.PostController = Ember.ObjectController.extend({
         post.deleteRecord();
         post.save();
         this.transitionTo('posts');
-        this.notify.success('It worked.');
+        this.notify.success('It worked.'); // FIXME
       }
     }
   },
@@ -83,7 +86,6 @@ App.AddPostController = Ember.ArrayController.extend({
 //        case 1: this.set('titleError', 'Please choose a title.');
 //        case 2: this.set('titleError', 'Your title is too long, please make it shorter.');
 //      }
-      
 //      switch (checkSlugStuff(slug)) {
 //        case 0: this.set('slugError', false);
 //        case 1: this.set('slugError', 'Please define a slug (short url) for your post.');
@@ -91,20 +93,24 @@ App.AddPostController = Ember.ArrayController.extend({
 //        case 3: this.set('slugError', 'Only a-z, A-Z, 0-9 and \"_\" are allowed for your slug.');
 //        case 4: this.set('slugError', 'Please don\'t use any of the following keywords: post(s), page(s), add-post, add-page or search.');
 //      }
-      
 //      switch (checkStringStuff(excerpt)) {
 //        case 0: this.set('excerptError', false);
 //        case 1: this.set('excerptError', 'Please write a short excerpt.');
 //        case 2: this.set('excerptError', 'Your excerpt is too long, please make it shorter.');
 //      }
-      
 //      switch (checkStringStuff(body)) {
 //        case 0: this.set('bodyError', false);
 //        case 1: this.set('bodyError', false); // non-mandatory field
 //        case 2: this.set('bodyError', 'Your content is too long, please make it shorter.');
 //      }
       
-      var inputIsFine = (!this.get('titleError') && !this.get('slugError') && !this.get('excerptError'));
+      var inputIsFine = (
+        !this.get('titleError')   && 
+        !this.get('slugError')    && 
+        !this.get('excerptError') && 
+        !this.get('bodyError')    && 
+        !this.get('tagsError')
+      );
       if (inputIsFine) {
         var post = this.store.createRecord('post', {
           title:   title,
@@ -122,7 +128,7 @@ App.AddPostController = Ember.ArrayController.extend({
 
         post.save();
         this.transitionTo('posts');
-        // TODO: Show success message about newly created post --> Use a component.
+        // TODO: Show notification about newly created post.
       }
     },
     cancelPost: function () {

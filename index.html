@@ -147,11 +147,11 @@
         <div role="tabpanel" class="tab-pane active" id="editor" style="margin-top: 10px;">
           <p>{{input type="text" value=post.title class="form-control input-lg" placeholder="Title*"}}</p>
           <p>{{input type="text" value=post.slug class="form-control" placeholder="Slug (Short URL)*"}}</p>
-          <label for="excerpt">Excerpt*</label>
+          <label class="control-label" for="excerpt">Excerpt*</label>
           <p>{{textarea value=post.excerpt cols="80" rows="4" class="form-control" id="excerpt"}}</p>
-          <label for="body">Content</label>
+          <label class="control-label" for="body">Content</label>
           <p>{{textarea value=post.body cols="80" rows="4" class="form-control" id="body"}}</p>
-          <label for="Tags">Tags</label> <small>(Seperate with commas.)</small>
+          <label class="control-label" for="Tags">Tags</label> <small>(Seperate with commas.)</small>
           <p>{{input type="text" value=post.tags class="form-control" id="tags"}}</p>
         </div>
         <div role="tabpanel" class="tab-pane" id="preview">
@@ -259,10 +259,22 @@
       </ul>
       <div class="tab-content">
         <div role="tabpanel" class="tab-pane active" id="newEditorPage" style="margin-top: 10px;">
-          <p>{{input type="text" value=newPageTitle class="form-control input-lg" placeholder="Title*"}}</p>
-          <p>{{input type="text" value=newPageSlug class="form-control" placeholder="Slug (Short URL)*"}}</p>
-          <label for="newBody">Content*</label>
-          <p>{{textarea value=newPageBody cols="80" rows="6" class="form-control" id="newPageBody"}}</p>
+          <div {{bind-attr class=":form-group titleError:has-error"}}>
+            {{#if titleError}}<label class="control-label">{{titleError}}</label>{{/if}}
+            {{input type="text" value=newPageTitle class="form-control input-lg" placeholder="Title*"}}
+          </div>
+          
+          <div {{bind-attr class=":form-group slugError:has-error"}}>
+            {{#if slugError}}<label class="control-label">{{slugError}}</label>{{/if}}
+            {{input type="text" value=newPageSlug class="form-control" placeholder="Slug (Short URL)*"}}
+          </div>
+          
+          <div {{bind-attr class=":form-group bodyError:has-error"}}>
+            <label class="control-label" for="newBody">Content*</label>
+            {{#if bodyError}}<label class="control-label">{{bodyError}}</label>{{/if}}
+            {{textarea value=newPageBody cols="80" rows="6" class="form-control" id="newPageBody"}}
+          </div>
+          
         </div>
         <div role="tabpanel" class="tab-pane" id="newPreviewPage">
           <h1>{{newPageTitle}}</h1>
@@ -297,7 +309,7 @@
         <div role="tabpanel" class="tab-pane active" id="editorPage" style="margin-top: 10px;">
           <p>{{input type="text" value=page.title class="form-control input-lg" placeholder="Title*"}}</p>
           <p>{{input type="text" value=page.slug class="form-control" placeholder="Slug (Short URL)*"}}</p>
-          <label for="body">Content*</label>
+          <label class="control-label" for="body">Content*</label>
           <p>{{textarea value=page.body cols="80" rows="6" class="form-control" id="body"}}</p>
         </div>
         <div role="tabpanel" class="tab-pane" id="previewPage">
@@ -327,7 +339,7 @@
     {{/if}}
     </article>
   {{else}}
-    <p class="info">There aren&#31;t any posts yet.</p>
+    <p class="info">There aren&#39;t any posts yet.</p>
     {{#link-to 'add-post' class='btn btn-primary'}}Add a Post{{/link-to}}
   {{/each}}
   </script>

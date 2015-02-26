@@ -17,6 +17,8 @@ App.PageController = Ember.ObjectController.extend({
       }
     },
     editPage: function () {
+      // TODO: Validate inputs!
+      
       this.set('isEditing', false);
       
       if(this.get('model').changedAttributes().hasOwnProperty('slug')) {
@@ -27,6 +29,7 @@ App.PageController = Ember.ObjectController.extend({
       if (slugHasChanged) {
         this.transitionTo('pages'); // TODO Should rather forward to the new address ('page/new-slug').
       }
+      // TODO Show notification about updated page.
     },
     removePage: function () {
       var page = this.get('model');
@@ -36,7 +39,7 @@ App.PageController = Ember.ObjectController.extend({
         page.save();
         this.transitionTo('pages');
         this.set('isEditing', false);
-        // TODO Show success message.
+        // TODO Show notification about removed page.
       }
     }
   },
@@ -59,22 +62,48 @@ App.AddPageController = Ember.ArrayController.extend({
       var slug    = this.get('newPageSlug');
       var body    = this.get('newPageBody');
       
-      // TODO Validate entries with validators.js
+      // TODO Waiting for Ben's validator meta methods.
+//      switch (checkStringStuff(title)) {
+//        case 0: this.set('titleError', false);
+//        case 1: this.set('titleError', 'Please choose a title.');
+//        case 2: this.set('titleError', 'Your title is too long, please make it shorter.');
+//      }
+//      switch (checkSlugStuff(slug)) {
+//        case 0: this.set('slugError', false);
+//        case 1: this.set('slugError', 'Please define a slug (short url).');
+//        case 2: this.set('slugError', 'This slug is already being used. Please choose another one.');
+//        case 3: this.set('slugError', 'Only a-z, A-Z, 0-9 and \"_\" are allowed for your slug.');
+//        case 4: this.set('slugError', 'Please don\'t use any of the following keywords: post(s), page(s), add-post, add-page or search.');
+//      }
+//      switch (checkStringStuff(body)) {
+//        case 0: this.set('bodyError', false);
+//        case 1: this.set('bodyError', 'Please write some content.');
+//        case 2: this.set('bodyError', 'Your content is too long, please make it shorter.');
+//      }
       
-      var page = this.store.createRecord('page', {
-        title:   title,
-        slug:    slug,
-        body:    body
-      });
-      
-      this.set('newPageTitle', '');
-      this.set('newPageSlug', '');
-      this.set('newPageBody', '');
-      
-      page.save();
-      
-      this.transitionTo('/page/' + page.get('id'));
-      // TODO: Show alert message about newly created page.
+      var inputIsFine = (
+        !this.get('titleError')   && 
+        !this.get('slugError')    && 
+        !this.get('bodyError')
+      );
+      if (inputIsFine) {
+        var page = this.store.createRecord('page', {
+          title:   title,
+          slug:    slug,
+          body:    body
+        });
+
+        this.set('newPageTitle', '');
+        this.set('newPageSlug', '');
+        this.set('newPageBody', '');
+
+        page.save();
+        this.transitionTo('/page/' + page.get('id'));
+        // TODO: Show notification about newly created page.
+      }
     }
-  }
+  },
+  titleError: false,
+  slugError: false,
+  bodyError: false,
 });
