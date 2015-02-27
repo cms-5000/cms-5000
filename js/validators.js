@@ -11,6 +11,7 @@
 
 // 1 test if string is empty or undefined
 function isEmpty(string) {
+    if (string === undefined) return 1;
     if (string.length == 0) return 1;
     return 0;
 }
