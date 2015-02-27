@@ -63,21 +63,21 @@ App.AddPageController = Ember.ArrayController.extend({
       var body    = this.get('newPageBody');
       
       switch (validateTitle(title)) {
-        case 0: this.set('titleError', false);
-        case 1: this.set('titleError', 'Please choose a title.');
-        case 2: this.set('titleError', 'Your title is too long, please make it shorter.');
+        case 0: this.set('titleError', false); break;
+        case 1: this.set('titleError', 'Please choose a title.'); break;
+        case 2: this.set('titleError', 'Your title is too long, please make it shorter.'); break;
       }
       switch (validateSlug(slug)) {
-        case 0: this.set('slugError', false);
-        case 1: this.set('slugError', 'Please define a slug (short url).');
-        case 2: this.set('slugError', 'This slug is already being used. Please choose another one.');
-        case 3: this.set('slugError', 'Only a-z, A-Z, 0-9 and \"_\" are allowed for your slug.');
-        case 4: this.set('slugError', 'Please don\'t use any of the following keywords: post(s), page(s), add-post, add-page or search.');
+        case 0: this.set('slugError', false); break;
+        case 1: this.set('slugError', 'Please define a slug (short url).'); break;
+        case 2: this.set('slugError', 'This slug is already being used. Please choose another one.'); break;
+        case 3: this.set('slugError', 'Only a-z, A-Z, 0-9 and \"_\" are allowed for your slug.'); break;
+        case 4: this.set('slugError', 'Please don\'t use any of the following keywords: post(s), page(s), add-post, add-page or search.'); break;
       }
       switch (validateString(body)) {
-        case 0: this.set('bodyError', false);
-        case 1: this.set('bodyError', 'Please write some content.');
-        case 2: this.set('bodyError', 'Your content is too long, please make it shorter.');
+        case 0: this.set('bodyError', false); break;
+        case 1: this.set('bodyError', 'Please write some content.'); break;
+        case 2: this.set('bodyError', 'Your content is too long, please make it shorter.'); break;
       }
       
       var inputIsFine = (
@@ -103,6 +103,6 @@ App.AddPageController = Ember.ArrayController.extend({
     }
   },
   titleError: false,
-  slugError: false,
-  bodyError: false,
+  slugError:  false,
+  bodyError:  false
 });

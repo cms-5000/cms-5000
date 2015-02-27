@@ -88,7 +88,7 @@ App.AddPostController = Ember.ArrayController.extend({
       
       switch (validateSlug(slug)) {
         case 0: this.set('slugError', false); break;
-        case 1: this.set('slugError', 'Please define a slug (short url) for your post.'); break;
+        case 1: this.set('slugError', 'Please define a slug (short url).'); break;
         case 2: this.set('slugError', 'This slug is already being used. Please choose another one.'); break;
         case 3: this.set('slugError', 'Only a-z, A-Z, 0-9 and \"_\" are allowed for your slug.'); break;
         case 4: this.set('slugError', 'Please don\'t use any of the following keywords: post(s), page(s), add-post, add-page or search.'); break;
