@@ -41,7 +41,7 @@ function isSlugUsed(slugstring) {
 // 4 test if string for slug is not allowed
 function isSlugForbidden(slugstring) {
     //%%TODO%% extend the list for forbidden slugs (especially if you can generate new ones by adding pages!)
-    var invalidChars = ['posts','post','add-post','pages','page','add-page','search']
+    var forbiddenSlugs = ['posts','post','add-post','pages','page','add-page','search']
     var forbiddenLength = forbiddenSlugs.length;
     for (var i = 0; i < forbiddenLength; i++) {
         if (forbiddenSlugs[i] == slugstring) return 1;
