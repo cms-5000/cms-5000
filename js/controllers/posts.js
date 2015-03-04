@@ -121,11 +121,11 @@ App.AddPostRoute = Ember.Route.extend({
 App.AddPostController = Ember.ArrayController.extend({
   actions: {
     addPost: function () {
-      var title   = this.get('newTitle');
-      var slug    = this.get('newSlug');
-      var excerpt = this.get('newExcerpt');
-      var body    = this.get('newBody');
-      var tags    = this.get('newTags');
+      var title   = this.get('title');
+      var slug    = this.get('slug');
+      var excerpt = this.get('excerpt');
+      var body    = this.get('body');
+      var tags    = this.get('tags');
       
       switch (validateTitle(title)) {
         case 0: this.set('titleError', false); break;
@@ -166,11 +166,11 @@ App.AddPostController = Ember.ArrayController.extend({
           tags:    tags
         });
 
-        this.set('newTitle',   '');
-        this.set('newSlug',    '');
-        this.set('newExcerpt', '');
-        this.set('newBody',    '');
-        this.set('newTags',    '');
+        this.set('title',   '');
+        this.set('slug',    '');
+        this.set('excerpt', '');
+        this.set('body',    '');
+        this.set('tags',    '');
 
         post.save();
         this.transitionTo('posts');
@@ -178,11 +178,11 @@ App.AddPostController = Ember.ArrayController.extend({
       }
     },
     cancelPost: function () {
-      this.set('newTitle',   '');
-      this.set('newSlug',    '');
-      this.set('newExcerpt', '');
-      this.set('newBody',    '');
-      this.set('newTags',    '');
+      this.set('title',   '');
+      this.set('slug',    '');
+      this.set('excerpt', '');
+      this.set('body',    '');
+      this.set('tags',    '');
       this.transitionTo('posts');
     }
   },

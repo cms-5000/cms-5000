@@ -117,6 +117,11 @@
     {{/if}}
   </script>
   
+  <script type="text/x-handlebars" id="add-post">
+    <h1>Add a Post</h1>
+    {{post-editor addPost='addPost' cancelPost='cancelPost' post=this new=true}}
+  </script>
+  
   <script type="text/x-handlebars" id="components/post-viewer">
     <article class="post">
       {{#if single}}
@@ -185,76 +190,31 @@
           {{/if}}
         </div>
       </div>
-      <button {{action 'editPost' post}} class="btn btn-success">
-        <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Save
-      </button>
-      <button {{action 'toggleEdit' post}} class="btn btn-default">
-        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Cancel
-      </button>
-      <button {{action 'removePost' post}} class="btn btn-danger pull-right">
-        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete
-      </button>
+      {{#if new}}
+        <button {{action 'addPost'}} class="btn btn-success">
+          <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Save &amp; Publish
+        </button>
+        <button {{action 'cancelPost'}} class="btn btn-default">
+          <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Cancel
+        </button>
+      {{else}}
+        <button {{action 'editPost' post}} class="btn btn-success">
+          <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Save
+        </button>
+        <button {{action 'toggleEdit' post}} class="btn btn-default">
+          <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Cancel
+        </button>
+        <button {{action 'removePost' post}} class="btn btn-danger pull-right">
+          <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete
+        </button>
+      {{/if}}
     </div>
-  </script>
-  
-  <script type="text/x-handlebars" id="add-post">
-    <h1>Add a Post</h1>
-    <div role="tabpanel">
-      <ul class="nav nav-tabs" role="tablist">
-        <li role="presentation" class="active"><a href="#newEditor" aria-controls="newEditor" role="tab" data-toggle="tab">Editor</a></li>
-        <li role="presentation"><a href="#newPreview" aria-controls="newPreview" role="tab" data-toggle="tab">Preview</a></li>
-      </ul>
-      <div class="tab-content">
-        <div role="tabpanel" class="tab-pane active" id="newEditor" style="margin-top: 10px;">
-          <div {{bind-attr class=":form-group titleError:has-error"}}>
-            {{#if titleError}}<label class="control-label">{{titleError}}</label>{{/if}}
-            {{input type="text" value=newTitle class="form-control input-lg" placeholder="Title*"}}
-          </div>
-          <div {{bind-attr class=":form-group slugError:has-error"}}>
-            {{#if slugError}}<label class="control-label">{{slugError}}</label>{{/if}}
-            {{input type='text' value=newSlug class='form-control' placeholder='Slug (Short URL)*'}}
-          </div>
-          <div {{bind-attr class=":form-group excerptError:has-error"}}>
-            <label class="control-label" for="newExcerpt">Excerpt*</label>
-            {{#if excerptError}}<label class="control-label">{{excerptError}}</label>{{/if}}
-            {{textarea value=newExcerpt cols="80" rows="3" class="form-control" id="newExcerpt"}}
-          </div>
-          <div {{bind-attr class=":form-group bodyError:has-error"}}>
-            <label class="control-label" for="newBody">Content</label>
-            {{#if bodyError}}<label class="control-label">{{bodyError}}</label>{{/if}}
-            {{textarea value=newBody cols="80" rows="5" class="form-control" id="newBody"}}
-          </div>
-          <div {{bind-attr class=":form-group tagsError:has-error"}}>
-            <label class="control-label" for="newTags">Tags</label> <small>(Seperate with commas.)</small>
-            {{#if tagsError}}<label class="control-label">{{tagsError}}</label>{{/if}}
-            {{input type="text" value=newTags class="form-control" id="newTags"}}
-          </div>
-        </div>
-        <div role="tabpanel" class="tab-pane" id="newPreview">
-          <h1>{{newTitle}}</h1>
-          <p class="excerpt">{{format-markdown newExcerpt}}</p>
-          {{#if newBody}}
-            <p class="body">{{format-markdown newBody}}</p>
-          {{else}}
-            <p class="body" style="color: #aaa">(No content.)</p>
-          {{/if}}
-          {{#if newTags}}
-            <p class="tags">Tags: <span class="tags-content">{{newTags}}</span></p>
-          {{/if}}
-        </div>
-      </div>
-    </div>
-    <button {{action 'addPost'}} class="btn btn-success">
-      <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Save &amp; Publish
-    </button>
-    <button {{action 'cancelPost'}} class="btn btn-default">
-      <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Cancel
-    </button>
   </script>
   
   <script type="text/x-handlebars" id="pages">
+    <h1>Pages</h1>
     {{#each page in model}}
-      {{#link-to 'page' page.id}}{{page.title}}{{/link-to}}
+      <p>{{#link-to 'page' page.id}}{{page.title}}{{/link-to}}</p>
     {{else}}
       <p class="info">There aren&#39;t any pages yet.</p>
       {{#link-to 'add-page' class='btn btn-primary'}}Add a Page{{/link-to}}
@@ -271,39 +231,8 @@
   </script>
   
   <script type="text/x-handlebars" id="add-page">
-<!--    {{page-editor addPage='addPage' page=null new=true}}-->
     <h1>Add a Page</h1>
-    <div role="tabpanel">
-      <ul class="nav nav-tabs" role="tablist">
-        <li role="presentation" class="active"><a href="#newEditorPage" aria-controls="newEditorPage" role="tab" data-toggle="tab">Editor</a></li>
-        <li role="presentation"><a href="#newPreviewPage" aria-controls="newPreviewPage" role="tab" data-toggle="tab">Preview</a></li>
-      </ul>
-      <div class="tab-content">
-        <div role="tabpanel" class="tab-pane active" id="newEditorPage" style="margin-top: 10px;">
-          <div {{bind-attr class=":form-group titleError:has-error"}}>
-            {{#if titleError}}<label class="control-label">{{titleError}}</label>{{/if}}
-            {{input type="text" value=newPageTitle class="form-control input-lg" placeholder="Title*"}}
-          </div>
-          <div {{bind-attr class=":form-group slugError:has-error"}}>
-            {{#if slugError}}<label class="control-label">{{slugError}}</label>{{/if}}
-            {{input type="text" value=newPageSlug class="form-control" placeholder="Slug (Short URL)*"}}
-          </div>
-          <div {{bind-attr class=":form-group bodyError:has-error"}}>
-            <label class="control-label" for="newBody">Content*</label>
-            {{#if bodyError}}<label class="control-label">{{bodyError}}</label>{{/if}}
-            {{textarea value=newPageBody cols="80" rows="6" class="form-control" id="newPageBody"}}
-          </div>
-        </div>
-        <div role="tabpanel" class="tab-pane" id="newPreviewPage">
-          <h1>{{newPageTitle}}</h1>
-          <p class="body">{{format-markdown newPageBody}}</p>
-        </div>
-      </div>
-    </div>
-    <button {{action 'addPage'}} class="btn btn-success">
-      <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Save &amp; Publish
-    </button>
-    {{#link-to 'posts' class="btn btn-default" role="button"}}<span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Cancel{{/link-to}}
+    {{page-editor addPage='addPage' cancelPage='cancelPage' page=this new=true}}
   </script>
   
   <script type="text/x-handlebars" id="components/page-viewer">
@@ -318,42 +247,53 @@
   </script>
     
   <script type="text/x-handlebars" id="components/page-editor">
-    <div role="tabpanel">
-      <ul class="nav nav-tabs" role="tablist">
-        <li role="presentation" class="active"><a href="#editorPage" aria-controls="editorPage" role="tab" data-toggle="tab">Editor</a></li>
-        <li role="presentation"><a href="#previewPage" aria-controls="previewPage" role="tab" data-toggle="tab">Preview</a></li>
-      </ul>
-      <div class="tab-content">
-        <div role="tabpanel" class="tab-pane active" id="editorPage" style="margin-top: 10px;">
-          <div {{bind-attr class=":form-group page.titleError:has-error"}}>
-            {{#if page.titleError}}<label class="control-label">{{page.titleError}}</label>{{/if}}
-            {{input type="text" value=page.title class="form-control input-lg" placeholder="Title*"}}
+    <div class="page-editing" role="tabpanel">
+      <div role="tabpanel">
+        <ul class="nav nav-tabs" role="tablist">
+          <li role="presentation" class="active"><a href="#editorPage" aria-controls="editorPage" role="tab" data-toggle="tab">Editor</a></li>
+          <li role="presentation"><a href="#previewPage" aria-controls="previewPage" role="tab" data-toggle="tab">Preview</a></li>
+        </ul>
+        <div class="tab-content">
+          <div role="tabpanel" class="tab-pane active" id="editorPage" style="margin-top: 10px;">
+            <div {{bind-attr class=":form-group page.titleError:has-error"}}>
+              {{#if page.titleError}}<label class="control-label">{{page.titleError}}</label>{{/if}}
+              {{input type="text" value=page.title class="form-control input-lg" placeholder="Title*"}}
+            </div>
+            <div {{bind-attr class=":form-group page.slugError:has-error"}}>
+              {{#if page.slugError}}<label class="control-label">{{page.slugError}}</label>{{/if}}
+              {{input type="text" value=page.slug class="form-control" placeholder="Slug (Short URL)*"}}
+            </div>
+            <div {{bind-attr class=":form-group page.bodyError:has-error"}}>
+              <label class="control-label" for="body">Content*</label>
+              {{#if page.bodyError}}<label class="control-label">{{page.bodyError}}</label>{{/if}}
+              {{textarea value=page.body cols="80" rows="6" class="form-control" id="body"}}
+            </div>
           </div>
-          <div {{bind-attr class=":form-group page.slugError:has-error"}}>
-            {{#if page.slugError}}<label class="control-label">{{page.slugError}}</label>{{/if}}
-            {{input type="text" value=page.slug class="form-control" placeholder="Slug (Short URL)*"}}
+          <div role="tabpanel" class="tab-pane" id="previewPage">
+            <h1>{{page.title}}</h1>
+            <p class="body">{{format-markdown page.body}}</p>
           </div>
-          <div {{bind-attr class=":form-group page.bodyError:has-error"}}>
-            <label class="control-label" for="body">Content*</label>
-            {{#if page.bodyError}}<label class="control-label">{{page.bodyError}}</label>{{/if}}
-            {{textarea value=page.body cols="80" rows="6" class="form-control" id="body"}}
-          </div>
-        </div>
-        <div role="tabpanel" class="tab-pane" id="previewPage">
-          <h1>{{page.title}}</h1>
-          <p class="body">{{format-markdown page.body}}</p>
         </div>
       </div>
+      {{#if new}}
+        <button {{action 'addPage'}} class="btn btn-success">
+          <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Save &amp; Publish
+        </button>
+        <button {{action 'cancelPage'}} class="btn btn-default">
+          <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Cancel
+        </button>
+      {{else}}
+        <button {{action 'editPage' page}} class="btn btn-success">
+          <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Save
+        </button>
+        <button {{action 'toggleEdit' page}} class="btn btn-default">
+          <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Cancel
+        </button>
+        <button {{action 'removePage' page}} class="btn btn-danger pull-right">
+          <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete
+        </button>
+      {{/if}}
     </div>
-    <button {{action 'editPage' page}} class="btn btn-success">
-      <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Save
-    </button>
-    <button {{action 'toggleEdit' page}} class="btn btn-default">
-      <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Cancel
-    </button>
-    <button {{action 'removePage' page}} class="btn btn-danger pull-right">
-      <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete
-    </button>
   </script>
 
   <script type="text/x-handlebars" id="search">

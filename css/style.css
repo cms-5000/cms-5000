@@ -43,9 +43,10 @@ body {
   opacity: 1;
 }
 
-.post-editing {
+.post-editing, .page-editing {
   padding: 10px;
   border: 1px solid #ddd;
+  border-radius: 5px;
 }
 
 .post .date, .post .tags {

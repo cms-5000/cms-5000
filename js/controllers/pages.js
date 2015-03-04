@@ -16,11 +16,11 @@ App.PageController = Ember.ObjectController.extend({
         this.set('isEditing', true);
       }
     },
-    editPage: function () {
-      var title = this.get('model').get('title');
-      var slug  = this.get('model').get('slug');
-      var body  = this.get('model').get('body');
-      var slugHasChanged = this.get('model').changedAttributes().hasOwnProperty('slug');
+    editPage: function (page) {
+      var title = page.get('title');
+      var slug  = page.get('slug');
+      var body  = page.get('body');
+      var slugHasChanged = page.changedAttributes().hasOwnProperty('slug');
       
       switch (validateTitle(title)) {
         case 0: this.set('titleError', false); break;
@@ -54,7 +54,7 @@ App.PageController = Ember.ObjectController.extend({
       );
       if (inputIsFine) {
         this.set('isEditing', false);
-        this.get('model').save();
+        page.save();
 
         if (slugHasChanged) {
           this.transitionTo('pages'); 
@@ -63,9 +63,8 @@ App.PageController = Ember.ObjectController.extend({
         // TODO Show notification about updated page.
       }
     },
-    removePage: function () {
-      var page = this.get('model');
-      var confirmed = confirm("Are you sure you want to remove the page \"" + this.get('title') + "\"?");
+    removePage: function (page) {
+      var confirmed = confirm("Are you sure you want to remove the page \"" + page.get('title') + "\"?");
       if (confirmed) {
         page.deleteRecord();
         page.save();
@@ -93,9 +92,9 @@ App.AddPageRoute = Ember.Route.extend({
 App.AddPageController = Ember.ArrayController.extend({
   actions: {
     addPage: function () {
-      var title   = this.get('newPageTitle');
-      var slug    = this.get('newPageSlug');
-      var body    = this.get('newPageBody');
+      var title = this.get('title');
+      var slug  = this.get('slug');
+      var body  = this.get('body');
       
       switch (validateTitle(title)) {
         case 0: this.set('titleError', false); break;
@@ -127,14 +126,20 @@ App.AddPageController = Ember.ArrayController.extend({
           body:    body
         });
 
-        this.set('newPageTitle', '');
-        this.set('newPageSlug',  '');
-        this.set('newPageBody',  '');
+        this.set('title', '');
+        this.set('slug',  '');
+        this.set('body',  '');
 
         page.save();
         this.transitionTo('/page/' + page.get('id'));
         // TODO: Show notification about newly created page.
       }
+    },
+    cancelPage: function () {
+      this.set('title', '');
+      this.set('slug',  '');
+      this.set('body',  '');
+      this.transitionTo('posts');
     }
   },
   titleError: false,
