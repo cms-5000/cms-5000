@@ -8,14 +8,15 @@
   <link rel="stylesheet" href="css/bootstrap.min.css">
   <link rel="stylesheet" href="css/bootstrap-theme.min.css">
   <link rel="stylesheet" href="css/style.css">
-  <script src="js/libs/jquery-1.11.1.min.js"></script>
+  <link rel="stylesheet" href="css/ember-notify.css">
+  <script src="js/libs/jquery-2.1.3.min.js"></script>
+  <script src="js/libs/handlebars-v3.0.0.js"></script>
   <script src="js/libs/ember-template-compiler-1.10.0.js"></script>
-  <script src="js/libs/handlebars-v1.3.0.js"></script>
   <script src="js/libs/ember-1.10.0.min.js"></script>
   <script src="js/libs/ember-data-1.0.0-beta-15.min.js"></script>
   <script src="js/libs/ember-shortcuts.js"></script>
   <script src="js/libs/ember-localstorage_adapter.js"></script>
-<!--  <script src="js/libs/ember-notify.js"></script>-->
+  <script src="js/libs/ember-notify-2.0.0.js"></script>
   <script src="js/libs/showdown-0.3.1.min.js"></script>
   <script src="js/libs/moment.min.js"></script>
   <script src="js/libs/pouchdb-3.3.0.min.js"></script>
@@ -86,7 +87,7 @@
       </nav>
       <div class="row">
         <div class="col-md-offset-2 col-md-8 col-xs-12">
-<!--          {{ember-notify messageStyle='bootstrap'}}-->
+          {{ember-notify}}
           {{outlet}}
         </div>
       </div>
@@ -103,7 +104,7 @@
         {{/if}}
         </article>
       {{else}}
-        <p class="info">There aren&#31;t any posts yet.</p>
+        <p class="info">There aren&#39;t any posts yet.</p>
         {{#link-to 'add-post' class='btn btn-primary'}}Add a Post{{/link-to}}
       {{/each}}
   </script>
@@ -150,17 +151,32 @@
       </ul>
       <div class="tab-content">
         <div role="tabpanel" class="tab-pane active" id="editor" style="margin-top: 10px;">
-          <p>{{input type="text" value=post.title class="form-control input-lg" placeholder="Title*"}}</p>
-          <p>{{input type="text" value=post.slug class="form-control" placeholder="Slug (Short URL)*"}}</p>
-          <label class="control-label" for="excerpt">Excerpt*</label>
-          <p>{{textarea value=post.excerpt cols="80" rows="4" class="form-control" id="excerpt"}}</p>
-          <label class="control-label" for="body">Content</label>
-          <p>{{textarea value=post.body cols="80" rows="4" class="form-control" id="body"}}</p>
-          <label class="control-label" for="Tags">Tags</label> <small>(Seperate with commas.)</small>
-          <p>{{input type="text" value=post.tags class="form-control" id="tags"}}</p>
+          <div {{bind-attr class=":form-group post.titleError:has-error"}}>
+            {{#if post.titleError}}<label class="control-label">{{post.titleError}}</label>{{/if}}
+            {{input type="text" value=post.title class="form-control input-lg" placeholder="Title*"}}
+          </div>
+          <div {{bind-attr class=":form-group post.slugError:has-error"}}>
+            {{#if post.slugError}}<label class="control-label">{{post.slugError}}</label>{{/if}}
+            {{input type='text' value=post.slug class='form-control' placeholder='Slug (Short URL)*'}}
+          </div>
+          <div {{bind-attr class=":form-group post.excerptError:has-error"}}>
+            <label class="control-label" for="excerpt">Excerpt*</label>
+            {{#if post.excerptError}}<label class="control-label">{{post.excerptError}}</label>{{/if}}
+            {{textarea value=post.excerpt cols="80" rows="3" class="form-control" id="excerpt"}}
+          </div>
+          <div {{bind-attr class=":form-group post.bodyError:has-error"}}>
+            <label class="control-label" for="newBody">Content</label>
+            {{#if post.bodyError}}<label class="control-label">{{post.bodyError}}</label>{{/if}}
+            {{textarea value=post.body cols="80" rows="5" class="form-control" id="newBody"}}
+          </div>
+          <div {{bind-attr class=":form-group post.tagsError:has-error"}}>
+            <label class="control-label" for="tags">Tags</label> <small>(Seperate with commas.)</small>
+            {{#if post.tagsError}}<label class="control-label">{{post.tagsError}}</label>{{/if}}
+            {{input type="text" value=post.tags class="form-control" id="tags"}}
+          </div>
         </div>
         <div role="tabpanel" class="tab-pane" id="preview">
-          <h1>{{title}}</h1>
+          <h1>{{post.title}}</h1>
           <p class="excerpt">{{format-markdown post.excerpt}}</p>
           <p class="body">{{format-markdown post.body}}</p>
           <p class="metadata">{{format-date post.date}}</p>
@@ -240,7 +256,7 @@
     {{#each page in model}}
       {{#link-to 'page' page.id}}{{page.title}}{{/link-to}}
     {{else}}
-      <p class="info">There aren't any pages yet.</p>
+      <p class="info">There aren&#39;t any pages yet.</p>
       {{#link-to 'add-page' class='btn btn-primary'}}Add a Page{{/link-to}}
     {{/each}}
     
@@ -268,18 +284,15 @@
             {{#if titleError}}<label class="control-label">{{titleError}}</label>{{/if}}
             {{input type="text" value=newPageTitle class="form-control input-lg" placeholder="Title*"}}
           </div>
-          
           <div {{bind-attr class=":form-group slugError:has-error"}}>
             {{#if slugError}}<label class="control-label">{{slugError}}</label>{{/if}}
             {{input type="text" value=newPageSlug class="form-control" placeholder="Slug (Short URL)*"}}
           </div>
-          
           <div {{bind-attr class=":form-group bodyError:has-error"}}>
             <label class="control-label" for="newBody">Content*</label>
             {{#if bodyError}}<label class="control-label">{{bodyError}}</label>{{/if}}
             {{textarea value=newPageBody cols="80" rows="6" class="form-control" id="newPageBody"}}
           </div>
-          
         </div>
         <div role="tabpanel" class="tab-pane" id="newPreviewPage">
           <h1>{{newPageTitle}}</h1>
@@ -312,10 +325,19 @@
       </ul>
       <div class="tab-content">
         <div role="tabpanel" class="tab-pane active" id="editorPage" style="margin-top: 10px;">
-          <p>{{input type="text" value=page.title class="form-control input-lg" placeholder="Title*"}}</p>
-          <p>{{input type="text" value=page.slug class="form-control" placeholder="Slug (Short URL)*"}}</p>
-          <label class="control-label" for="body">Content*</label>
-          <p>{{textarea value=page.body cols="80" rows="6" class="form-control" id="body"}}</p>
+          <div {{bind-attr class=":form-group page.titleError:has-error"}}>
+            {{#if page.titleError}}<label class="control-label">{{page.titleError}}</label>{{/if}}
+            {{input type="text" value=page.title class="form-control input-lg" placeholder="Title*"}}
+          </div>
+          <div {{bind-attr class=":form-group page.slugError:has-error"}}>
+            {{#if page.slugError}}<label class="control-label">{{page.slugError}}</label>{{/if}}
+            {{input type="text" value=page.slug class="form-control" placeholder="Slug (Short URL)*"}}
+          </div>
+          <div {{bind-attr class=":form-group page.bodyError:has-error"}}>
+            <label class="control-label" for="body">Content*</label>
+            {{#if page.bodyError}}<label class="control-label">{{page.bodyError}}</label>{{/if}}
+            {{textarea value=page.body cols="80" rows="6" class="form-control" id="body"}}
+          </div>
         </div>
         <div role="tabpanel" class="tab-pane" id="previewPage">
           <h1>{{page.title}}</h1>

@@ -17,19 +17,51 @@ App.PageController = Ember.ObjectController.extend({
       }
     },
     editPage: function () {
-      // TODO: Validate inputs!
+      var title = this.get('model').get('title');
+      var slug  = this.get('model').get('slug');
+      var body  = this.get('model').get('body');
+      var slugHasChanged = this.get('model').changedAttributes().hasOwnProperty('slug');
       
-      this.set('isEditing', false);
-      
-      if(this.get('model').changedAttributes().hasOwnProperty('slug')) {
-        var slugHasChanged = true;
+      switch (validateTitle(title)) {
+        case 0: this.set('titleError', false); break;
+        case 1: this.set('titleError', 'Please choose a title.'); break;
+        case 2: this.set('titleError', 'Your title is too long, please make it shorter.'); break;
       }
-      this.get('model').save();
-      
-      if (slugHasChanged) {
-        this.transitionTo('pages'); // TODO Should rather forward to the new address ('page/new-slug').
+      switch (validateSlug(slug)) {
+        case 0: this.set('slugError', false); break;
+        case 1: this.set('slugError', 'Please define a slug (short url).'); break;
+        case 2: 
+          if (slugHasChanged) {
+            this.set('slugError', 'This slug is already being used. Please choose a different one.'); 
+          } else {
+            this.set('slugError', false);
+          }
+          break;
+        case 3: this.set('slugError', 'Only a-z, A-Z, 0-9 and \"_\" are allowed for your slug.'); break;
+        case 4: this.set('slugError', 'Please don\'t use any of the following keywords: post(s), page(s), add-post, add-page or search.'); break;
+        default: this.set('slugError', 'Oops, something\'s wrong here! Please try again.');
       }
-      // TODO Show notification about updated page.
+      switch (validateString(body)) {
+        case 0: this.set('bodyError', false); break;
+        case 1: this.set('bodyError', 'Please write some content.'); break;
+        case 2: this.set('bodyError', 'Your content is too long, please make it shorter.'); break;
+      }
+      
+      var inputIsFine = (
+        !this.get('titleError') && 
+        !this.get('slugError')  && 
+        !this.get('bodyError')
+      );
+      if (inputIsFine) {
+        this.set('isEditing', false);
+        this.get('model').save();
+
+        if (slugHasChanged) {
+          this.transitionTo('pages'); 
+          // TODO Should rather forward to the new address ('page/new-slug').
+        }
+        // TODO Show notification about updated page.
+      }
     },
     removePage: function () {
       var page = this.get('model');
@@ -43,7 +75,10 @@ App.PageController = Ember.ObjectController.extend({
       }
     }
   },
-  isEditing: false
+  isEditing: false,
+  titleError: false,
+  slugError: false,
+  bodyError: false
 });
 
 App.AddPageRoute = Ember.Route.extend({
@@ -70,7 +105,7 @@ App.AddPageController = Ember.ArrayController.extend({
       switch (validateSlug(slug)) {
         case 0: this.set('slugError', false); break;
         case 1: this.set('slugError', 'Please define a slug (short url).'); break;
-        case 2: this.set('slugError', 'This slug is already being used. Please choose another one.'); break;
+        case 2: this.set('slugError', 'This slug is already being used. Please choose a different one.'); break;
         case 3: this.set('slugError', 'Only a-z, A-Z, 0-9 and \"_\" are allowed for your slug.'); break;
         case 4: this.set('slugError', 'Please don\'t use any of the following keywords: post(s), page(s), add-post, add-page or search.'); break;
       }

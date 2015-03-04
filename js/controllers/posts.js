@@ -15,7 +15,11 @@ App.PostRoute = Ember.Route.extend({
     'escape': 'returnToPosts'
   },
   actions: {
-    returnToPosts: function () { this.transitionTo('posts'); }
+    returnToPosts: function () { 
+      this.transitionTo('posts');
+      // FIXME: https://github.com/aexmachina/ember-notify/tree/v2.0.0#module-formats
+      // window.EmberNotify.default.success("It worked.");
+    }
   }
 });
 
@@ -33,19 +37,58 @@ App.PostController = Ember.ObjectController.extend({
       }
     },
     editPost: function () {
-      // TODO: Validate inputs!
+      var title   = this.get('model').get('title');
+      var slug    = this.get('model').get('slug');
+      var excerpt = this.get('model').get('excerpt');
+      var body    = this.get('model').get('body');
+      var tags    = this.get('model').get('tags');
+      var slugHasChanged = this.get('model').changedAttributes().hasOwnProperty('slug');
       
-      this.set('isEditing', false);
-      
-      if(this.get('model').changedAttributes().hasOwnProperty('slug')) {
-        var slugHasChanged = true;
+      switch (validateTitle(title)) {
+        case 0: this.set('titleError', false); break;
+        case 1: this.set('titleError', 'Please choose a title.'); break;
+        case 2: this.set('titleError', 'Your title is too long, please make it shorter.'); break;
       }
-      this.get('model').save();
-      
-      if (slugHasChanged) {
-        this.transitionTo('posts'); // TODO Should rather forward to the new address ('post/new-slug').
+      switch (validateSlug(slug)) {
+        case 0: this.set('slugError', false); break;
+        case 1: this.set('slugError', 'Please define a slug (short url).'); break;
+        case 2:
+          if (slugHasChanged) {
+            this.set('slugError', 'This slug is already being used. Please choose a different one.'); 
+          } else {
+            this.set('slugError', false);
+          }
+          break;
+        case 3: this.set('slugError', 'Only a-z, A-Z, 0-9 and \"_\" are allowed for your slug.'); break;
+        case 4: this.set('slugError', 'Please don\'t use any of the following keywords: post(s), page(s), add-post, add-page or search.'); break;
       }
-      // TODO Show notification about updated post.
+      switch (validateString(excerpt)) {
+        case 0: this.set('excerptError', false); break;
+        case 1: this.set('excerptError', 'Please write a short excerpt.'); break;
+        case 2: this.set('excerptError', 'Your excerpt is too long, please make it shorter.'); break;
+      }
+      switch (validateString(body)) {
+        case 0: this.set('bodyError', false); break;
+        case 1: this.set('bodyError', false); break; // non-mandatory field
+        case 2: this.set('bodyError', 'Your content is too long, please make it shorter.'); break;
+      }
+      // TODO Validate tags.
+      
+      var inputIsFine = (
+        !this.get('titleError')   && 
+        !this.get('slugError')    && 
+        !this.get('excerptError') && 
+        !this.get('bodyError')
+      );
+      if(inputIsFine){
+        this.set('isEditing', false);
+        this.get('model').save();
+
+        if (slugHasChanged) {
+          this.transitionTo('posts'); // TODO Should rather forward to the new address ('post/new-slug').
+        }
+        // TODO Show notification about updated post.
+      }
     },
     removePost: function () {
       var confirmed = confirm("Are you sure you want to remove the post \"" + this.get('title') + "\"?");
@@ -55,11 +98,15 @@ App.PostController = Ember.ObjectController.extend({
         post.deleteRecord();
         post.save();
         this.transitionTo('posts');
-        this.notify.success('It worked.'); // FIXME
+        // TODO Show notification about removed post.
       }
     }
   },
-  isEditing: false
+  isEditing: false,
+  titleError: false,
+  slugError: false,
+  excerptError: false,
+  bodyError: false
 });
 
 App.AddPostRoute = Ember.Route.extend({
@@ -85,11 +132,10 @@ App.AddPostController = Ember.ArrayController.extend({
         case 1: this.set('titleError', 'Please choose a title.'); break;
         case 2: this.set('titleError', 'Your title is too long, please make it shorter.'); break;
       }
-      
       switch (validateSlug(slug)) {
         case 0: this.set('slugError', false); break;
         case 1: this.set('slugError', 'Please define a slug (short url).'); break;
-        case 2: this.set('slugError', 'This slug is already being used. Please choose another one.'); break;
+        case 2: this.set('slugError', 'This slug is already being used. Please choose a different one.'); break;
         case 3: this.set('slugError', 'Only a-z, A-Z, 0-9 and \"_\" are allowed for your slug.'); break;
         case 4: this.set('slugError', 'Please don\'t use any of the following keywords: post(s), page(s), add-post, add-page or search.'); break;
       }
