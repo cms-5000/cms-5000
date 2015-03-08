@@ -5,6 +5,13 @@ App.ApplicationAdapter = DS.LSAdapter.extend({
   namespace: 'cms-5000'
 });
 
+App.ApplicationRoute = Ember.Route.extend({
+  setupController: function (controller, model) {
+    controller.set('pages', this.store.find('page'));
+    controller.set('posts', this.store.find('post'));
+  }
+});
+
 Ember.TextSupport.reopen({  
     attributeBindings: ["required"]
 });

@@ -47,7 +47,9 @@
             {{#link-to 'posts' class='navbar-brand'}}cms-5000{{/link-to}}
           </div>
           <ul class="nav navbar-nav">
-            <li>{{#link-to 'pages'}}Pages{{/link-to}}</li>
+            {{#each page in pages}}
+              <li>{{#link-to 'page' page.id}}{{page.slug}}{{/link-to}}</li>
+            {{/each}}
             <li>{{#link-to 'search'}}Search{{/link-to}}</li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
@@ -219,12 +221,11 @@
       <p class="info">There aren&#39;t any pages yet.</p>
       {{#link-to 'add-page' class='btn btn-primary'}}Add a Page{{/link-to}}
     {{/each}}
-    
   </script>
   
   <script type="text/x-handlebars" id="page">
     {{#if isEditing}}
-      {{page-editor page=this editPage='editPage' toggleEdit='toggleEdit' removePage='removePage'}}
+      {{page-editor page=this toggleEdit='toggleEdit' editPage='editPage' removePage='removePage'}}
     {{else}}
       {{page-viewer page=this toggleEdit='toggleEdit' single=true}}
     {{/if}}
@@ -300,7 +301,7 @@
     {{#each post in model itemController="post"}}
       <article class="post">
       {{#if post.isEditing}}
-        {{post-editor post=post editPost='editPost' toggleEdit='toggleEdit' removePost='removePost'}}
+        {{post-editor post=post toggleEdit='toggleEdit' editPost='editPost' removePost='removePost'}}
       {{else}}
         {{post-viewer post=post toggleEdit='toggleEdit'}}
       {{/if}}

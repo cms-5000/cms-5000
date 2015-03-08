@@ -57,8 +57,7 @@ App.PageController = Ember.ObjectController.extend({
         page.save();
 
         if (slugHasChanged) {
-          this.transitionTo('pages'); 
-          // TODO Should rather forward to the new address ('page/new-slug').
+          // TODO Should forward to the new address ('page/new-slug').
         }
         // TODO Show notification about updated page.
       }

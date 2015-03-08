@@ -17,7 +17,7 @@ App.PostRoute = Ember.Route.extend({
   actions: {
     returnToPosts: function () { 
       this.transitionTo('posts');
-      // FIXME: https://github.com/aexmachina/ember-notify/tree/v2.0.0#module-formats
+      // FIXME: Notification stuff: https://github.com/aexmachina/ember-notify/tree/v2.0.0#module-formats
       // window.EmberNotify.default.success("It worked.");
     }
   }
