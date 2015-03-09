@@ -299,18 +299,37 @@
 
   <script type="text/x-handlebars" id="search">
     {{#each post in model itemController="post"}}
+      <br>
       <article class="post">
-      {{#if post.isEditing}}
-        {{post-editor post=post toggleEdit='toggleEdit' editPost='editPost' removePost='removePost'}}
-      {{else}}
-        {{post-viewer post=post toggleEdit='toggleEdit'}}
-      {{/if}}
+        {{search-viewer post=post toggleEdit='toggleEdit'}}
       </article>
+      <br>
+      <hr>
     {{else}}
-      <p class="info">There aren&#39;t any posts yet.</p>
+      <p class="info">There aren&#39;t any results yet.</p>
       {{#link-to 'add-post' class='btn btn-primary'}}Add a Post{{/link-to}}
     {{/each}}
   </script> 
+
+  <script type="text/x-handlebars" id="components/search-viewer">
+    <article class="post">
+      {{#if single}}
+        <h1>{{post.title}}</h1>
+      {{else}}
+        {{#link-to 'post' post.id}}<h1>{{post.title}}</h1>{{/link-to}}
+      {{/if}}
+      <p class="excerpt">{{format-markdown post.excerpt}}</p>
+      
+      {{#if post.body}}
+        <p class="body">{{format-markdown post.body}}</p>
+      {{/if}}
+      
+      <p class="date">{{format-date post.date}}</p>
+      {{#if post.tags}}
+        <p class="tags">Tags: <span class="tags-content">{{post.tags}}</span></p>
+      {{/if}}
+    </article>
+  </script>
   
   <script type="text/x-handlebars" id="register">
     <h1>Registration</h1>

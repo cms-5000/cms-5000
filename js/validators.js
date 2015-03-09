@@ -34,6 +34,15 @@ function isSlugUsed(slugstring) {
       }
       return 0;
     });
+    window.curTempId = '';
+    App.Page.store.filter('page', function(page) {
+      var slug = page.get('slug');
+      if (slugstring == slug) {
+        window.curTempId = page.get('id');
+        return 1;
+      }
+      return 0;
+    });
     if (curTempId != '') {return 1} 
     else {return 0};
 }
