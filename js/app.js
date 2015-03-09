@@ -25,6 +25,7 @@ App.Router.map(function() {
   this.route('add-page');
   this.route('register');
   this.route('search');
+  this.route('cockpit');
   // TODO: Handle non-existant routes: http://emberjs.com/guides/routing/defining-your-routes/#toc_wildcard-globbing-routes
 });
 
