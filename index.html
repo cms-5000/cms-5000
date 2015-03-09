@@ -351,27 +351,53 @@
   </script>
 
 <script type="text/x-handlebars" id="cockpit">
-  <button {{action 'loadPieData'}} class="btn btn-success">
-      <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span> Show Pie
-  </button>
-  <div style="width:30%">
-    <div id="canvas-holder">
-        <canvas id="chart-area" width="300" height="300"/>
-    </div>
+  <div id="canvas-holder" class="col-sm-12">
+        <br>
+        <br>
+        <br>
+        <br>
+        <h2>Here we will display some fancy diagrams...</h2>
+        <br>
+        <button {{action 'loadLineData'}} class="btn btn-success">
+        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span> Show Lines
+        </button>
+        <button {{action 'loadBarData'}} class="btn btn-success">
+            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span> Show Bars
+        </button>
+        <br>
+        <br>
+        <br>
   </div>
-  <button {{action 'loadLineData'}} class="btn btn-success">
-      <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span> Show Lines
-  </button>
-  <div style="width:30%">
-      <div>
-        <canvas id="canvas" height="450" width="600"></canvas>
-      </div>
+  <div class="col-sm-6">
+      <canvas id="canvas" height="450" width="600"></canvas>
   </div>
-  <button {{action 'loadBarData'}} class="btn btn-success">
-      <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span> Show Bars
-  </button>
-  <div style="width: 50%">
+  
+  <div class="col-sm-6">
       <canvas id="canvas-bar" height="450" width="600"></canvas>
+  </div>
+
+  <div id="canvas-holder" class="col-sm-12">
+        <br>
+        <br>
+        <br>
+        <br>
+        <h2>Here we could display some pie charts...</h2>
+        <br>
+        <button {{action 'loadPieData'}} class="btn btn-success">
+        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span> Show Pie
+        </button>
+        <button {{action 'loadPieData2'}} class="btn btn-success">
+            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span> Show Pie
+        </button>
+        <br>
+        <br>
+  </div>
+
+  <div id="canvas-holder" class="col-sm-6">
+        <canvas id="chart-area" width="450" height="300"/>
+  </div>
+  <div id="canvas-holder" class="col-sm-6">
+        <canvas id="chart-area2" width="450" height="300"/>
   </div>
 </script>
 

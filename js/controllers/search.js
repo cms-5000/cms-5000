@@ -36,35 +36,76 @@ App.CockpitController = Ember.ArrayController.extend({
           value: 300,
           color:"#F7464A",
           highlight: "#FF5A5E",
-          label: "Red"
+          label: "IT"
         },
         {
           value: 50,
           color: "#46BFBD",
           highlight: "#5AD3D1",
-          label: "Green"
+          label: "Music"
         },
         {
           value: 100,
           color: "#FDB45C",
           highlight: "#FFC870",
-          label: "Yellow"
+          label: "Science"
         },
         {
           value: 40,
           color: "#949FB1",
           highlight: "#A8B3C5",
-          label: "Grey"
+          label: "Economy"
         },
         {
           value: 120,
           color: "#4D5360",
           highlight: "#616774",
-          label: "Dark Grey"
+          label: "Misc"
         }
       ];
 
       var ctx = document.getElementById("chart-area").getContext("2d");
+      window.myPie = new Chart(ctx).Pie(pieData);
+
+
+      this.transitionTo('cockpit');
+      // TODO: Show notification about newly created user.
+    },
+    loadPieData2: function () {
+      var pieData = [
+        {
+          value: 130,
+          color:"#F7464A",
+          highlight: "#FF5A5E",
+          label: "IT"
+        },
+        {
+          value: 90,
+          color: "#46BFBD",
+          highlight: "#5AD3D1",
+          label: "Music"
+        },
+        {
+          value: 170,
+          color: "#FDB45C",
+          highlight: "#FFC870",
+          label: "Science"
+        },
+        {
+          value: 50,
+          color: "#949FB1",
+          highlight: "#A8B3C5",
+          label: "Economy"
+        },
+        {
+          value: 120,
+          color: "#4D5360",
+          highlight: "#616774",
+          label: "Misc"
+        }
+      ];
+
+      var ctx = document.getElementById("chart-area2").getContext("2d");
       window.myPie = new Chart(ctx).Pie(pieData);
 
 
