@@ -19,6 +19,7 @@ function fieldContainsSearchString(fieldstring, searchstring) {
 }
 
 function countHitsInFieldString(fieldstring, searchstring) {
+    //%%TODO%% REMOVE AFTER TESTING!!!!
 
 
     var boolNoHit = 0;

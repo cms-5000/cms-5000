@@ -24,6 +24,7 @@
   <script src="js/libs/ember-pouch-adapter.js"></script>
   <script src="js/libs/bootstrap.min.js"></script>
   <script src="js/libs/Chart.min.js"></script>
+  <script src="js/libs/highchart.min.js"></script>
   <script src="js/app.js"></script>
   <script src="js/models/post.js"></script>
   <script src="js/models/page.js"></script>
@@ -351,6 +352,23 @@
   </script>
 
 <script type="text/x-handlebars" id="cockpit">
+ {{#each diagram in diagrams}}
+ <hr>
+  {{/each}}
+  <div id="canvas-holder" class="col-sm-12">
+        <br>
+        <h2>Here we will display some fancy diagrams...</h2>
+        <br>
+        <button {{action 'loadNewDiagram'}} class="btn btn-success">
+        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span> Reload New Diagram
+        </button>
+        <br>
+        <br>
+        <br>
+  </div>
+  <div id="canvas-holder" class="col-sm-12">
+    <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+  </div>
   <div id="canvas-holder" class="col-sm-12">
         <br>
         <br>
@@ -359,21 +377,21 @@
         <h2>Here we will display some fancy diagrams...</h2>
         <br>
         <button {{action 'loadLineData'}} class="btn btn-success">
-        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span> Show Lines
+        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span> Reload Lines
         </button>
         <button {{action 'loadBarData'}} class="btn btn-success">
-            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span> Show Bars
+            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span> Reload Bars
         </button>
         <br>
         <br>
         <br>
   </div>
   <div class="col-sm-6">
-      <canvas id="canvas" height="450" width="600"></canvas>
+      <canvas id="canvas" width="600"></canvas>
   </div>
   
   <div class="col-sm-6">
-      <canvas id="canvas-bar" height="450" width="600"></canvas>
+      <canvas id="canvas-bar" width="600"></canvas>
   </div>
 
   <div id="canvas-holder" class="col-sm-12">
@@ -384,22 +402,25 @@
         <h2>Here we could display some pie charts...</h2>
         <br>
         <button {{action 'loadPieData'}} class="btn btn-success">
-        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span> Show Pie
+        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span> Reload Pie
         </button>
         <button {{action 'loadPieData2'}} class="btn btn-success">
-            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span> Show Pie
+            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span> Reload Pie
         </button>
         <br>
         <br>
   </div>
 
   <div id="canvas-holder" class="col-sm-6">
-        <canvas id="chart-area" width="450" height="300"/>
+        <canvas id="chart-area" height="300"/>
   </div>
   <div id="canvas-holder" class="col-sm-6">
-        <canvas id="chart-area2" width="450" height="300"/>
+        <canvas id="chart-area2" height="300"/>
   </div>
+  
 </script>
+
+
 
 </body>
 
