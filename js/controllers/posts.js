@@ -6,7 +6,11 @@ App.PostsRoute = Ember.Route.extend({
     '⌘+⇧+a, ctrl+shift+a': 'goToAddPost'
   },
   actions: {
-    goToAddPost: function () { this.transitionTo('add-post'); }
+    goToAddPost: function () { this.transitionTo('add-post'); },
+    startSearch: function (params) { 
+      window.mySearchString = params;
+      this.transitionTo('search');
+    }
   }
 });
 
@@ -19,6 +23,10 @@ App.PostRoute = Ember.Route.extend({
       this.transitionTo('posts');
       // FIXME: Notification stuff: https://github.com/aexmachina/ember-notify/tree/v2.0.0#module-formats
       // window.EmberNotify.default.success("It worked.");
+    },
+    startSearch: function (params) { 
+      window.mySearchString = params;
+      this.transitionTo('search');
     }
   }
 });
@@ -114,7 +122,11 @@ App.AddPostRoute = Ember.Route.extend({
     'escape': 'returnToPosts'
   },
   actions: {
-    returnToPosts: function () { this.transitionTo('posts'); }
+    returnToPosts: function () { this.transitionTo('posts'); },
+    startSearch: function (params) { 
+      window.mySearchString = params;
+      this.transitionTo('search');
+    }
   }
 });
 

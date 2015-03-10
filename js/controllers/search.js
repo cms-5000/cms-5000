@@ -1,15 +1,19 @@
 App.SearchRoute = Ember.Route.extend({
   model: function () {
-    window.searchString = prompt("Please enter the string", "test");
+    //window.searchString = prompt("Please enter the string", "test");
+    window.searchString = window.mySearchString;
+
     window.infoArray = new Array(0);
 
     return App.Post.store.filter('post', function(post) {
+      /*
       var postArray = new Array(0);
       postArray.push(post.get('title'));
       postArray.push(post.get('excerpt'));
       postArray.push(post.get('body'));
       postArray.push(post.get('tags'));
       infoArray.push(postArray);
+      */
 
       if (!(post.get('title') === undefined)) {
         var tempTitle = post.get('title');
@@ -33,12 +37,25 @@ App.SearchRoute = Ember.Route.extend({
       }
       return (false);
     });
+  },
+  actions: {
+    startSearch: function (params) { 
+      window.mySearchString = params;
+      this.transitionTo('posts');
+      this.transitionTo('search');
+    }
   }
 });
 
 App.CockpitRoute = Ember.Route.extend({
   setupController: function (controller, model) {
     controller.set('diagrams', ['']);
+  },
+  actions: {
+    startSearch: function (params) { 
+      window.mySearchString = params;
+      this.transitionTo('search');
+    }
   }
   
 });

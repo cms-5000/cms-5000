@@ -59,7 +59,7 @@
             <li>
               <form class="navbar-form searchbox" role="search">
                 {{input type="text" value=search class="form-control" placeholder="Search..."}}
-                <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+                <button {{action 'startSearch' search}} type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
               </form>
             </li>
             <li>{{#link-to 'add-post'}}Add a Post{{/link-to}}</li>
@@ -311,7 +311,6 @@
     {{else}}
       <p class="info">There aren&#39;t any results yet.</p>
       {{#link-to 'posts' class='btn btn-primary'}}Return{{/link-to}}
-      {{#link-to 'search' class='btn btn-primary'}} Try again{{/link-to}}
     {{/each}}
   </script> 
 

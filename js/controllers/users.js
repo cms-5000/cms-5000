@@ -9,6 +9,10 @@ App.LoginRoute = Ember.Route.extend({
       
       
       // TODO Do the login handling here (or in ApplicationRoute?).
+    },
+    startSearch: function (params) { 
+      window.mySearchString = params;
+      this.transitionTo('search');
     }
   }
 });

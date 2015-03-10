@@ -1,6 +1,12 @@
 App.PagesRoute = Ember.Route.extend({
   model: function () {
     return this.store.find('page');
+  },
+  actions: {
+    startSearch: function (params) { 
+      window.mySearchString = params;
+      this.transitionTo('search');
+    }
   }
 });
 
@@ -84,7 +90,11 @@ App.AddPageRoute = Ember.Route.extend({
     'escape': 'returnToPosts'
   },
   actions: {
-    returnToPosts: function () { this.transitionTo('posts'); }
+    returnToPosts: function () { this.transitionTo('posts'); },
+    startSearch: function (params) { 
+      window.mySearchString = params;
+      this.transitionTo('search');
+    }
   }
 });
 
