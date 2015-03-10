@@ -52,7 +52,6 @@
             {{#each page in pages}}
               <li>{{#link-to 'page' page.id}}{{page.slug}}{{/link-to}}</li>
             {{/each}}
-            <li>{{#link-to 'search'}}Search{{/link-to}}</li>
             <li>{{#link-to 'cockpit'}}Cockpit{{/link-to}}</li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
@@ -301,6 +300,8 @@
   </script>
 
   <script type="text/x-handlebars" id="search">
+    <h2> Search Results: </h2>
+    <hr>
     {{#each post in model itemController="post"}}
       <br>
       <article class="post">
