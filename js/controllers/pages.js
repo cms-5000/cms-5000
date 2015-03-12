@@ -79,6 +79,8 @@ App.PageController = Ember.ObjectController.extend({
       }
     }
   },
+  needs: ['register'],
+  loggedIn: Ember.computed.alias('controllers.register.loggedIn'),
   isEditing: false,
   titleError: false,
   slugError: false,
@@ -151,6 +153,7 @@ App.AddPageController = Ember.ArrayController.extend({
       this.transitionTo('posts');
     }
   },
+  needs: ['register'],
   titleError: false,
   slugError:  false,
   bodyError:  false

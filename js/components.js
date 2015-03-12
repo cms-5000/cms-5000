@@ -29,3 +29,11 @@ App.PageViewerComponent = Ember.Component.extend({
     toggleEdit: function (page) { this.sendAction('toggleEdit', page); }
   }
 });
+
+// TODO Implement component for search (instead of implementing it in every route).
+// See: http://emberjs.com/guides/components/sending-actions-from-components-to-your-application/
+//App.SearchComponent = Ember.Component.extend({
+//  actions: {
+//    startSearch: function (??) { this.sendAction('startSearch', ??); }
+//  }
+//});

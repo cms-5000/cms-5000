@@ -509,5 +509,6 @@ App.CockpitController = Ember.ArrayController.extend({
       // TODO: Show notification about newly created user.
     }
 
-  }
+  },
+  needs: ['register']
 });

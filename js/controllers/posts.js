@@ -11,7 +11,8 @@ App.PostsRoute = Ember.Route.extend({
       window.mySearchString = params;
       this.transitionTo('search');
     }
-  }
+  },
+  needs: ['register']
 });
 
 App.PostRoute = Ember.Route.extend({
@@ -34,7 +35,6 @@ App.PostRoute = Ember.Route.extend({
 App.PostController = Ember.ObjectController.extend({
   model: function (params) {
     return this.store.find('post', params.post_id);
-    //return this.modelFor('posts').find('id', params.post_id);
   },
   actions: {
     toggleEdit: function () {
@@ -110,12 +110,15 @@ App.PostController = Ember.ObjectController.extend({
       }
     }
   },
+  needs: ['register'],
+  loggedIn: Ember.computed.alias('controllers.register.loggedIn'),
   isEditing: false,
   titleError: false,
   slugError: false,
   excerptError: false,
   bodyError: false
 });
+
 
 App.AddPostRoute = Ember.Route.extend({
   shortcuts: {
@@ -198,6 +201,7 @@ App.AddPostController = Ember.ArrayController.extend({
       this.transitionTo('posts');
     }
   },
+  needs: ['register'],
   titleError: false,
   slugError: false,
   excerptError: false,

@@ -1,11 +1,10 @@
 $(document).ready(function () {
   // Navbar Dropdown
-  $('.dropdown-menu').find('form').click(function (e) {
+  $('.dropdown-menu').click(function (e) {
       e.stopPropagation();
   });
   
-  $(".dropdown-menu a").click(function() {
-    console.log('lol');
+  $(".dropdown-menu .register-link").click(function() {
     $(this).closest(".dropdown-menu").prev().dropdown("toggle");
   });
   

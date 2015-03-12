@@ -14,7 +14,7 @@ body {
 
 .searchbox input[type="text"]:focus {
   background-color: #fff;
-  width: 300px;
+  width: 200px;
   z-index: 1;
   cursor: text;
   opacity: 1;
