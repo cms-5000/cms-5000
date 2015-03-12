@@ -81,6 +81,13 @@ function validateTitle (string) {
 }
 
 // wrapper method to test string fields
+function validatePassword (string) {
+    if (isEmpty(string)) return 1;
+    if (isTooLong(string, 30)) return 2;
+    return 0;
+}
+
+// wrapper method to test string fields
 function validateSlug (slugstring) {
     if (isEmpty(slugstring)) return 1;
     if (isSlugUsed(slugstring)) return 2;

@@ -9,11 +9,16 @@ App.ApplicationRoute = Ember.Route.extend({
   setupController: function (controller, model) {
     controller.set('pages', this.store.find('page'));
     controller.set('posts', this.store.find('post'));
+  },
+  actions: {
+    doLogin: function () {
+      this.controllerFor('register').send('doLogin');
+    }
   }
 });
 
-Ember.TextSupport.reopen({  
-    attributeBindings: ["required"]
+App.ApplicationController = Ember.Controller.extend({   
+  needs: ['register']
 });
 
 App.Router.map(function() {
@@ -45,3 +50,5 @@ Ember.Handlebars.helper('format-markdown', function(input) {
 Ember.Handlebars.helper('format-date', function (date) {
   return moment(date).fromNow();
 });
+
+Ember.TextSupport.reopen({ attributeBindings: ["required"] });
