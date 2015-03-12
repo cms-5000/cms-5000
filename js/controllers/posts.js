@@ -121,11 +121,16 @@ App.AddPostRoute = Ember.Route.extend({
 App.AddPostController = Ember.ArrayController.extend({
   actions: {
     addPost: function () {
-      var title   = this.get('title');
-      var slug    = this.get('slug');
-      var excerpt = this.get('excerpt');
-      var body    = this.get('body');
-      var tags    = this.get('tags');
+      var title     = this.get('title');
+      var slug      = this.get('slug');
+      var excerpt   = this.get('excerpt');
+      var body      = this.get('body');
+      //var tags      = this.get('tags');
+      var tagTitle  = this.get('tags');
+      // var tagsArray = tagTitle.split(',');
+      
+      console.log('tagTitle: ' , tagTitle);
+      
       
       switch (validateTitle(title)) {
         case 0: this.set('titleError', false); break;
@@ -149,6 +154,7 @@ App.AddPostController = Ember.ArrayController.extend({
         case 1: this.set('bodyError', false); break; // non-mandatory field
         case 2: this.set('bodyError', 'Your content is too long, please make it shorter.'); break;
       }
+      // TODO: Validate tags?
       
       var inputIsFine = (
         !this.get('titleError')   && 
@@ -162,19 +168,56 @@ App.AddPostController = Ember.ArrayController.extend({
           title:   title,
           slug:    slug,
           excerpt: excerpt,
-          body:    body,
-          tags:    tags
+          body:    body
         });
-
+        
+        // Add tags
+        var myController = this;
+        this.store.find('tag', { title: tagTitle }).then(function (tags) {
+          console.log('-> tag ' , tagTitle , ' already stored.');
+          console.log('--> tags[0]: ', tags[0], ' -> ');
+          var newTag = tags[0];
+          newTag.get('posts').pushObject(post);
+          newTag.save();
+          post.get('tags').addObject(newTag);
+          post.save();
+        },
+        function () { 
+          console.log('-> tag ' , tagTitle , ' will be added.');
+          var newTag = myController.store.createRecord('tag', {
+            title: tagTitle // tags[0].title
+          });
+          newTag.get('posts').pushObject(post);
+          newTag.save();
+          post.get('tags').addObject(newTag);
+          post.save();
+        });
+        
+        
+//        for (var i = 0; i < tagsArray.length; i++) {
+//          var theTag = this.store.find('tag', { title: tagsArray[i] });
+//          console.log('Checking Tag ' + tagsArray[i] + '... (theTag: ' + theTag + ')');
+//          if (theTag) {
+//            console.log('-> already stored.');
+//            post.get('tags').addObject(theTag);
+//          } else {
+//            console.log('-> will be added.');
+//            var newTag = this.store.createRecord('tag', {
+//              title: tagsArray[i]
+//            });
+//            newTag.save();
+//            post.get('tags').addObject(newTag);
+//          }
+//        }
+        
         this.set('title',   '');
         this.set('slug',    '');
         this.set('excerpt', '');
         this.set('body',    '');
         this.set('tags',    '');
-
-        post.save();
+        
+        // TODO: Show notification about newly created post (with .then()).
         this.transitionTo('posts');
-        // TODO: Show notification about newly created post.
       }
     },
     cancelPost: function () {

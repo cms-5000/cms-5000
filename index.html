@@ -26,6 +26,7 @@
   <script src="js/app.js"></script>
   <script src="js/models/post.js"></script>
   <script src="js/models/page.js"></script>
+  <script src="js/models/tag.js"></script>
   <script src="js/models/user.js"></script>
   <script src="js/controllers/pages.js"></script>
   <script src="js/controllers/posts.js"></script>
@@ -141,7 +142,13 @@
       {{/if}}
       <p class="date">{{format-date post.date}}</p>
       {{#if post.tags}}
-        <p class="tags">Tags: <span class="tags-content">{{post.tags}}</span></p>
+        <p class="tags">Tags: <span class="tags-content">
+          {{#each tag in post.tags}}
+            {{#if _view.contentIndex}}, {{/if}}{{tag.title}}
+          {{else}}
+            <p>No tags.</p>
+          {{/each}}
+        </span></p>
       {{/if}}
       <!-- TODO: Only show edit button for admins. -->
       <button type="button" {{action 'toggleEdit' post}} class="btn btn-default" title="Edit this post.">
@@ -172,14 +179,18 @@
             {{textarea value=post.excerpt cols="80" rows="3" class="form-control" id="excerpt"}}
           </div>
           <div {{bind-attr class=":form-group post.bodyError:has-error"}}>
-            <label class="control-label" for="newBody">Content</label>
+            <label class="control-label" for="body">Content</label>
             {{#if post.bodyError}}<label class="control-label">{{post.bodyError}}</label>{{/if}}
-            {{textarea value=post.body cols="80" rows="5" class="form-control" id="newBody"}}
+            {{textarea value=post.body cols="80" rows="5" class="form-control" id="body"}}
           </div>
           <div {{bind-attr class=":form-group post.tagsError:has-error"}}>
             <label class="control-label" for="tags">Tags</label> <small>(Seperate with commas.)</small>
             {{#if post.tagsError}}<label class="control-label">{{post.tagsError}}</label>{{/if}}
-            {{input type="text" value=post.tags class="form-control" id="tags"}}
+            {{#if new}}
+              {{input type="text" value=post.tags class="form-control" id="tags"}}
+            {{else}}
+              {{input type="text" value=post.tags class="form-control" id="tags"}}
+            {{/if}}
           </div>
         </div>
         <div role="tabpanel" class="tab-pane" id="preview">
@@ -188,7 +199,11 @@
           <p class="body">{{format-markdown post.body}}</p>
           <p class="metadata">{{format-date post.date}}</p>
           {{#if post.tags}}
-            <p class="tags">Tags: <span class="tags-content">{{post.tags}}</span></p>
+            <p class="tags">Tags: <span class="tags-content">
+              {{#each tag in post.tags}}
+                {{#if _view.contentIndex}}, {{/if}} {{tag.title}}
+              {{/each}}
+            </span></p>
           {{/if}}
         </div>
       </div>

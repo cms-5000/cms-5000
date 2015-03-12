@@ -2,13 +2,14 @@
 window.App = Ember.Application.create({});
 
 App.ApplicationAdapter = DS.LSAdapter.extend({
-  namespace: 'cms-5000'
+  namespace: 'cms-5000c'
 });
 
 App.ApplicationRoute = Ember.Route.extend({
   setupController: function (controller, model) {
     controller.set('pages', this.store.find('page'));
     controller.set('posts', this.store.find('post'));
+    controller.set('tags', this.store.find('tag'));
   }
 });
 

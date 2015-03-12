@@ -2,7 +2,7 @@ body {
   padding: 10px 0;
 }
 
-.searchbox input[type="text"] {
+.searchbox input {
   position: absolute;
   right: 0;
   width: 40px;
@@ -11,35 +11,33 @@ body {
   cursor: pointer;
   opacity: 0;
 }
-
-.searchbox input[type="text"]:focus {
+.searchbox input:focus {
   background-color: #fff;
   width: 300px;
   z-index: 1;
   cursor: text;
   opacity: 1;
 }
-
-.searchbox button[type="submit"] {
-  border: none;
+.searchbox button {
   background: none;
+  border: none;
   box-shadow: none;
   position: absolute;
   right: 0;
   z-index: 2;
   cursor: pointer;
+  padding: 6px 12px;
 }
-
-.searchbox button[type="submit"],
-.searchbox button[type="submit"]:focus {
+.searchbox button:focus {
+  background: none;
   position: absolute;
   right: 0;
   z-index: 2;
   cursor: pointer;
   opacity: 0.8;
 }
-
-.searchbox button[type="submit"]:focus:hover {
+.searchbox button:focus:hover {
+  background: none;
   opacity: 1;
 }
 
