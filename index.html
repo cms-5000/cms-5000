@@ -57,7 +57,7 @@
           <ul class="nav navbar-nav navbar-right">
             <li>
               <form class="navbar-form searchbox" role="search">
-                {{input type="text" value=search id="searchboxding" class="form-control" placeholder="Search..."}}
+                {{input type="text" value=search class="form-control" placeholder="Search..."}}
                 <button {{action 'startSearch' search}} type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
               </form>
             </li>
@@ -360,16 +360,13 @@
         <h2>Here we will display some fancy diagrams...</h2>
         <br>
         <button {{action 'loadNewDiagram'}} class="btn btn-success">
-        <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span> Reload New Diagram
+        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span> Reload New Diagram
         </button>
         <br>
         <br>
         <br>
   </div>
   <div id="canvas-holder" class="col-sm-12">
-    <div id="container2" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
-    <br>
-    <br>
     <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
   </div>
   <div id="canvas-holder" class="col-sm-12">
@@ -380,10 +377,10 @@
         <h2>Here we will display some fancy diagrams...</h2>
         <br>
         <button {{action 'loadLineData'}} class="btn btn-success">
-        <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span> Reload Lines
+        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span> Reload Lines
         </button>
         <button {{action 'loadBarData'}} class="btn btn-success">
-            <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span> Reload Bars
+            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span> Reload Bars
         </button>
         <br>
         <br>
@@ -405,10 +402,10 @@
         <h2>Here we could display some pie charts...</h2>
         <br>
         <button {{action 'loadPieData'}} class="btn btn-success">
-        <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span> Reload Pie
+        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span> Reload Pie
         </button>
         <button {{action 'loadPieData2'}} class="btn btn-success">
-            <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span> Reload Pie
+            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span> Reload Pie
         </button>
         <br>
         <br>
@@ -422,6 +419,9 @@
   </div>
   
 </script>
+
+
+
 </body>
 
 </html>
