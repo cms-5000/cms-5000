@@ -1,6 +1,32 @@
 App.PostsRoute = Ember.Route.extend({
   model: function () {
-    return this.store.find('post');
+    window.infoArray = new Array(0);
+    window.infoArray2 = new Array(0);
+    window.i = 0;
+
+    window.iMax = this.store.find('post').then(function (posts) {
+      alert(posts.length)
+    });
+
+    return this.store.filter('post', function(post) {
+      window.i++;
+      var postArray = new Array(0);
+      postArray.push(post.get('title'));
+      postArray.push(post.get('excerpt'));
+      postArray.push(post.get('body'));
+      postArray.push(post.get('tags'));
+
+      var dataObject = {
+        title: post.get('title'),
+        excerpt: post.get('excerpt'),
+        body: post.get('body'),
+        tags: post.get('tags') 
+      };
+
+      infoArray2.push(dataObject);
+      infoArray.push(postArray);
+      return true;
+    });
   },
   shortcuts: {
     '⌘+⇧+a, ctrl+shift+a': 'goToAddPost'
