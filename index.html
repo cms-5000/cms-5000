@@ -31,8 +31,8 @@
   <script src="js/models/user.js"></script>
   <script src="js/controllers/pages.js"></script>
   <script src="js/controllers/posts.js"></script>
+  <script src="js/controllers/register.js"></script>
   <script src="js/controllers/search.js"></script>
-  <script src="js/controllers/users.js"></script>
   <script src="js/bootstrap-features.js"></script>
   <script src="js/components.js"></script>
   <script src="js/couchDB.js"></script>
@@ -41,7 +41,8 @@
 </head>
 
 <body>
-  <script type="text/x-handlebars">
+  
+  <script type="text/x-handlebars" data-template-name="application">
     <div class="container-fluid">
       <nav class="navbar navbar-default">
         <div class="container-fluid">
@@ -52,49 +53,58 @@
             {{#each page in pages}}
               <li>{{#link-to 'page' page.id}}{{page.slug}}{{/link-to}}</li>
             {{/each}}
-            <li>{{#link-to 'cockpit'}}Cockpit{{/link-to}}</li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
             <li>
               <form class="navbar-form searchbox" role="search">
-                {{input type="text" value=search class="form-control" placeholder="Search..."}}
+
+                {{input type="text" value=search id="searchboxding" class="form-control" placeholder="Search..."}}
                 <button {{action 'startSearch' search}} type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
               </form>
             </li>
-            <li>{{#link-to 'add-post'}}Add a Post{{/link-to}}</li>
-            <li>{{#link-to 'add-page'}}Add a Page{{/link-to}}</li>
-            <li class="dropdown">
-              <a href="" class="dropdown-toggle" data-toggle="dropdown">Login <b class="caret"></b></a>
-              <ul class="dropdown-menu" style="padding: 15px; min-width: 280px;">
-                <li>
-                  <form class="form" role="form" method="post" action="login" accept-charset="UTF-8" id="login-nav">
-                    <div {{bind-attr class=":form-group loginUsernameError:has-error"}}>
-                      <label class="sr-only" for="login-username">Username</label>
-                      {{#if loginUsernameError}}<label class="control-label">{{loginUsernameError}}</label>{{/if}}
-                      {{input type="text" value=loginUsername class="form-control" id="login-username" placeholder="Username" required=true}}
+            {{#if controllers.register.loggedIn}}
+              <li>{{#link-to 'cockpit'}}Cockpit{{/link-to}}</li>  
+              <li>{{#link-to 'add-post'}}Add a Post{{/link-to}}</li>
+              <li>{{#link-to 'add-page'}}Add a Page{{/link-to}}</li>
+              <li>{{#link-to 'register'}}Profile{{/link-to}}</li>
+            {{else}}
+              <li>{{#link-to 'register'}}Register/Login{{/link-to}}</li>
+<!--
+              <li class="dropdown">
+                <a href="" class="dropdown-toggle" data-toggle="dropdown">Login <b class="caret"></b></a>
+                <ul class="dropdown-menu" style="padding: 15px; min-width: 280px;">
+                  <li>
+                    <div class="form">
+                      {{#if loginError}}<div class="form-group has-error"><label class="control-label">{{loginError}}</label></div>{{/if}}
+                      <div {{bind-attr class=":form-group loginUsernameError:has-error"}}>
+                        {{#if loginUsernameError}}<label class="control-label">{{loginUsernameError}}</label>{{/if}}
+                        {{input type="text" value=loginUsername class="form-control" placeholder="Username" required=true}}
+                      </div>
+                      <div {{bind-attr class=":form-group loginPasswordError:has-error"}}>
+                        {{#if loginPasswordError}}<label class="control-label">{{loginPasswordError}}</label>{{/if}}
+                        {{input type="password" value=loginPassword class="form-control" placeholder="Password" required=true}}
+                      </div>
+                      <button {{action 'doLogin'}} class="btn btn-success">
+                        <span class="glyphicon glyphicon-lock" aria-hidden="true"></span> Login
+                      </button>
+                      {{#link-to 'register' class='btn btn-default register-link' role='button'}}Register{{/link-to}}
                     </div>
-                    <div {{bind-attr class=":form-group loginPasswordError:has-error"}}>
-                      <label class="sr-only" for="login-password">Password</label>
-                      {{#if loginPasswordError}}<label class="control-label">{{loginPasswordError}}</label>{{/if}}
-                      {{input type="password" value=loginPassword class="form-control" id="login-password" placeholder="Password" required=true}}
-                    </div>
-                    <button {{action 'doLogin'}} class="btn btn-success">
-                      <span class="glyphicon glyphicon-lock" aria-hidden="true"></span> Login
-                    </button>
-                    {{#link-to 'register' class='register-link btn btn-default' role='button'}}Register{{/link-to}}
-                  </form>
-                </li>
-              </ul>
-            </li>
+                  </li>
+                </ul>
+              </li>
+-->
+            {{/if}}
           </ul>
         </div>
       </nav>
+      <!-- Content -->
       <div class="row">
         <div class="col-md-offset-2 col-md-8 col-xs-12">
           {{ember-notify}}
           {{outlet}}
         </div>
       </div>
+      
     </div>
   </script>
   
@@ -109,7 +119,9 @@
         </article>
       {{else}}
         <p class="info">There aren&#39;t any posts yet.</p>
-        {{#link-to 'add-post' class='btn btn-primary'}}Add a Post{{/link-to}}
+        {{#if controllers.register.loggedIn}}
+          {{#link-to 'add-post' class='btn btn-primary'}}Add a Post{{/link-to}}
+        {{/if}}
       {{/each}}
   </script>
   
@@ -123,7 +135,11 @@
   
   <script type="text/x-handlebars" id="add-post">
     <h1>Add a Post</h1>
-    {{post-editor addPost='addPost' cancelPost='cancelPost' post=this new=true}}
+    {{#if controllers.register.loggedIn}}
+      {{post-editor addPost='addPost' cancelPost='cancelPost' post=this new=true}}
+    {{else}}
+      <p>You need to be {{#link-to 'register'}}logged in{{/link-to}} to add a post!</p>
+    {{/if}}
   </script>
   
   <script type="text/x-handlebars" id="components/post-viewer">
@@ -145,10 +161,11 @@
       {{#if post.tags}}
         <p class="tags">Tags: <span class="tags-content">{{post.tags}}</span></p>
       {{/if}}
-      <!-- TODO: Only show edit button for admins. -->
-      <button type="button" {{action 'toggleEdit' post}} class="btn btn-default" title="Edit this post.">
-        <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
-      </button>
+      {{#if post.loggedIn}}
+        <button type="button" {{action 'toggleEdit' post}} class="btn btn-default" title="Edit this post.">
+          <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+        </button>
+      {{/if}}
     </article>
   </script>
   
@@ -177,6 +194,7 @@
             <label class="control-label" for="newBody">Content</label>
             {{#if post.bodyError}}<label class="control-label">{{post.bodyError}}</label>{{/if}}
             {{textarea value=post.body cols="80" rows="5" class="form-control" id="newBody"}}
+            <small>You can use <a href="https://help.github.com/articles/markdown-basics/" target="_blank">Markdown</a> to style your text.</small>
           </div>
           <div {{bind-attr class=":form-group post.tagsError:has-error"}}>
             <label class="control-label" for="tags">Tags</label> <small>(Seperate with commas.)</small>
@@ -221,7 +239,9 @@
       <p>{{#link-to 'page' page.id}}{{page.title}}{{/link-to}}</p>
     {{else}}
       <p class="info">There aren&#39;t any pages yet.</p>
-      {{#link-to 'add-page' class='btn btn-primary'}}Add a Page{{/link-to}}
+      {{#if controllers.register.loggedIn}}
+        {{#link-to 'add-page' class='btn btn-primary'}}Add a Page{{/link-to}}
+      {{/if}}
     {{/each}}
   </script>
   
@@ -235,17 +255,22 @@
   
   <script type="text/x-handlebars" id="add-page">
     <h1>Add a Page</h1>
-    {{page-editor addPage='addPage' cancelPage='cancelPage' page=this new=true}}
+    {{#if controllers.register.loggedIn}}
+      {{page-editor addPage='addPage' cancelPage='cancelPage' page=this new=true}}
+    {{else}}
+      <p>You need to be {{#link-to 'register'}}logged in{{/link-to}} to add a page!</p>
+    {{/if}}
   </script>
   
   <script type="text/x-handlebars" id="components/page-viewer">
     <article class="page">
       <h1>{{page.title}}</h1>
       <p class="body">{{format-markdown page.body}}</p>
-      <!-- TODO: Only show edit button for admins. -->
-      <button type="button" {{action 'toggleEdit' page}} class="btn btn-default" title="Edit this page.">
-        <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
-      </button>
+      {{#if page.loggedIn}}
+        <button type="button" {{action 'toggleEdit' page}} class="btn btn-default" title="Edit this page.">
+          <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+        </button>
+      {{/if}}
     </article>
   </script>
     
@@ -270,6 +295,7 @@
               <label class="control-label" for="body">Content*</label>
               {{#if page.bodyError}}<label class="control-label">{{page.bodyError}}</label>{{/if}}
               {{textarea value=page.body cols="80" rows="6" class="form-control" id="body"}}
+              <small>You can use <a href="https://help.github.com/articles/markdown-basics/" target="_blank">Markdown</a> to style your text.</small>
             </div>
           </div>
           <div role="tabpanel" class="tab-pane" id="previewPage">
@@ -336,19 +362,47 @@
   </script>
   
   <script type="text/x-handlebars" id="register">
-    <h1>Registration</h1>
-    <p>Register your user account here.</p>
-    <div {{bind-attr class=":form-group usernameError:has-error"}}>
-      {{#if usernameError}}<label class="control-label">{{usernameError}}</label>{{/if}}
-      {{input type="text" value=registerUsername class="form-control" placeholder="Username*"}}
-    </div>
-    <div {{bind-attr class=":form-group passwordError:has-error"}}>
-      {{#if passwordError}}<label class="control-label">{{passwordError}}</label>{{/if}}
-      {{input type="password" value=registerPassword class="form-control" placeholder="Password*"}}
-    </div>
-    <button {{action 'addUser'}} class="btn btn-success">
-      <span class="glyphicon glyphicon-user" aria-hidden="true"></span> Register
-    </button>
+    {{#if loggedIn}}
+      <h1>Welcome back</h1>
+      <p>You are currently logged in.</p>
+      <button {{action 'doLogout'}} class="btn btn-danger">
+        <span class="glyphicon glyphicon-lock" aria-hidden="true"></span> Logout
+      </button>
+    {{else}}
+      <div class="row">
+        <div class="col-sm-6">
+          <h1>Registration</h1>
+          <p>Register a new user account here.</p>
+          <div {{bind-attr class=":form-group usernameError:has-error"}}>
+            {{#if usernameError}}<label class="control-label">{{usernameError}}</label>{{/if}}
+            {{input type="text" value=registerUsername class="form-control" placeholder="Username*"}}
+          </div>
+          <div {{bind-attr class=":form-group passwordError:has-error"}}>
+            {{#if passwordError}}<label class="control-label">{{passwordError}}</label>{{/if}}
+            {{input type="password" value=registerPassword class="form-control" placeholder="Password*"}}
+          </div>
+          <button {{action 'addUser'}} type="submit" class="btn btn-success">
+            <span class="glyphicon glyphicon-user" aria-hidden="true"></span> Register
+          </button>
+        </div>
+        <div class="col-sm-6">
+          <h1>Login</h1>
+          <p>Login with your existing account.</p>
+          {{#if loginError}}<div class="form-group has-error"><label class="control-label">{{loginError}}</label></div>{{/if}}
+          <div {{bind-attr class=":form-group loginUsernameError:has-error"}}>
+            {{#if loginUsernameError}}<label class="control-label">{{loginUsernameError}}</label>{{/if}}
+            {{input type="text" value=loginUsername class="form-control" placeholder="Username" required=true}}
+          </div>
+          <div {{bind-attr class=":form-group loginPasswordError:has-error"}}>
+            {{#if loginPasswordError}}<label class="control-label">{{loginPasswordError}}</label>{{/if}}
+            {{input type="password" value=loginPassword class="form-control" placeholder="Password" required=true}}
+          </div>
+          <button {{action 'doLogin'}} class="btn btn-success">
+            <span class="glyphicon glyphicon-lock" aria-hidden="true"></span> Login
+          </button>
+        </div>
+      </div>
+    {{/if}}
   </script>
 
 <script type="text/x-handlebars" id="cockpit">
@@ -360,13 +414,16 @@
         <h2>Here we will display some fancy diagrams...</h2>
         <br>
         <button {{action 'loadNewDiagram'}} class="btn btn-success">
-        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span> Reload New Diagram
+        <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span> Reload New Diagram
         </button>
         <br>
         <br>
         <br>
   </div>
   <div id="canvas-holder" class="col-sm-12">
+    <div id="container2" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+    <br>
+    <br>
     <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
   </div>
   <div id="canvas-holder" class="col-sm-12">
@@ -377,10 +434,10 @@
         <h2>Here we will display some fancy diagrams...</h2>
         <br>
         <button {{action 'loadLineData'}} class="btn btn-success">
-        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span> Reload Lines
+        <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span> Reload Lines
         </button>
         <button {{action 'loadBarData'}} class="btn btn-success">
-            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span> Reload Bars
+            <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span> Reload Bars
         </button>
         <br>
         <br>
@@ -402,10 +459,10 @@
         <h2>Here we could display some pie charts...</h2>
         <br>
         <button {{action 'loadPieData'}} class="btn btn-success">
-        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span> Reload Pie
+        <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span> Reload Pie
         </button>
         <button {{action 'loadPieData2'}} class="btn btn-success">
-            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span> Reload Pie
+            <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span> Reload Pie
         </button>
         <br>
         <br>
@@ -419,9 +476,6 @@
   </div>
   
 </script>
-
-
-
 </body>
 
 </html>
