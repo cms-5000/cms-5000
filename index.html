@@ -58,10 +58,9 @@
           <ul class="nav navbar-nav navbar-right">
             <li>
               <form class="navbar-form searchbox" role="search">
-                {{input type="text" value=search class="form-control" placeholder="Search..."}}
-                <button {{action 'startSearch' search}} type="submit" class="btn btn-default">
-                  <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-                </button>
+
+                {{input type="text" value=search id="searchboxding" class="form-control" placeholder="Search..."}}
+                <button {{action 'startSearch' search}} type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
               </form>
             </li>
             {{#if controllers.register.loggedIn}}
@@ -102,7 +101,6 @@
       <!-- Content -->
       <div class="row">
         <div class="col-md-offset-2 col-md-8 col-xs-12">
-<!--          {{ember-notify}}-->
           {{x-woof}}
           {{outlet}}
         </div>
@@ -410,82 +408,77 @@
 
   <script type="text/x-handlebars" id="cockpit">
     <h1>Cockpit</h1>
+    {{#each diagram in diagrams}}
+        <hr>
+    {{/each}}
+    
     {{#if controllers.register.loggedIn}}
-        {{#each diagram in diagrams}}
-          <hr>
-        {{/each}}
-        <div class="row">
-            <div id="canvas-holder" class="col-sm-12">
-                <h2>Here we will display some fancy diagrams...</h2>
-                <br>
-                <button {{action 'loadNewDiagram'}} class="btn btn-success">
-                <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span> Reload New Diagram
-                </button>
-                <br>
-                <br>
-                <br>
-            </div>
-        </div>
-        <div class="row">
-            <div id="canvas-holder" class="col-sm-12">
-                <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
-            </div>
-        </div>
-        <div class="row">
-            <div id="canvas-holder" class="col-sm-12">
-                  <br>
-                  <br>
-                  <br>
-                  <br>
-                  <h2>Here we will display some fancy diagrams...</h2>
-                  <br>
-                  <button {{action 'loadLineData'}} class="btn btn-success">
-                  <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span> Reload Lines
-                  </button>
-                  <button {{action 'loadBarData'}} class="btn btn-success">
-                      <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span> Reload Bars
-                  </button>
-                  <br>
-                  <br>
-                  <br>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-6">
-                <canvas id="canvas" width="600"></canvas>
-            </div>
-            <div class="col-sm-6">
-                <canvas id="canvas-bar" width="600"></canvas>
-            </div>
-        </div>
+      <div id="canvas-holder" class="col-sm-12">
+          <h2>Here we will display some fancy diagrams...</h2>
+          <br>
+          <button {{action 'loadNewDiagram'}} class="btn btn-success">
+          <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span> Reload New Diagram
+          </button>
+          <br>
+          <br>
+          <br>
+      </div>
+      <div id="canvas-holder" class="col-sm-12">
+        <div id="container2" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+        <br>
+        <br>
+        <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+      </div>
+      <div id="canvas-holder" class="col-sm-12">
+          <br>
+          <br>
+          <br>
+          <br>
+          <h2>Here we will display some fancy diagrams...</h2>
+          <br>
+          <button {{action 'loadLineData'}} class="btn btn-success">
+          <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span> Reload Lines
+          </button>
+          <button {{action 'loadBarData'}} class="btn btn-success">
+              <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span> Reload Bars
+          </button>
+          <br>
+          <br>
+          <br>
+      </div>
+      <div class="col-sm-6">
+          <canvas id="canvas" width="600"></canvas>
+      </div>
 
-        <div class="row">
-            <div id="canvas-holder" class="col-sm-12">
-                <br>
-                <br>
-                <br>
-                <br>
-                <h2>Here we could display some pie charts...</h2>
-                <br>
-                <button {{action 'loadPieData'}} class="btn btn-success">
-                    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span> Reload Pie
-                </button>
-                <button {{action 'loadPieData2'}} class="btn btn-success">
-                    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span> Reload Pie
-                </button>
-                <br>
-                <br>
-            </div>
-        </div>
+      <div class="col-sm-6">
+          <canvas id="canvas-bar" width="600"></canvas>
+      </div>
 
-        <div class="row">
-            <div id="canvas-holder" class="col-sm-6">
-                <canvas id="chart-area" height="300"/>
-            </div>
-            <div id="canvas-holder" class="col-sm-6">
-                <canvas id="chart-area2" height="300"/>
-            </div>
-        </div>
+      <div id="canvas-holder" class="col-sm-12">
+          <br>
+          <br>
+          <br>
+          <br>
+          <h2>Here we could display some pie charts...</h2>
+          <br>
+          <button {{action 'loadPieData'}} class="btn btn-success">
+          <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span> Reload Pie
+          </button>
+          <button {{action 'loadPieData2'}} class="btn btn-success">
+              <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span> Reload Pie
+          </button>
+          <br>
+          <br>
+      </div>
+
+      <div class="row">
+          <div id="canvas-holder" class="col-sm-6">
+              <canvas id="chart-area" height="300"/>
+          </div>
+          <div id="canvas-holder" class="col-sm-6">
+              <canvas id="chart-area2" height="300"/>
+          </div>
+      </div>
     {{else}}
       <p>You need to be {{#link-to 'register'}}logged in{{/link-to}} to access the cockpit!</p>
     {{/if}}
@@ -503,7 +496,6 @@
       {{message.message}}
     </div>
   </script>
-
 </body>
 
 </html>

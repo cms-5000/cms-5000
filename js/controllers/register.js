@@ -1,11 +1,11 @@
-App.RegisterRoute = Ember.Route.extend({ 
-  actions: {
-    startSearch: function (params) { 
-      window.mySearchString = params;
-      this.transitionTo('search');
-    }
-  }
-});
+//App.RegisterRoute = Ember.Route.extend({ 
+//  actions: {
+//    startSearch: function (params) { 
+//      window.mySearchString = params;
+//      this.transitionTo('search');
+//    }
+//  }
+//});
 
 App.RegisterController = Ember.ArrayController.extend({
   actions: {
