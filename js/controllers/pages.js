@@ -65,7 +65,7 @@ App.PageController = Ember.ObjectController.extend({
         if (slugHasChanged) {
           // TODO Should forward to the new address ('page/new-slug').
         }
-        // TODO Show notification about updated page.
+        this.woof.success('Your page has been updated.');
       }
     },
     removePage: function (page) {
@@ -75,7 +75,7 @@ App.PageController = Ember.ObjectController.extend({
         page.save();
         this.transitionTo('pages');
         this.set('isEditing', false);
-        // TODO Show notification about removed page.
+        this.woof.success('Your page has been removed.');
       }
     }
   },
@@ -143,7 +143,7 @@ App.AddPageController = Ember.ArrayController.extend({
 
         page.save();
         this.transitionTo('/page/' + page.get('id'));
-        // TODO: Show notification about newly created page.
+        this.woof.success('Your page has been created.');
       }
     },
     cancelPage: function () {

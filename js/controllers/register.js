@@ -1,11 +1,11 @@
-//App.LoginRoute = Ember.Route.extend({ 
-//  actions: {
-//    startSearch: function (params) { 
-//      window.mySearchString = params;
-//      this.transitionTo('search');
-//    }
-//  }
-//});
+App.RegisterRoute = Ember.Route.extend({ 
+  actions: {
+    startSearch: function (params) { 
+      window.mySearchString = params;
+      this.transitionTo('search');
+    }
+  }
+});
 
 App.RegisterController = Ember.ArrayController.extend({
   actions: {
@@ -38,8 +38,8 @@ App.RegisterController = Ember.ArrayController.extend({
         this.set('registerPassword', '');
 
         user.save();
-        this.transitionTo('posts');
-        // TODO: Show notification about newly created user.
+        this.transitionTo('register');
+        this.woof.success('Welcome! You are now registered and can login with your username and password.');
       }
     },
     doLogin: function () {
@@ -63,14 +63,14 @@ App.RegisterController = Ember.ArrayController.extend({
       if (inputIsFine) {
         this.set('loggedIn', true);
         this.transitionTo('posts');
-        // TODO Notification about successful login.
+        this.woof.success('You are now logged in.');
       }
     },
     doLogout: function () {
       this.set('loginUsername', '');
       this.set('loginPassword', '');
       this.set('loggedIn', false);
-      // TODO Notification about successful logout.
+      this.woof.success('You are now logged out. Bye bye.');
     }
   },
   usernameError: false,

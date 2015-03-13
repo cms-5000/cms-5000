@@ -22,8 +22,6 @@ App.PostRoute = Ember.Route.extend({
   actions: {
     returnToPosts: function () { 
       this.transitionTo('posts');
-      // FIXME: Notification stuff: https://github.com/aexmachina/ember-notify/tree/v2.0.0#module-formats
-      // window.EmberNotify.default.success("It worked.");
     },
     startSearch: function (params) { 
       window.mySearchString = params;
@@ -95,7 +93,7 @@ App.PostController = Ember.ObjectController.extend({
         if (slugHasChanged) {
           this.transitionTo('posts'); // TODO Should rather forward to the new address ('post/new-slug').
         }
-        // TODO Show notification about updated post.
+        this.woof.success('Your post has been updated.');
       }
     },
     removePost: function () {
@@ -106,7 +104,7 @@ App.PostController = Ember.ObjectController.extend({
         post.deleteRecord();
         post.save();
         this.transitionTo('posts');
-        // TODO Show notification about removed post.
+        this.woof.success('Your post has been removed.');
       }
     }
   },
@@ -189,7 +187,7 @@ App.AddPostController = Ember.ArrayController.extend({
 
         post.save();
         this.transitionTo('posts');
-        // TODO: Show notification about newly created post.
+        this.woof.success('Your post has been created.');
       }
     },
     cancelPost: function () {
