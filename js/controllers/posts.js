@@ -64,13 +64,13 @@ App.PostController = Ember.ObjectController.extend({
         this.set('isEditing', true);
       }
     },
-    editPost: function () {
-      var title   = this.get('model').get('title');
-      var slug    = this.get('model').get('slug');
-      var excerpt = this.get('model').get('excerpt');
-      var body    = this.get('model').get('body');
-      var tags    = this.get('model').get('tags');
-      var slugHasChanged = this.get('model').changedAttributes().hasOwnProperty('slug');
+    editPost: function (post) {
+      var title   = post.get('title');
+      var slug    = post.get('slug');
+      var excerpt = post.get('excerpt');
+      var body    = post.get('body');
+      var tags    = post.get('tags');
+      var slugHasChanged = post.changedAttributes().hasOwnProperty('slug');
       
       switch (validateTitle(title)) {
         case 0: this.set('titleError', false); break;
@@ -110,7 +110,7 @@ App.PostController = Ember.ObjectController.extend({
       );
       if(inputIsFine){
         this.set('isEditing', false);
-        this.get('model').save();
+        post.save();
 
         if (slugHasChanged) {
           this.transitionTo('posts'); // TODO Should rather forward to the new address ('post/new-slug').
@@ -118,11 +118,15 @@ App.PostController = Ember.ObjectController.extend({
         this.woof.success('Your post has been updated.');
       }
     },
-    removePost: function () {
+    cancelEdit: function (post) {
+      post.rollback();
+      this.set('isEditing', false);
+      this.transitionTo('/post/' + post.get('id'));
+    },
+    removePost: function (post) {
       var confirmed = confirm("Are you sure you want to remove the post \"" + this.get('title') + "\"?");
       if (confirmed) {
         this.set('isEditing', false);
-        var post = this.get('model');
         var title = post.get('title');
         post.deleteRecord();
         post.save();
@@ -213,7 +217,7 @@ App.AddPostController = Ember.ArrayController.extend({
         this.woof.success('Your post has been created.');
       }
     },
-    cancelPost: function () {
+    cancelEdit: function () {
       this.set('title',   '');
       this.set('slug',    '');
       this.set('excerpt', '');

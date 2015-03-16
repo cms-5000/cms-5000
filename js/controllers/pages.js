@@ -41,6 +41,7 @@ App.PageController = Ember.ObjectController.extend({
         case 0: this.set('slugError', false); break;
         case 1: this.set('slugError', 'Please define a slug (short url).'); break;
         case 2: 
+          // FIXME Doesn't work properly -> is validateSlug returning 2 by accident?
           if (slugHasChanged) {
             this.set('slugError', 'This slug is already being used. Please choose a different one.'); 
           } else {
@@ -72,13 +73,18 @@ App.PageController = Ember.ObjectController.extend({
         this.woof.success('Your page has been updated.');
       }
     },
+    cancelEdit: function (page) {
+      page.rollback();
+      this.set('isEditing', false);
+      this.transitionTo('/page/' + page.get('id'));
+    },
     removePage: function (page) {
       var confirmed = confirm("Are you sure you want to remove the page \"" + page.get('title') + "\"?");
       if (confirmed) {
+        this.set('isEditing', false);
         page.deleteRecord();
         page.save();
         this.transitionTo('pages');
-        this.set('isEditing', false);
         this.woof.success('Your page has been removed.');
       }
     }
@@ -150,7 +156,7 @@ App.AddPageController = Ember.ArrayController.extend({
         this.woof.success('Your page has been created.');
       }
     },
-    cancelPage: function () {
+    cancelEdit: function () {
       this.set('title', '');
       this.set('slug',  '');
       this.set('body',  '');

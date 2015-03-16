@@ -2,6 +2,10 @@ body {
   padding: 10px 0;
 }
 
+.body img {
+  max-width: 100%;
+}
+
 .searchbox input[type="text"] {
   position: absolute;
   right: 0;

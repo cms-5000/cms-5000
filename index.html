@@ -116,7 +116,7 @@
     {{#each post in model itemController="post"}}
       <article class="post">
         {{#if post.isEditing}}
-          {{post-editor post=post editPost='editPost' toggleEdit='toggleEdit' removePost='removePost'}}
+          {{post-editor post=post editPost='editPost' cancelEdit='cancelEdit' removePost='removePost'}}
         {{else}}
           {{post-viewer post=post toggleEdit='toggleEdit'}}
         {{/if}}
@@ -131,7 +131,7 @@
   
   <script type="text/x-handlebars" id="post">
     {{#if isEditing}}
-      {{post-editor post=this editPost='editPost' toggleEdit='toggleEdit' removePost='removePost'}}
+      {{post-editor post=this editPost='editPost' cancelEdit='cancelEdit' removePost='removePost'}}
     {{else}}
       {{post-viewer post=this toggleEdit='toggleEdit' single=true}}
     {{/if}}
@@ -140,7 +140,7 @@
   <script type="text/x-handlebars" id="add-post">
     <h1>Add a Post</h1>
     {{#if controllers.register.loggedIn}}
-      {{post-editor addPost='addPost' cancelPost='cancelPost' post=this new=true}}
+      {{post-editor addPost='addPost' cancelEdit='cancelEdit' post=this new=true}}
     {{else}}
       <p>You need to be {{#link-to 'register'}}logged in{{/link-to}} to add a post!</p>
     {{/if}}
@@ -220,14 +220,14 @@
         <button {{action 'addPost'}} class="btn btn-success">
           <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Save &amp; Publish
         </button>
-        <button {{action 'cancelPost'}} class="btn btn-default">
+        <button {{action 'cancelEdit'}} class="btn btn-default">
           <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Cancel
         </button>
       {{else}}
         <button {{action 'editPost' post}} class="btn btn-success">
           <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Save
         </button>
-        <button {{action 'toggleEdit' post}} class="btn btn-default">
+        <button {{action 'cancelEdit' post}} class="btn btn-default">
           <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Cancel
         </button>
         <button {{action 'removePost' post}} class="btn btn-danger pull-right">
@@ -251,7 +251,7 @@
   
   <script type="text/x-handlebars" id="page">
     {{#if isEditing}}
-      {{page-editor page=this toggleEdit='toggleEdit' editPage='editPage' removePage='removePage'}}
+      {{page-editor page=this cancelEdit='cancelEdit' editPage='editPage' removePage='removePage'}}
     {{else}}
       {{page-viewer page=this toggleEdit='toggleEdit' single=true}}
     {{/if}}
@@ -260,7 +260,7 @@
   <script type="text/x-handlebars" id="add-page">
     <h1>Add a Page</h1>
     {{#if controllers.register.loggedIn}}
-      {{page-editor addPage='addPage' cancelPage='cancelPage' page=this new=true}}
+      {{page-editor addPage='addPage' cancelEdit='cancelEdit' page=this new=true}}
     {{else}}
       <p>You need to be {{#link-to 'register'}}logged in{{/link-to}} to add a page!</p>
     {{/if}}
@@ -312,14 +312,14 @@
         <button {{action 'addPage'}} class="btn btn-success">
           <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Save &amp; Publish
         </button>
-        <button {{action 'cancelPage'}} class="btn btn-default">
+        <button {{action 'cancelEdit'}} class="btn btn-default">
           <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Cancel
         </button>
       {{else}}
         <button {{action 'editPage' page}} class="btn btn-success">
           <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Save
         </button>
-        <button {{action 'toggleEdit' page}} class="btn btn-default">
+        <button {{action 'cancelEdit' page}} class="btn btn-default">
           <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Cancel
         </button>
         <button {{action 'removePage' page}} class="btn btn-danger pull-right">
@@ -334,7 +334,7 @@
     <hr>
     {{#each post in model itemController="post"}}
       <article class="post">
-        {{search-viewer post=post toggleEdit='toggleEdit'}}
+        {{post-viewer post=post toggleEdit='toggleEdit'}}
       </article>
       <hr>
     {{else}}
