@@ -1,6 +1,18 @@
 App.PostsRoute = Ember.Route.extend({
   model: function () {
-    return this.store.find('post');
+    window.infoArray = new Array(0);
+    return this.store.filter('post', function(post) {
+      // collect all information we need for analysis
+      var dataObject = {
+        id: post.get('id'),
+        title: post.get('title'),
+        excerpt: post.get('excerpt'),
+        body: post.get('body'),
+        tags: post.get('tags')
+      };
+      window.infoArray = addEntry(window.infoArray, dataObject);
+      return (true);
+    });
   },
   shortcuts: {
     '⌘+⇧+a, ctrl+shift+a': 'goToAddPost'

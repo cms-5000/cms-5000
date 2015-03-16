@@ -6,5 +6,5 @@ Ember-based lightweight CMS and blog system with markdown syntax and awesome sea
 - [x] Connection CouchDB - Tobias
 - [ ] CMS Features (User Login, Pages etc.) - Sebastian
 - [ ] Analysis Feature (Tag Cloud) - Ben & Tobias
-- [ ] Search Feature - Ben & Tobias
+- [x] Search Feature - Ben & Tobias
 - [ ] Improvement Layout/Design - Isabell

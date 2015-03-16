@@ -12,25 +12,7 @@ App.SearchRoute = Ember.Route.extend({
     //window.searchString = prompt("Please enter the string", "test");
     window.searchString = window.mySearchString;
 
-    window.infoArray = new Array(0);
-    window.infoArray2 = new Array(0);
-
     return App.Post.store.filter('post', function(post) {
-      
-      var postArray = new Array(0);
-      postArray.push(post.get('title'));
-      postArray.push(post.get('excerpt'));
-      postArray.push(post.get('body'));
-      postArray.push(post.get('tags'));
-
-      var dataObject = {
-        title: post.get('title')
-      };
-
-      infoArray2.push(dataObject);
-      infoArray.push(postArray);
-      
-
       if (!(post.get('title') === undefined)) {
         var tempTitle = post.get('title');
         var tempIndex = tempTitle.indexOf(searchString);
