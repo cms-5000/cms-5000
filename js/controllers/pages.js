@@ -10,6 +10,10 @@ App.PagesRoute = Ember.Route.extend({
   }
 });
 
+App.PagesController = Ember.ArrayController.extend({
+  needs: ['register']
+});
+
 App.PageController = Ember.ObjectController.extend({
   model: function (params) {
     return this.store.find('page', params.page_id);

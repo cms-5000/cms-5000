@@ -14,3 +14,7 @@
 //App.ApplicationAdapter = EmberPouch.Adapter.extend({
 //  db: db
 //});
+
+App.ApplicationAdapter = DS.LSAdapter.extend({
+  namespace: 'cms-5000'
+});

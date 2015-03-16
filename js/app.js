@@ -1,10 +1,6 @@
 // General Setup
 window.App = Ember.Application.create({});
 
-App.ApplicationAdapter = DS.LSAdapter.extend({
-  namespace: 'cms-5000'
-});
-
 App.ApplicationRoute = Ember.Route.extend({
   setupController: function (controller, model) {
     controller.set('pages', this.store.find('page'));

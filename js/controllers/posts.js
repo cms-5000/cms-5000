@@ -27,6 +27,10 @@ App.PostsRoute = Ember.Route.extend({
   needs: ['register']
 });
 
+App.PostsController = Ember.ArrayController.extend({
+  needs: ['register']
+});
+
 App.PostRoute = Ember.Route.extend({
   shortcuts: {
     'escape': 'returnToPosts'
@@ -113,10 +117,11 @@ App.PostController = Ember.ObjectController.extend({
       if (confirmed) {
         this.set('isEditing', false);
         var post = this.get('model');
+        var title = post.get('title');
         post.deleteRecord();
         post.save();
         this.transitionTo('posts');
-        this.woof.success('Your post has been removed.');
+        this.woof.success('Your post \"' + title + '\" has been removed.');
       }
     }
   },
