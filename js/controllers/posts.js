@@ -28,6 +28,12 @@ App.PostsRoute = Ember.Route.extend({
 });
 
 App.PostsController = Ember.ArrayController.extend({
+  actions: {
+    startSearch: function (params) { 
+      window.mySearchString = params;
+      this.transitionTo('search');
+    }
+  },
   needs: ['register']
 });
 

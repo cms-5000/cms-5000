@@ -33,8 +33,7 @@ App.Router.map(function() {
 /*
  * HELPERS
  */
-var showdown = new Showdown.converter();
-
+var showdown = new Showdown.converter( { extensions: ['github'] } );
 Ember.Handlebars.helper('format-markdown', function(input) {
   if (input == undefined) {
     return "";

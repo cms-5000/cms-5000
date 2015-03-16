@@ -20,6 +20,7 @@
   <script src="js/libs/ember-shortcuts.js"></script>
   <script src="js/libs/ember-localstorage_adapter.js"></script>
   <script src="js/libs/showdown-0.4.0.min.js"></script>
+  <script src="js/libs/showdown-0.4.0-github.min.js"></script>
   <script src="js/libs/moment.min.js"></script>
   <script src="js/libs/pouchdb-3.3.0.min.js"></script>
   <script src="js/libs/pouchdb.relational-pouch.min.js"></script>
@@ -332,11 +333,9 @@
     <h2>Search Results</h2>
     <hr>
     {{#each post in model itemController="post"}}
-      <br>
       <article class="post">
         {{search-viewer post=post toggleEdit='toggleEdit'}}
       </article>
-      <br>
       <hr>
     {{else}}
       <p class="info">We could not find any matches for your search.</p>

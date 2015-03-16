@@ -76,7 +76,7 @@ function validateString (string) {
 // wrapper method to test string fields
 function validateTitle (string) {
     if (isEmpty(string)) return 1;
-    if (isTooLong(string, 30)) return 2;
+    if (isTooLong(string, 60)) return 2;
     return 0;
 }
 
