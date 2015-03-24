@@ -7,10 +7,10 @@
   <link rel="stylesheet" href="css/normalize.css">
   <link rel="stylesheet" href="css/bootstrap.min.css">
   <link rel="stylesheet" href="css/bootstrap-theme.min.css">
-  <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/ember-notify.css">
   <link rel="stylesheet" href="css/woof.css">
   <link rel="icon"       href="images/favicon.png">
+  <link rel="stylesheet" href="css/style.css">
   
   <script src="js/libs/jquery-2.1.3.min.js"></script>
   <script src="js/libs/handlebars-v3.0.0.js"></script>
@@ -48,7 +48,7 @@
   
   <script type="text/x-handlebars" data-template-name="application">
     <div class="container-fluid">
-      <nav class="navbar navbar-default">
+      <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
         <div class="container-fluid">
           <div class="navbar-header">
             {{#link-to 'posts' class='navbar-brand'}}cms-5000{{/link-to}}
@@ -72,30 +72,6 @@
               <li>{{#link-to 'register'}}Profile{{/link-to}}</li>
             {{else}}
               <li>{{#link-to 'register'}}Register/Login{{/link-to}}</li>
-<!--
-              <li class="dropdown">
-                <a href="" class="dropdown-toggle" data-toggle="dropdown">Login <b class="caret"></b></a>
-                <ul class="dropdown-menu" style="padding: 15px; min-width: 280px;">
-                  <li>
-                    <div class="form">
-                      {{#if loginError}}<div class="form-group has-error"><label class="control-label">{{loginError}}</label></div>{{/if}}
-                      <div {{bind-attr class=":form-group loginUsernameError:has-error"}}>
-                        {{#if loginUsernameError}}<label class="control-label">{{loginUsernameError}}</label>{{/if}}
-                        {{input type="text" value=loginUsername class="form-control" placeholder="Username" required=true}}
-                      </div>
-                      <div {{bind-attr class=":form-group loginPasswordError:has-error"}}>
-                        {{#if loginPasswordError}}<label class="control-label">{{loginPasswordError}}</label>{{/if}}
-                        {{input type="password" value=loginPassword class="form-control" placeholder="Password" required=true}}
-                      </div>
-                      <button {{action 'doLogin'}} class="btn btn-success">
-                        <span class="glyphicon glyphicon-lock" aria-hidden="true"></span> Login
-                      </button>
-                      {{#link-to 'register' class='btn btn-default register-link' role='button'}}Register{{/link-to}}
-                    </div>
-                  </li>
-                </ul>
-              </li>
--->
             {{/if}}
           </ul>
         </div>
@@ -146,28 +122,30 @@
   </script>
   
   <script type="text/x-handlebars" id="components/post-viewer">
-    <article class="post">
+    <article class="post single">
       {{#if single}}
         <h1>{{post.title}}</h1>
       {{else}}
         {{#link-to 'post' post.id}}<h1>{{post.title}}</h1>{{/link-to}}
       {{/if}}
       <p class="excerpt">{{format-markdown post.excerpt}}</p>
-      {{#if single}}
-        <p class="body">{{format-markdown post.body}}</p>
-      {{else}}
-        {{#if post.body}}
-          <p class="body">{{#link-to 'post' post.id}}Read more{{/link-to}}</p>
-        {{/if}}
-      {{/if}}
+      <div class="seperator">
+          {{#if single}}
+            <p class="body">{{format-markdown post.body}}</p>
+          {{else}}
+            {{#if post.body}}
+                  <p class="more">{{#link-to 'post' post.id}}<img src="images/more.png">{{/link-to}}</p>
+            {{/if}}
+          {{/if}}
+          {{#if post.loggedIn}}
+            <button type="button" {{action 'toggleEdit' post}} class="edit" title="Edit this post.">
+              <img src="images/edit.png">
+            </button>
+          {{/if}}
+      </div>
       <p class="date">{{format-date post.date}}</p>
       {{#if post.tags}}
         <p class="tags">Tags: <span class="tags-content">{{post.tags}}</span></p>
-      {{/if}}
-      {{#if post.loggedIn}}
-        <button type="button" {{action 'toggleEdit' post}} class="btn btn-default" title="Edit this post.">
-          <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
-        </button>
       {{/if}}
     </article>
   </script>
