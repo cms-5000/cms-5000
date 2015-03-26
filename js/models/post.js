@@ -5,5 +5,10 @@ App.Post = DS.Model.extend({
   body:    DS.attr('string'),
   date:    DS.attr('date', { defaultValue: function () { return new Date(); }}),
   tags:    DS.attr('string'),
-  rev:     DS.attr('string')
+  rev:     DS.attr('string'),
+  
+  /* Computed Properties */
+  words:   function() {
+    return this.get('excerpt').split(' ').length + this.get('body').split(' ').length;
+  }.property('excerpt', 'body')
 });

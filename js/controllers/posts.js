@@ -64,6 +64,13 @@ App.PostController = Ember.ObjectController.extend({
         this.set('isEditing', true);
       }
     },
+    goToPostEditor: function (post) {
+      this.transitionTo('/post/' + post.get('id')).then(function(){
+        Ember.run.schedule('afterRender', this, function () {
+          Ember.Route.controllerFor('post').set('isEditing', true);
+        });
+      });
+    },
     editPost: function (post) {
       var title   = post.get('title');
       var slug    = post.get('slug');

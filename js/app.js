@@ -3,8 +3,8 @@ window.App = Ember.Application.create({});
 
 App.ApplicationRoute = Ember.Route.extend({
   setupController: function (controller, model) {
-    controller.set('pages', this.store.find('page'));
     controller.set('posts', this.store.find('post'));
+    controller.set('pages', this.store.find('page'));
   },
   actions: {
     doLogin: function () {
