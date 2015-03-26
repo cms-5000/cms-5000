@@ -30,6 +30,15 @@ App.Router.map(function() {
   // TODO: Handle non-existant routes: http://emberjs.com/guides/routing/defining-your-routes/#toc_wildcard-globbing-routes
 });
 
+//Transition
+LiquidFire.map(function(){
+  this.transition(
+    this.fromRoute('index','post', 'posts','add-post','page', 'pages', 'add-page', 'register',  'search', 'cockpit'),
+    this.toRoute('index','post', 'posts','add-post','page', 'pages', 'add-page', 'register',  'search', 'cockpit'),
+    this.use('crossFade')
+  );
+});
+
 /*
  * HELPERS
  */

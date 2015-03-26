@@ -12,6 +12,9 @@ body {
 
 a{
     color: grey;
+    webkit-transition: all 500ms;
+    -moz-transition: all 500ms;
+    transition: all 500ms;
 }
 
 a:hover{
