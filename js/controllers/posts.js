@@ -42,6 +42,16 @@ App.PostRoute = Ember.Route.extend({
     'escape': 'returnToPosts'
   },
   actions: {
+    willTransition: function (transition) {
+      if (this.controller.get('isEditing') &&
+          !confirm("Are you sure you don't want to save your changes?")) {
+        transition.abort();
+      } else {
+        // FIXME
+        // this.controllerFor('post').send('cancelEdit', this.modelFor(this.routeName));
+        return true;
+      }
+    },
     returnToPosts: function () { 
       this.transitionTo('posts');
     },
@@ -64,12 +74,9 @@ App.PostController = Ember.ObjectController.extend({
         this.set('isEditing', true);
       }
     },
-    goToPostEditor: function (post) {
-      this.transitionTo('/post/' + post.get('id')).then(function(){
-        Ember.run.schedule('afterRender', this, function () {
-          Ember.Route.controllerFor('post').set('isEditing', true);
-        });
-      });
+    goToEditor: function (post) {
+      this.transitionTo('/post/' + post.get('id'));
+      this.controllerFor('post').set('isEditing', true);
     },
     editPost: function (post) {
       var title   = post.get('title');
@@ -128,6 +135,7 @@ App.PostController = Ember.ObjectController.extend({
     cancelEdit: function (post) {
       post.rollback();
       this.set('isEditing', false);
+      // FIXME Transition to last route instead of always to post.
       this.transitionTo('/post/' + post.get('id'));
     },
     removePost: function (post) {

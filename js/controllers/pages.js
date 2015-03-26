@@ -26,6 +26,10 @@ App.PageController = Ember.ObjectController.extend({
         this.set('isEditing', true);
       }
     },
+    goToEditor: function (page) {
+      this.transitionTo('/page/' + page.get('id'));
+      this.controllerFor('page').set('isEditing', true);
+    },
     editPage: function (page) {
       var title = page.get('title');
       var slug  = page.get('slug');
@@ -76,6 +80,7 @@ App.PageController = Ember.ObjectController.extend({
     cancelEdit: function (page) {
       page.rollback();
       this.set('isEditing', false);
+      // FIXME Transition to last route instead of always to page.
       this.transitionTo('/page/' + page.get('id'));
     },
     removePage: function (page) {

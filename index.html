@@ -392,7 +392,7 @@
   <script type="text/x-handlebars" id="cockpit">
     <h1>Cockpit</h1>
     {{#if controllers.register.loggedIn}}
-      <h2>Posts {{#if posts}}{{posts.length}}{{/if}}</h2>
+      <h2>Posts {{#if posts}}({{posts.length}}){{/if}}</h2>
       {{#if posts}}
         <table class="table table-hover">
           <thead><tr>
@@ -404,16 +404,12 @@
           <tbody>
           {{#each post in posts itemController="post"}}
             <tr>
-              <td>{{post.id}}</td>
+              <td>{{#link-to 'post' post.id}}{{post.id}}{{/link-to}}</td>
               <td>{{#link-to 'post' post.id}}{{post.title}}{{/link-to}}</td> 
               <td>{{post.words}}</td>
               <td>
-                <button {{action 'goToPostEditor' post}} class="btn btn-default">
-                  <span class="glyphicon glyphicon-pencil"></span>
-                </button>
-                <button {{action 'removePost' post}} class="btn btn-default">
-                  <span class="glyphicon glyphicon-trash"></span>
-                </button>
+                <span class="glyphicon glyphicon-pencil" {{action 'goToEditor' post}}></span>
+                <span class="glyphicon glyphicon-trash"  {{action 'removePost' post}}></span>
               </td>
             </tr>
           {{/each}}
@@ -425,7 +421,7 @@
     
       <hr>
     
-      <h2>Pages {{#if pages}}{{pages.length}}{{/if}}</h2>
+      <h2>Pages {{#if pages}}({{pages.length}}){{/if}}</h2>
       {{#if pages}}
         <table class="table table-hover">
           <thead><tr>
@@ -437,16 +433,12 @@
           <tbody>
           {{#each page in pages itemController="page"}}
             <tr>
-              <td>{{page.id}}</td>
+              <td>{{#link-to 'page' page.id}}{{page.id}}{{/link-to}}</td>
               <td>{{#link-to 'page' page.id}}{{page.title}}{{/link-to}}</td> 
               <td>{{page.words}}</td>
               <td>
-                <button {{action 'toggleEdit' page}} class="btn btn-default">
-                  <span class="glyphicon glyphicon-pencil"></span>
-                </button>
-                <button {{action 'removePage' page}} class="btn btn-default">
-                  <span class="glyphicon glyphicon-trash"></span>
-                </button>
+                <span class="glyphicon glyphicon-pencil" {{action 'goToEditor' page}}></span>
+                <span class="glyphicon glyphicon-trash"  {{action 'removePage' page}}></span>
               </td>
             </tr>
           {{/each}}
@@ -477,7 +469,7 @@
         <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
       </div>
       <div id="canvas-holder" class="col-sm-12">
-          <h2>Here we will display some fancy diagrams...</h2>
+          <h3>Here we will display some fancy diagrams...</h3>
           <br>
           <button {{action 'loadLineData'}} class="btn btn-success">
           <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span> Reload Lines
@@ -502,7 +494,7 @@
           <br>
           <br>
           <br>
-          <h2>Here we could display some pie charts...</h2>
+          <h3>Here we could display some pie charts...</h3>
           <br>
           <button {{action 'loadPieData'}} class="btn btn-success">
           <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span> Reload Pie
