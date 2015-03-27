@@ -28,7 +28,6 @@ App.Router.map(function() {
   this.route('search');
   this.route('cockpit');
   this.route('notfound', { path: '/*wildcard' });
-  // TODO: Handle non-existant routes: http://emberjs.com/guides/routing/defining-your-routes/#toc_wildcard-globbing-routes
 });
 
 //Transition
