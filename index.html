@@ -398,6 +398,7 @@
             <th>#</th>
             <th>Title</th> 
             <th>Words</th>
+            <th>Complex</th>
             <th>Actions</th>
           </tr></thead>
           <tbody>
@@ -406,6 +407,7 @@
               <td>{{#link-to 'post' post.id}}{{post.id}}{{/link-to}}</td>
               <td>{{#link-to 'post' post.id}}{{post.title}}{{/link-to}}</td> 
               <td>{{post.words}}</td>
+              <td>{{post.complex}}</td>
               <td>
                 <span class="glyphicon glyphicon-pencil" {{action 'goToEditor' post}}></span>
                 <span class="glyphicon glyphicon-trash"  {{action 'removePost' post}}></span>
@@ -427,6 +429,7 @@
             <th>#</th>
             <th>Title</th> 
             <th>Words</th>
+            <th>Complex</th>
             <th>Actions</th>
           </tr></thead>
           <tbody>
@@ -435,6 +438,7 @@
               <td>{{#link-to 'page' page.id}}{{page.id}}{{/link-to}}</td>
               <td>{{#link-to 'page' page.id}}{{page.title}}{{/link-to}}</td> 
               <td>{{page.words}}</td>
+              <td>{{page.complex}}</td>
               <td>
                 <span class="glyphicon glyphicon-pencil" {{action 'goToEditor' page}}></span>
                 <span class="glyphicon glyphicon-trash"  {{action 'removePage' page}}></span>
@@ -450,69 +454,37 @@
       <hr>
     
       <h2>Stats</h2>
-      {{#each diagram in diagrams}}
-          <hr>
-      {{/each}}
+      <hr>
     
       <div id="canvas-holder" class="col-sm-12">
-          <h3>Here we will display some fancy diagrams...</h3>
-          <button {{action 'loadNewDiagram'}} class="btn btn-success">
-          <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span> Reload New Diagram
-          </button>
-          <br>
+          <h3>The amount of words you wrote this year and last year</h3>
       </div>
       <div id="canvas-holder" class="col-sm-12">
-        <div id="container2" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
         <br>
         <br>
-        <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+        <div id="wordAmount" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
       </div>
       <div id="canvas-holder" class="col-sm-12">
-          <h3>Here we will display some fancy diagrams...</h3>
-          <br>
-          <button {{action 'loadLineData'}} class="btn btn-success">
-          <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span> Reload Lines
-          </button>
-          <button {{action 'loadBarData'}} class="btn btn-success">
-              <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span> Reload Bars
-          </button>
-          <br>
-          <br>
-          <br>
+        <br>
+        <br>
+        <div id="complexity" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
       </div>
-      <div class="col-sm-6">
-          <canvas id="canvas" width="600"></canvas>
-      </div>
-
-      <div class="col-sm-6">
-          <canvas id="canvas-bar" width="600"></canvas>
-      </div>
-
       <div id="canvas-holder" class="col-sm-12">
-          <br>
-          <br>
-          <br>
-          <br>
-          <h3>Here we could display some pie charts...</h3>
-          <br>
-          <button {{action 'loadPieData'}} class="btn btn-success">
-          <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span> Reload Pie
-          </button>
-          <button {{action 'loadPieData2'}} class="btn btn-success">
-              <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span> Reload Pie
-          </button>
-          <br>
-          <br>
+        <br>
+        <br>
+        <div id="canvas-holder" class="col-sm-6">
+          <div id="currenttagpie" style="margin: 0 auto"></div>
+        </div>
+        <div id="canvas-holder" class="col-sm-6">
+          <div id="tagpiealltime" style="margin: 0 auto"></div>
+        </div>
       </div>
-
-      <div class="row">
-          <div id="canvas-holder" class="col-sm-6">
-              <canvas id="chart-area" height="300"/>
-          </div>
-          <div id="canvas-holder" class="col-sm-6">
-              <canvas id="chart-area2" height="300"/>
-          </div>
+      <div id="canvas-holder" class="col-sm-12">
+        <br>
+        <br>
+        <div id="correlation" style="margin: 0 auto"></div>
       </div>
+      
     {{else}}
       <p>You need to be {{#link-to 'register'}}logged in{{/link-to}} to access the cockpit.</p>
     {{/if}}
