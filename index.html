@@ -14,6 +14,7 @@
   <link rel="stylesheet" href="css/style.css">
   
   <script src="js/libs/jquery-2.1.3.min.js"></script>
+  <script src="js/libs/jquery.cookie.js"></script>
   <script src="js/libs/handlebars-v3.0.0.js"></script>
   <script src="js/libs/ember-template-compiler-1.10.0.js"></script>
   <script src="js/libs/ember-1.10.0.min.js"></script>
@@ -94,19 +95,17 @@
   
   <script type="text/x-handlebars" id="posts">
     {{#each post in model itemController="post"}}
-      <article class="post">
-        {{#if post.isEditing}}
-          {{post-editor post=post editPost='editPost' cancelEdit='cancelEdit' removePost='removePost'}}
-        {{else}}
-          {{post-viewer post=post toggleEdit='toggleEdit'}}
-        {{/if}}
-        </article>
+      {{#if post.isEditing}}
+        {{post-editor post=post editPost='editPost' cancelEdit='cancelEdit' removePost='removePost'}}
       {{else}}
-        <p class="info">There aren&#39;t any posts yet.</p>
-        {{#if controllers.register.loggedIn}}
-          {{#link-to 'add-post' class='btn btn-primary'}}Add a Post{{/link-to}}
-        {{/if}}
-      {{/each}}
+        {{post-viewer post=post toggleEdit='toggleEdit'}}
+      {{/if}}
+    {{else}}
+      <p class="info">There aren&#39;t any posts yet.</p>
+      {{#if controllers.register.loggedIn}}
+        {{#link-to 'add-post' class='btn btn-primary'}}Add a Post{{/link-to}}
+      {{/if}}
+    {{/each}}
   </script>
   
   <script type="text/x-handlebars" id="post">
@@ -127,11 +126,11 @@
   </script>
   
   <script type="text/x-handlebars" id="components/post-viewer">
-    <article class="post single">
+    <article class="post">
       {{#if single}}
-        <h1>{{post.title}}</h1>
+        <h1 class="post-title">{{post.title}}</h1>
       {{else}}
-        {{#link-to 'post' post.id}}<h1>{{post.title}}</h1>{{/link-to}}
+        {{#link-to 'post' post.id}}<h1 class="post-title">{{post.title}}</h1>{{/link-to}}
       {{/if}}
       <p class="excerpt">{{format-markdown post.excerpt}}</p>
       <div class="seperator">
@@ -139,7 +138,7 @@
             <p class="body">{{format-markdown post.body}}</p>
           {{else}}
             {{#if post.body}}
-              <p class="more">{{#link-to 'post' post.id}}<img src="images/more.png">{{/link-to}}</p>
+              <p class="more" title="Read more">{{#link-to 'post' post.id}}<img src="images/more.png">{{/link-to}}</p>
             {{/if}}
           {{/if}}
           {{#if post.loggedIn}}
@@ -531,6 +530,14 @@
       {{message.message}}
     </div>
   </script>
+  
+  <script type="text/x-handlebars" id="notfound">
+    <article class="page">
+      <h1>Site not found</h1>
+      <p>Oops, your site was not found! Please try another one via the menu on top or return to {{#link-to 'posts'}}the homepage{{/link-to}}.</p>
+    </article>
+  </script>
+  
 </body>
 
 </html>

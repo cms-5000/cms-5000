@@ -11,14 +11,21 @@ body {
   max-width: 100%;
 }
 
-a {
+a:hover {
+  text-decoration: none;
+}
+
+.post .body a, .post .excerpt a, 
+.page .body a {
   color: grey;
+  text-decoration: underline;
   webkit-transition: all 300ms;
   -moz-transition:   all 300ms;
   transition:        all 300ms;
 }
 
-a:hover {
+.post .body a:hover, .post .excerpt a:hover, 
+.page .body a:hover {
 /*  color: #C8E6C9;*/
   text-decoration: none;
 }
@@ -31,40 +38,47 @@ a:hover {
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
 }
 
-.single,
+.post,
 .post-editing,
 .page-editing {
   border-radius: 3px;
   background-color: white;
-  padding: 8px;
-  padding-top: 0px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  padding: 0 8px 8px 8px;
+  box-shadow:         0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  -moz-box-shadow:    0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  
   -webkit-transition: all 1000ms;
-  -moz-transition: all 1000ms;
-  transition: all 1000ms;
+     -moz-transition: all 1000ms;
+          transition: all 1000ms;
 }
 
-.single:hover,
+.post:hover,
 .post-editing:hover,
 .page-editing:hover {
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
 }
 
-.single h1 {
+.post-title {
   background-color: #03A9F4;
   margin-right: -8px;
   margin-left: -8px;
   border-top-left-radius: 3px;
   border-top-right-radius: 3px;
-  padding: 8px;
-  padding-top: 3px;
-  color: #212121;
+  padding: 3px 8px 8px 8px;
+  color: white;
+  text-decoration: none;
+}
+a .post-title:hover {
+  background-color: #0096d9;
 }
 
-.single .date,
-.single .tags {
+.post .date,
+.post .tags {
   padding-top: 3px;
   display: inline;
+  font-size: 0.8em;
+  line-height: 0.7;
 }
 
 .seperator {
@@ -102,7 +116,7 @@ a:hover {
   right: 60px;
 }
 
-.more:hover {
+.more:hover, .edit:hover {
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
 }
 
@@ -118,6 +132,7 @@ a:hover {
 
 .searchbox input[type="text"]:focus {
   background-color: #fff;
+  border: none;
   width: 200px;
   z-index: 1;
   cursor: text;
@@ -128,12 +143,8 @@ a:hover {
   border: none;
   background: none;
   box-shadow: none;
-  position: absolute;
-  right: 0;
-  z-index: 2;
-  cursor: pointer;
+  color: #c8e6c9;
 }
-
 .searchbox button[type="submit"],
 .searchbox button[type="submit"]:focus {
   position: absolute;
@@ -145,6 +156,7 @@ a:hover {
 
 .searchbox button[type="submit"]:focus:hover {
   opacity: 1;
+  color: grey;
 }
 
 .post-editing,
@@ -152,12 +164,6 @@ a:hover {
   padding: 10px;
   border: 1px solid #ddd;
   border-radius: 5px;
-}
-
-.post .date,
-.post .tags {
-  font-size: 0.8em;
-  line-height: 0.7;
 }
 
 .navbar-default {

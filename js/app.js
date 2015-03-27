@@ -7,8 +7,8 @@ App.ApplicationRoute = Ember.Route.extend({
     controller.set('pages', this.store.find('page'));
   },
   actions: {
-    doLogin: function () {
-      this.controllerFor('register').send('doLogin');
+    error: function() {
+      this.transitionTo('notfound', 'application-error');
     }
   }
 });
@@ -27,6 +27,7 @@ App.Router.map(function() {
   this.route('register');
   this.route('search');
   this.route('cockpit');
+  this.route('notfound', { path: '/*wildcard' });
   // TODO: Handle non-existant routes: http://emberjs.com/guides/routing/defining-your-routes/#toc_wildcard-globbing-routes
 });
 

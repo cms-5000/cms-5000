@@ -46,13 +46,24 @@ App.RegisterController = Ember.ArrayController.extend({
       var username = this.get('loginUsername');
       var password = this.get('loginPassword');
       
-      if (username === 'admin') {
+      if (username === 'admin') {
+        var isRegistered = true;
+      } else {
+        var isRegistered = this.store.all('user').some( function (user) {
+          return user.get('username') === username;
+        });
+      }
+      
+      if ( isRegistered ) {
         this.set('loginUsernameError', false);
       } else {
         this.set('loginUsernameError', 'This username does not exist.');
       }
       if (!this.get('loginUsernameError')) {
-        if (password === 'password') {
+//        var theUser = this.store.find('user', { username: username });
+        var correctPassword = password === 'password';
+        
+        if ( correctPassword ) {
           this.set('loginPasswordError', false);
         } else {
           this.set('loginPasswordError', 'This password does not match the username. Please try again.');
@@ -62,6 +73,7 @@ App.RegisterController = Ember.ArrayController.extend({
       var inputIsFine = (!this.get('loginUsernameError') && !this.get('loginPasswordError'));
       if (inputIsFine) {
         this.set('loggedIn', true);
+        $.cookie('logged_in', 'true');
         this.transitionTo('posts');
         this.woof.success('You are now logged in.');
       }
@@ -69,7 +81,8 @@ App.RegisterController = Ember.ArrayController.extend({
     doLogout: function () {
       this.set('loginUsername', '');
       this.set('loginPassword', '');
-      this.set('loggedIn', false);
+      this.set('logged_in', false);
+      $.removeCookie('loggedIn');
       this.woof.success('You are now logged out. Bye bye.');
     }
   },

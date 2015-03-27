@@ -38,6 +38,10 @@ App.PostsController = Ember.ArrayController.extend({
 });
 
 App.PostRoute = Ember.Route.extend({
+  beforeModel: function (transition) {
+    this.controllerFor('post').set('previousTransition', transition);
+    console.log('transition: ' + transition); // DEBUG
+  },
   shortcuts: {
     'escape': 'returnToPosts'
   },
@@ -47,7 +51,7 @@ App.PostRoute = Ember.Route.extend({
           !confirm("Are you sure you don't want to save your changes?")) {
         transition.abort();
       } else {
-        // FIXME
+        // FIXME, http://emberjs.com/guides/routing/preventing-and-retrying-transitions/#sts=Preventing Transitions via willTransition
         // this.controllerFor('post').send('cancelEdit', this.modelFor(this.routeName));
         return true;
       }
@@ -136,7 +140,16 @@ App.PostController = Ember.ObjectController.extend({
       post.rollback();
       this.set('isEditing', false);
       // FIXME Transition to last route instead of always to post.
-      this.transitionTo('/post/' + post.get('id'));
+      // this.transitionTo('/post/' + post.get('id'));
+      var previousTransition = this.get('previousTransition');
+      console.log('previousTransition: ' + previousTransition); // DEBUG
+      if (previousTransition) {
+        console.log('Retry'); // DEBUG
+        previousTransition.retry();
+        // this.set('previousTransition', null);
+      } else {
+        this.transitionToRoute('posts');
+      }
     },
     removePost: function (post) {
       var confirmed = confirm("Are you sure you want to remove the post \"" + this.get('title') + "\"?");
@@ -242,6 +255,7 @@ App.AddPostController = Ember.ArrayController.extend({
     }
   },
   needs: ['register'],
+  previousTransition: '',
   titleError: false,
   slugError: false,
   excerptError: false,

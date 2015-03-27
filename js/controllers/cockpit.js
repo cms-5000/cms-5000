@@ -18,6 +18,7 @@ App.CockpitView = Ember.View.extend({
 
     if (this.get('controller.controllers.register').get('loggedIn')) {
       // Logged in:
+      
       /////////////////
       //bar chart
       /////////////////
