@@ -8,26 +8,26 @@ $(function(){
 App.SearchRoute = Ember.Route.extend({
   model: function () {
     //window.searchString = prompt("Please enter the string", "test");
-    window.searchString = window.mySearchString;
+    window.searchString = window.mySearchString.toLowerCase();
 
     return App.Post.store.filter('post', function(post) {
       if (!(post.get('title') === undefined)) {
-        var tempTitle = post.get('title');
+        var tempTitle = post.get('title').toLowerCase();
         var tempIndex = tempTitle.indexOf(searchString);
         if (tempIndex > -1) return true;
       }
       if (!(post.get('excerpt') === undefined)) {
-        var tempExcerpt = post.get('excerpt');
+        var tempExcerpt = post.get('excerpt').toLowerCase();
         var tempIndex = tempExcerpt.indexOf(searchString);
         if (tempIndex > -1) return true;
       }
       if (!(post.get('body') === undefined)) {
-        var tempBody = post.get('body');
+        var tempBody = post.get('body').toLowerCase();
         var tempIndex = tempBody.indexOf(searchString);
         if (tempIndex > -1) return true;
       }
       if (!(post.get('tags') === undefined)) {
-        var tempTags = post.get('tags');
+        var tempTags = post.get('tags').toLowerCase();
         var tempIndex = tempTags.indexOf(searchString);
         if (tempIndex > -1) return true;
       }

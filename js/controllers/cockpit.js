@@ -277,7 +277,7 @@ App.CockpitView = Ember.View.extend({
                 },
                 tooltip: {
                     headerFormat: '<b>{series.name}</b><br>',
-                    pointFormat: '{point.x} words and a complexity of {point.y} kg'
+                    pointFormat: '{point.x} words and a complexity of {point.y}'
                 }
             }
         },
