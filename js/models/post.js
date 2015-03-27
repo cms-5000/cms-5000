@@ -9,6 +9,6 @@ App.Post = DS.Model.extend({
   
   /* Computed Properties */
   words:   function() {
-    return this.get('excerpt').split(' ').length + this.get('body').split(' ').length;
-  }.property('excerpt', 'body')
+    return this.get('title').split(' ').length + this.get('excerpt').split(' ').length + this.get('body').split(' ').length;
+  }.property('title', 'excerpt', 'body')
 });
