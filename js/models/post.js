@@ -9,11 +9,10 @@ App.Post = DS.Model.extend({
   
   /* Computed Properties */
   words:   function() {
-    var words;
-    words += this.get('title').split(' ').length;
+    var words = this.get('title').split(' ').length;
     words += this.get('excerpt').split(' ').length;
-    if (this.get('body')) {
-      this.get('body').split(' ').length
+    if (!(this.get('body') === undefined)) {
+      words += this.get('body').split(' ').length;
     }
     return words;
   }.property('title', 'excerpt', 'body'),
