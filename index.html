@@ -53,33 +53,39 @@
 <body>
   
   <script type="text/x-handlebars" data-template-name="application">
-    <div class="container-fluid">
       <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
         <div class="container-fluid">
           <div class="navbar-header">
             {{#link-to 'posts' class='navbar-brand'}}cms-5000{{/link-to}}
+            
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#collapsable-navbar">
+              <span class="sr-only">Toggle Menu</span>
+              <span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
+            </button>
           </div>
-          <ul class="nav navbar-nav">
-            {{#each page in pages}}
-              <li>{{#link-to 'page' page.id}}{{page.slug}}{{/link-to}}</li>
-            {{/each}}
-          </ul>
-          <ul class="nav navbar-nav navbar-right">
-            <li>
-              <form class="navbar-form searchbox" role="search">
-                {{input type="text" value=search id="searchbox-action" class="form-control" placeholder="Search..."}}
-                <button {{action 'startSearch' search}} type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
-              </form>
-            </li>
-            {{#if controllers.register.loggedIn}}
-              <li>{{#link-to 'cockpit'}}Cockpit{{/link-to}}</li>  
-              <li>{{#link-to 'add-post'}}Add a Post{{/link-to}}</li>
-              <li>{{#link-to 'add-page'}}Add a Page{{/link-to}}</li>
-              <li>{{#link-to 'register'}}Profile{{/link-to}}</li>
-            {{else}}
-              <li>{{#link-to 'register'}}Register/Login{{/link-to}}</li>
-            {{/if}}
-          </ul>
+          <div class="collapse navbar-collapse" id="collapsable-navbar">
+            <ul class="nav navbar-nav">
+              {{#each page in pages}}
+                <li>{{#link-to 'page' page.id}}{{page.slug}}{{/link-to}}</li>
+              {{/each}}
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+              <li>
+                <form class="navbar-form searchbox" role="search">
+                  {{input type="text" value=search id="searchbox-action" class="form-control" placeholder="Search..."}}
+                  <button {{action 'startSearch' search}} type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+                </form>
+              </li>
+              {{#if controllers.register.loggedIn}}
+                <li>{{#link-to 'cockpit'}}Cockpit{{/link-to}}</li>  
+                <li>{{#link-to 'add-post'}}Add a Post{{/link-to}}</li>
+                <li>{{#link-to 'add-page'}}Add a Page{{/link-to}}</li>
+                <li>{{#link-to 'register'}}Profile{{/link-to}}</li>
+              {{else}}
+                <li>{{#link-to 'register'}}Register/Login{{/link-to}}</li>
+              {{/if}}
+            </ul>
+          </div>
         </div>
       </nav>
       <!-- Content -->
@@ -90,7 +96,6 @@
         </div>
       </div>
       
-    </div>
   </script>
   
   <script type="text/x-handlebars" id="posts">
@@ -395,8 +400,9 @@
       {{#if posts}}
         <table class="table table-hover">
           <thead><tr>
-            <th>#</th>
+            <th>ID</th>
             <th>Title</th> 
+            <th>Date</th> 
             <th>Words</th>
             <th>Complex</th>
             <th>Actions</th>
@@ -406,6 +412,7 @@
             <tr>
               <td>{{#link-to 'post' post.id}}{{post.id}}{{/link-to}}</td>
               <td>{{#link-to 'post' post.id}}{{post.title}}{{/link-to}}</td> 
+              <td>{{format-date-simple post.date}}</td>
               <td>{{post.words}}</td>
               <td>{{post.complex}}</td>
               <td>
@@ -426,7 +433,7 @@
       {{#if pages}}
         <table class="table table-hover">
           <thead><tr>
-            <th>#</th>
+            <th>ID</th>
             <th>Title</th> 
             <th>Words</th>
             <th>Complex</th>

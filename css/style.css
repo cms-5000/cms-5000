@@ -39,7 +39,6 @@ a:hover {
 }
 
 .post,
-.post-editing,
 .page-editing {
   border-radius: 3px;
   background-color: white;
@@ -54,8 +53,13 @@ a:hover {
 }
 
 .post:hover,
-.post-editing:hover,
 .page-editing:hover {
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+}
+
+.post-editing {
+  background-color: white;
+  margin-top: 10px;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
 }
 

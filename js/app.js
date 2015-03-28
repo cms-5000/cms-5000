@@ -55,4 +55,8 @@ Ember.Handlebars.helper('format-date', function (date) {
   return moment(date).fromNow();
 });
 
+Ember.Handlebars.helper('format-date-simple', function (date) {
+  return moment(date).format('L');
+});
+
 Ember.TextSupport.reopen({ attributeBindings: ["required"] });
