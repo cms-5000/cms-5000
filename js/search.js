@@ -245,6 +245,8 @@ function replacePunctuationMarks(string) {
         for (var i = 0; i < chars.length; i++) {
             if (result.indexOf(chars[i]) > -1) result = result.split(chars[i]).join("");
         }
+    } else {
+        result = "";
     }
     return result;
 }
