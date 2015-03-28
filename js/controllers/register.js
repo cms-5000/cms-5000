@@ -61,7 +61,7 @@ App.RegisterController = Ember.ArrayController.extend({
       }
       if (!this.get('loginUsernameError')) {
 //        var theUser = this.store.find('user', { username: username });
-        var correctPassword = password === 'password';
+        var correctPassword = (password === 'password');
         
         if ( correctPassword ) {
           this.set('loginPasswordError', false);
@@ -81,8 +81,8 @@ App.RegisterController = Ember.ArrayController.extend({
     doLogout: function () {
       this.set('loginUsername', '');
       this.set('loginPassword', '');
-      this.set('logged_in', false);
-      $.removeCookie('loggedIn');
+      this.set('loggedIn', false);
+      $.removeCookie('logged_in');
       this.woof.success('You are now logged out. Bye bye.');
     }
   },

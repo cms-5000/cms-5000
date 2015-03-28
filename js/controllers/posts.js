@@ -118,7 +118,7 @@ App.PostController = Ember.ObjectController.extend({
       }
       switch (validateString(body)) {
         case 0: this.set('bodyError', false); break;
-        case 1: this.set('bodyError', false); break; // non-mandatory field
+        case 1: this.set('bodyError', 'Please write a main text.'); break;
         case 2: this.set('bodyError', 'Your content is too long, please make it shorter.'); break;
       }
       // TODO Validate tags.
@@ -142,14 +142,13 @@ App.PostController = Ember.ObjectController.extend({
     cancelEdit: function (post) {
       post.rollback();
       this.set('isEditing', false);
-      // FIXME Transition to last route instead of always to post.
       // this.transitionTo('/post/' + post.get('id'));
-      var previousTransition = this.get('previousTransition');
-      console.log('previousTransition: ' + previousTransition); // DEBUG
-      if (previousTransition) {
-        console.log('Retry'); // DEBUG
-        previousTransition.retry();
-        // this.set('previousTransition', null);
+      // FIXME Transition to last route instead of always to post.
+      var thePreviousTransition = this.get('previousTransition');
+      console.log('previousTransition: ' + thePreviousTransition); // DEBUG
+      if (thePreviousTransition) {
+        thePreviousTransition.retry();
+        this.set('previousTransition', null);
       } else {
         this.transitionToRoute('posts');
       }

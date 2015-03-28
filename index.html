@@ -176,7 +176,7 @@
             {{textarea value=post.excerpt cols="80" rows="3" class="form-control" id="excerpt"}}
           </div>
           <div {{bind-attr class=":form-group post.bodyError:has-error"}}>
-            <label class="control-label" for="newBody">Content</label>
+            <label class="control-label" for="newBody">Content*</label>
             {{#if post.bodyError}}<label class="control-label">{{post.bodyError}}</label>{{/if}}
             {{textarea value=post.body cols="80" rows="5" class="form-control" id="newBody"}}
             <small>You can use <a href="https://help.github.com/articles/markdown-basics/" target="_blank">Markdown</a> to style your text.</small>
