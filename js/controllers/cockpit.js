@@ -217,7 +217,7 @@ App.CockpitView = Ember.View.extend({
             text: 'Used Tags (timeless)'
         },
         tooltip: {
-            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+            pointFormat: 'Share: <b>{point.percentage:.1f}%</b>'
         },
         plotOptions: {
             pie: {
@@ -251,6 +251,11 @@ App.CockpitView = Ember.View.extend({
         }]
       });
 
+      if (!(infoArray === undefined)) {
+        var currPieData = generateTagDataArray(infoArray);
+      } else {
+        var currPieData = [['No data', 100]];
+      }
       $('#currenttagpie').highcharts({
         chart: {
             plotBackgroundColor: null,
@@ -261,7 +266,7 @@ App.CockpitView = Ember.View.extend({
             text: 'Currently used Tags (this year)'
         },
         tooltip: {
-            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+            pointFormat: 'Share: <b>{point.percentage:.1f}%</b>'
         },
         plotOptions: {
             pie: {
@@ -279,22 +284,15 @@ App.CockpitView = Ember.View.extend({
         series: [{
             type: 'pie',
             name: 'Tag',
-            data: [
-                ['NEWS',   45.0],
-                ['MUSIC',       26.8],
-                {
-                    name: 'IT',
-                    y: 12.8,
-                    sliced: true,
-                    selected: true
-                },
-                ['CODE',    8.5],
-                ['TOOLS',     6.2],
-                ['MISC',   0.7]
-            ]
+            data: currPieData
         }]
       });
 
+      if (!(infoArray === undefined)) {
+        var vsChartData = generateVsChart(infoArray);
+      } else {
+        var vsChartData = [[0, 0]];
+      }
       $('#correlation').highcharts({
         chart: {
             type: 'scatter',
@@ -363,6 +361,10 @@ App.CockpitView = Ember.View.extend({
                    [497,0.8],[397,0.84],[249,0.68],[557,0.82],[183,0.91],[250,0.48],[296,0.81],[333,0.75],[441,0.65],
                    [514,0.91],[450,0.8],[192,0.49],[187,0.68],[220,0.59],[548,0.84],[221,0.4],[324,0.91],[404,0.76],
                    [385,0.61],[446,0.84],[277,0.76],[404,0.61],[552,0.81]]
+        },{
+            name: 'Real',
+            color: 'rgba(0, 128, 0, .5)',
+            data: vsChartData
         }]
       });
 

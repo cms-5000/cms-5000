@@ -186,7 +186,7 @@ function countDifferentPost(title, excerpt, body) {
             }    
         }
     }
-    window.wMap = wordMap;
+    window.wSingleMap = wordMap;
     return differentWordsCounter;
 }
 
@@ -234,7 +234,7 @@ function countInFields(title, body) {
             }    
         }
     }
-    window.wMap = wordMap;
+    window.wPageMap = wordMap;
     return differentWordsCounter;
 }
 
@@ -242,11 +242,84 @@ function replacePunctuationMarks(string) {
     var result = string;
     var chars = ["!","\"","\'",".",",",":",";","?",")","(","/","\\","§","$","%","&","´","`","^"];
     if ((result != undefined) && (result.length > 0) && (result != null)) {
+        result = result.replace(/(\r\n|\n|\r)/gm,"");
         for (var i = 0; i < chars.length; i++) {
             if (result.indexOf(chars[i]) > -1) result = result.split(chars[i]).join("");
         }
     } else {
         result = "";
     }
+    return result;
+}
+
+function generateTagDataArray(infoArray) {
+    var arrayLength = infoArray.length;
+    var tagMap = new Map();
+    var differentTagsCounter = 0;
+    var result = new Array(0);
+
+    for (var i = 0; i < arrayLength; i++) {
+        // count in title
+        var tagString = infoArray[i].tags;
+        if (!(tagString === undefined)) {
+            if ((tagString != null) && (tagString.length > 0)) {
+                //split the text to get an array
+                var tagArray = tagString.split(',');
+                var tagLength = tagArray.length;
+                // for each word within this field of a post
+                for (var j = 0; j < tagLength; j++) {
+                    var tempTag = tagArray[j].trim();
+                    //test if entry is already in map 
+                    if (tagMap.get(tempTag) === undefined) {
+                        tagMap.set(tempTag,1);
+                        differentTagsCounter++;
+                    } else {
+                        tagMap.set(tempTag,(tagMap.get(tempTag)+1));
+                    }
+                }
+            }
+        }
+    }
+    window.tagMap = tagMap;
+    var mapKeys = tagMap.keys();
+    var amount = tagMap.size;
+    var breakFlag = 1;
+    var dataArray = new Array(0);
+
+    do {
+        try {
+            var entryArray = new Array(0);
+            var tempKeyI = mapKeys.next();
+            var tempKey = tempKeyI.value;
+            if (tempKey != undefined) {
+                var tempAmount = tagMap.get(tempKey);
+                var tempPercentage = (tempAmount/amount * 100);
+                entryArray.push(tempKey);
+                entryArray.push(tempPercentage);
+                dataArray.push(entryArray);
+            } else {
+                breakFlag = 0;
+            }
+        } catch (ex) {
+            breakFlag = 0;
+        }
+    } while (breakFlag);
+    window.TagData = dataArray;
+    return dataArray;
+}
+
+function generateVsChart(infoArray) {
+    var arrayLength = infoArray.length;
+    var result = new Array(0);
+
+    for (var i = 0; i < arrayLength; i++) {
+        var dataSet = new Array(0);
+        var tempWords = infoArray[i].words;
+        var tempComplex = infoArray[i].complex;
+        dataSet.push(tempWords);
+        dataSet.push(parseFloat(tempComplex));
+        result.push(dataSet);
+    }
+    window.testResult = result;
     return result;
 }
