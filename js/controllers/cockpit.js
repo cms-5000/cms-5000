@@ -15,17 +15,44 @@ App.CockpitRoute = Ember.Route.extend({
 
 App.CockpitView = Ember.View.extend({
   didInsertElement: function () {
-
     if (this.get('controller.controllers.register').get('loggedIn')) {
-      // Logged in:
+      
+      // set some global vars to check dates 
+      var lastDecMonth = new Date("2014-12-31");
+      var janMonth = new Date("2015-01-01");
+      var febMonth = new Date("2015-02-01");
+      var marMonth = new Date("2015-03-01");
+      var aprMonth = new Date("2015-04-01");
       
       /////////////////
-      //bar chart for the amount of written words
+      //area chart for the amount of written words
       /////////////////
       var lastChangeDate = new Date();
 
-      $('#wordAmount').highcharts({
+      if (!(infoArray === undefined)) {
+        var jan = 0;
+        var feb = 0;
+        var mar = 0;
 
+        for (var i = 0; i < infoArray.length; i++) {
+          if (infoArray[i].date.getMonth() == 1) jan += infoArray[i].words;
+          if (infoArray[i].date.getMonth() == 2) feb += infoArray[i].words;
+          if (infoArray[i].date.getMonth() == 3) mar += infoArray[i].words;
+        }
+      } else {
+        var jan = 0;
+        var feb = 0;
+        var mar = 0;
+      }
+
+      // sum them up 
+      
+      feb += jan;
+      mar += jan + feb;
+
+      jan = 0;
+
+      $('#wordAmount').highcharts({
         chart: {
           type: 'area'
         },
@@ -86,12 +113,55 @@ App.CockpitView = Ember.View.extend({
         },
         series: [{
           name: 'last year',
-          data: [150, 360, 450, 640, 870, 930, 1100, 1210, 1350, 1500, 1630, 1750]
+          data: [0, 360, 450, 640, 870, 930, 1100, 1210, 1350, 1500, 1630, 1750]
         }, {
           name: 'this year',
-          data: [80, 114, 375]
+          data: [0, 114, 375]
+        }, {
+          name: 'real',
+          data: [jan, feb, mar]
         }]
       });
+
+      /////////////////
+      //line chart for the complexity of written words
+      /////////////////
+
+      var jan = 0;
+      var janA = 0;
+      var janC = 0;
+      var feb = 0;
+      var febA = 0;
+      var febC = 0;
+      var mar = 0;
+      var marA = 0;
+      var marC = 0;
+
+      if (!(infoArray === undefined)) {
+        for (var i = 0; i < infoArray.length; i++) {
+          if (infoArray[i].date.getMonth() == 1) {
+            janC += parseFloat(infoArray[i].complex);
+            janA += 1;
+          }
+          if (infoArray[i].date.getMonth() == 2) {
+            febC += parseFloat(infoArray[i].complex);
+            febA += 1;
+          }
+          if (infoArray[i].date.getMonth() == 3) {
+            marC += parseFloat(infoArray[i].complex);
+            marA += 1;
+          }
+        }
+        if (janA > 0) {var jan = janC/janA};
+        if (febA > 0) {var feb = febC/febA};
+        if (marA > 0) {var mar = marC/marA};
+
+      } else {
+        var jan = 0;
+        var feb = 0;
+        var mar = 0;
+      }
+
 
        $('#complexity').highcharts({
         title: {
@@ -131,10 +201,13 @@ App.CockpitView = Ember.View.extend({
         }, {
             name: 'last year',
             data: [0.42, 0.69, 0.51, 0.72, 0.66, 0.72, 0.44, 0.81, 0.63, 0.69, 0.73, 0.69]
+        }, {
+            name: 'real',
+            data: [jan, feb, mar]
         }]
-    });
+      });
 
-    $('#tagpiealltime').highcharts({
+      $('#tagpiealltime').highcharts({
         chart: {
             plotBackgroundColor: null,
             plotBorderWidth: null,
@@ -302,4 +375,3 @@ App.CockpitView = Ember.View.extend({
 App.CockpitController = Ember.ArrayController.extend({
   needs: ['register']
 });
-

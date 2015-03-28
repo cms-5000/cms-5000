@@ -8,7 +8,10 @@ App.PostsRoute = Ember.Route.extend({
         title: post.get('title'),
         excerpt: post.get('excerpt'),
         body: post.get('body'),
-        tags: post.get('tags')
+        tags: post.get('tags'),
+        date: post.get('date'),
+        words: post.get('words'),
+        complex: post.get('complex')
       };
       window.infoArray = addEntry(window.infoArray, dataObject);
       return (true);
