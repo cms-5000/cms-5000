@@ -33,6 +33,7 @@ App.PageController = Ember.ObjectController.extend({
     editPage: function (page) {
       var title = page.get('title');
       var slug  = page.get('slug');
+      var menu  = page.get('menu');
       var body  = page.get('body');
       var slugHasChanged = page.changedAttributes().hasOwnProperty('slug');
       
@@ -56,6 +57,11 @@ App.PageController = Ember.ObjectController.extend({
         case 4: this.set('slugError', 'Please don\'t use any of the following keywords: post(s), page(s), add-post, add-page or search.'); break;
         default: this.set('slugError', 'Oops, something\'s wrong here! Please try again.');
       }
+      switch (validateString(menu)) {
+        case 0: this.set('menuError', false); break;
+        case 1: this.set('menuError', 'Please choose a menu title.'); break;
+        case 2: this.set('menuError', 'Your menu title is too long, please choose a shorter one.'); break;
+      }
       switch (validateString(body)) {
         case 0: this.set('bodyError', false); break;
         case 1: this.set('bodyError', 'Please write some content.'); break;
@@ -65,6 +71,7 @@ App.PageController = Ember.ObjectController.extend({
       var inputIsFine = (
         !this.get('titleError') && 
         !this.get('slugError')  && 
+        !this.get('menuError')  &&
         !this.get('bodyError')
       );
       if (inputIsFine) {
@@ -99,6 +106,7 @@ App.PageController = Ember.ObjectController.extend({
   isEditing: false,
   titleError: false,
   slugError: false,
+  menuError: false,
   bodyError: false
 });
 
@@ -120,6 +128,7 @@ App.AddPageController = Ember.ArrayController.extend({
     addPage: function () {
       var title = this.get('title');
       var slug  = this.get('slug');
+      var menu  = this.get('menu');
       var body  = this.get('body');
       
       switch (validateTitle(title)) {
@@ -134,6 +143,11 @@ App.AddPageController = Ember.ArrayController.extend({
         case 3: this.set('slugError', 'Only a-z, A-Z, 0-9 and \"_\" are allowed for your slug.'); break;
         case 4: this.set('slugError', 'Please don\'t use any of the following keywords: post(s), page(s), add-post, add-page or search.'); break;
       }
+      switch (validateString(menu)) {
+        case 0: this.set('menuError', false); break;
+        case 1: this.set('menuError', 'Please choose a menu title.'); break;
+        case 2: this.set('menuError', 'Your menu title is too long, please choose a shorter one.'); break;
+      }
       switch (validateString(body)) {
         case 0: this.set('bodyError', false); break;
         case 1: this.set('bodyError', 'Please write some content.'); break;
@@ -143,20 +157,23 @@ App.AddPageController = Ember.ArrayController.extend({
       var inputIsFine = (
         !this.get('titleError') && 
         !this.get('slugError')  && 
-        !this.get('bodyError')
+        !this.get('bodyError')  &&
+        !this.get('menuError')
       );
       if (inputIsFine) {
         var page = this.store.createRecord('page', {
-          title:   title,
-          slug:    slug,
-          body:    body
+          title: title,
+          slug:  slug,
+          menu:  menu,
+          body:  body
         });
+        page.save();
 
         this.set('title', '');
         this.set('slug',  '');
+        this.set('menu',  '');
         this.set('body',  '');
 
-        page.save();
         this.transitionTo('/page/' + page.get('id'));
         this.woof.success('Your page has been created.');
       }
@@ -164,6 +181,7 @@ App.AddPageController = Ember.ArrayController.extend({
     cancelEdit: function () {
       this.set('title', '');
       this.set('slug',  '');
+      this.set('menu',  '');
       this.set('body',  '');
       this.transitionTo('posts');
     }
@@ -171,5 +189,6 @@ App.AddPageController = Ember.ArrayController.extend({
   needs: ['register'],
   titleError: false,
   slugError:  false,
+  menuError:  false,
   bodyError:  false
 });
