@@ -241,8 +241,10 @@ function countInFields(title, body) {
 function replacePunctuationMarks(string) {
     var result = string;
     var chars = ["!","\"","\'",".",",",":",";","?",")","(","/","\\","§","$","%","&","´","`","^"];
-    for (var i = 0; i < chars.length; i++) {
-        if (result.indexOf(chars[i]) > -1) result = result.split(chars[i]).join("");
+    if ((result != undefined) && (result.length > 0)) {
+        for (var i = 0; i < chars.length; i++) {
+            if (result.indexOf(chars[i]) > -1) result = result.split(chars[i]).join("");
+        }
     }
     return result;
 }
