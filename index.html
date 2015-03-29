@@ -66,7 +66,7 @@
           <div class="collapse navbar-collapse" id="collapsable-navbar">
             <ul class="nav navbar-nav">
               {{#each page in pages}}
-                <li>{{#link-to 'page' page.id}}{{page.slug}}{{/link-to}}</li>
+                <li>{{#link-to 'page' page.id}}{{page.menu}}{{/link-to}}</li>
               {{/each}}
             </ul>
             <ul class="nav navbar-nav navbar-right">
@@ -277,8 +277,14 @@
               {{input type="text" value=page.title class="form-control input-lg" placeholder="Title*"}}
             </div>
             <div {{bind-attr class=":form-group page.slugError:has-error"}}>
+              <label class="control-label" for="menu">Slug (Short URL)*</label>
               {{#if page.slugError}}<label class="control-label">{{page.slugError}}</label>{{/if}}
               {{input type="text" value=page.slug class="form-control" placeholder="Slug (Short URL)*"}}
+            </div>
+            <div {{bind-attr class=":form-group page.menuError:has-error"}}>
+              <label class="control-label" for="menu">Menu Title*</label>
+              {{#if page.menuError}}<label class="control-label">{{page.menuError}}</label>{{/if}}
+              {{input type="text" value=page.menu class="form-control" placeholder="Menu Title*"}}
             </div>
             <div {{bind-attr class=":form-group page.bodyError:has-error"}}>
               <label class="control-label" for="body">Content*</label>
