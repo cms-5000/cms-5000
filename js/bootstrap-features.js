@@ -13,4 +13,7 @@ $(document).ready(function () {
     e.preventDefault()
     $(this).tab('show')
   });
+  
+  // Tooltips
+  $('[data-toggle="tooltip"]').tooltip( { container: 'body' } );
 });

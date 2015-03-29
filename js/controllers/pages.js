@@ -11,12 +11,21 @@ App.PagesRoute = Ember.Route.extend({
 });
 
 App.PagesController = Ember.ArrayController.extend({
+  model: function () {
+    return this.store.find('page');
+  },
   needs: ['register']
+});
+
+App.PageRoute = Ember.Route.extend({
+  serialize: function (model, params) {
+    return { page_slug: model.get('slug') };
+  }
 });
 
 App.PageController = Ember.ObjectController.extend({
   model: function (params) {
-    return this.store.find('page', params.page_id);
+    return this.modelFor('pages').findBy('slug', params.page_slug);
   },
   actions: {
     toggleEdit: function () {
@@ -27,7 +36,8 @@ App.PageController = Ember.ObjectController.extend({
       }
     },
     goToEditor: function (page) {
-      this.transitionTo('/page/' + page.get('id'));
+      // this.transitionTo('/page/' + page.get('id'));
+      this.transitionTo('/page/' + page.get('slug'));
       this.controllerFor('page').set('isEditing', true);
     },
     editPage: function (page) {

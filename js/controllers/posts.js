@@ -43,7 +43,7 @@ App.PostsController = Ember.ArrayController.extend({
 App.PostRoute = Ember.Route.extend({
   beforeModel: function (transition) {
     this.controllerFor('post').set('previousTransition', transition);
-    console.log('transition: ' + transition); // DEBUG
+    // console.log('transition: ' + transition); // DEBUG
   },
   shortcuts: {
     'escape': 'returnToPosts'
@@ -145,7 +145,7 @@ App.PostController = Ember.ObjectController.extend({
       // this.transitionTo('/post/' + post.get('id'));
       // FIXME Transition to last route instead of always to post.
       var thePreviousTransition = this.get('previousTransition');
-      console.log('previousTransition: ' + thePreviousTransition); // DEBUG
+      // console.log('previousTransition: ' + thePreviousTransition); // DEBUG
       if (thePreviousTransition) {
         thePreviousTransition.retry();
         this.set('previousTransition', null);

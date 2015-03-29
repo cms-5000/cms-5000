@@ -22,7 +22,7 @@ App.Router.map(function() {
   this.resource('post',  { path: '/post/:post_id' });
   this.route('add-post');
   this.resource('pages', { path: '/pages' });
-  this.resource('page',  { path: '/page/:page_id' });
+  this.resource('page',  { path: '/page/:page_slug' });  
   this.route('add-page');
   this.route('register');
   this.route('search');

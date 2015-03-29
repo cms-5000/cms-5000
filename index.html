@@ -66,7 +66,7 @@
           <div class="collapse navbar-collapse" id="collapsable-navbar">
             <ul class="nav navbar-nav">
               {{#each page in pages}}
-                <li>{{#link-to 'page' page.id}}{{page.menu}}{{/link-to}}</li>
+                <li>{{#link-to 'page' page}}{{page.menu}}{{/link-to}}</li>
               {{/each}}
             </ul>
             <ul class="nav navbar-nav navbar-right">
@@ -135,7 +135,7 @@
       {{#if single}}
         <h1 class="post-title">{{post.title}}</h1>
       {{else}}
-        {{#link-to 'post' post.id}}<h1 class="post-title">{{post.title}}</h1>{{/link-to}}
+        {{#link-to 'post' post}}<h1 class="post-title">{{post.title}}</h1>{{/link-to}}
       {{/if}}
       <p class="excerpt">{{format-markdown post.excerpt}}</p>
       <div class="seperator">
@@ -143,7 +143,7 @@
             <p class="body">{{format-markdown post.body}}</p>
           {{else}}
             {{#if post.body}}
-              <p class="more" title="Read more">{{#link-to 'post' post.id}}<img src="images/more.png">{{/link-to}}</p>
+              <p class="more" title="Read more">{{#link-to 'post' post}}<img src="images/more.png">{{/link-to}}</p>
             {{/if}}
           {{/if}}
           {{#if post.loggedIn}}
@@ -226,7 +226,7 @@
   <script type="text/x-handlebars" id="pages">
     <h1>Pages</h1>
     {{#each page in model}}
-      <p>{{#link-to 'page' page.id}}{{page.title}}{{/link-to}}</p>
+      <p>{{#link-to 'page' page}}{{page.title}}{{/link-to}}</p>
     {{else}}
       <p class="info">There aren&#39;t any pages yet.</p>
       {{#if controllers.register.loggedIn}}
@@ -277,15 +277,21 @@
               {{#if page.titleError}}<label class="control-label">{{page.titleError}}</label>{{/if}}
               {{input type="text" value=page.title class="form-control input-lg" placeholder="Title*"}}
             </div>
-            <div {{bind-attr class=":form-group page.slugError:has-error"}}>
-              <label class="control-label" for="menu">Slug (Short URL)*</label>
-              {{#if page.slugError}}<label class="control-label">{{page.slugError}}</label>{{/if}}
-              {{input type="text" value=page.slug class="form-control" placeholder="Slug (Short URL)*"}}
-            </div>
-            <div {{bind-attr class=":form-group page.menuError:has-error"}}>
-              <label class="control-label" for="menu">Menu Title*</label>
-              {{#if page.menuError}}<label class="control-label">{{page.menuError}}</label>{{/if}}
-              {{input type="text" value=page.menu class="form-control" placeholder="Menu Title*"}}
+            <div class="row">
+              <div class="col-md-6">
+                <div {{bind-attr class=":form-group page.slugError:has-error"}}>
+                  <label class="control-label" for="menu">Slug (Short URL)*</label>
+                  {{#if page.slugError}}<label class="control-label">{{page.slugError}}</label>{{/if}}
+                  {{input type="text" value=page.slug class="form-control" placeholder="Slug (Short URL)*"}}
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div {{bind-attr class=":form-group page.menuError:has-error"}}>
+                  <label class="control-label" for="menu" data-toggle="tooltip" data-placement="right" title="This title will be shown in the menu on top.">Menu Title*</label>
+                  {{#if page.menuError}}<label class="control-label">{{page.menuError}}</label>{{/if}}
+                  {{input type="text" value=page.menu class="form-control" placeholder="Menu Title*"}}
+                </div>
+              </div>
             </div>
             <div {{bind-attr class=":form-group page.bodyError:has-error"}}>
               <label class="control-label" for="body">Content*</label>
@@ -340,7 +346,7 @@
       {{#if single}}
         <h1>{{post.title}}</h1>
       {{else}}
-        {{#link-to 'post' post.id}}<h1>{{post.title}}</h1>{{/link-to}}
+        {{#link-to 'post' post}}<h1>{{post.title}}</h1>{{/link-to}}
       {{/if}}
       <p class="excerpt">{{format-markdown post.excerpt}}</p>
       
@@ -416,8 +422,8 @@
           <tbody>
           {{#each post in posts itemController="post"}}
             <tr>
-              <td>{{#link-to 'post' post.id}}{{post.id}}{{/link-to}}</td>
-              <td>{{#link-to 'post' post.id}}{{post.title}}{{/link-to}}</td> 
+              <td>{{#link-to 'post' post}}{{post.id}}{{/link-to}}</td>
+              <td>{{#link-to 'post' post}}{{post.title}}{{/link-to}}</td> 
               <td>{{format-date-simple post.date}}</td>
               <td>{{post.words}}</td>
               <td>{{post.complex}}</td>
@@ -439,7 +445,7 @@
       {{#if pages}}
         <table class="table table-hover">
           <thead><tr>
-            <th>ID</th>
+            <th>Slug</th>
             <th>Title</th> 
             <th>Words</th>
             <th>Complex</th>
@@ -448,8 +454,8 @@
           <tbody>
           {{#each page in pages itemController="page"}}
             <tr>
-              <td>{{#link-to 'page' page.id}}{{page.id}}{{/link-to}}</td>
-              <td>{{#link-to 'page' page.id}}{{page.title}}{{/link-to}}</td> 
+              <td>{{#link-to 'page' page}}{{page.slug}}{{/link-to}}</td>
+              <td>{{#link-to 'page' page}}{{page.title}}{{/link-to}}</td> 
               <td>{{page.words}}</td>
               <td>{{page.complex}}</td>
               <td>
