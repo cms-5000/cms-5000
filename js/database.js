@@ -5,8 +5,6 @@
 //  db.sync(remote, {
 //    live:  true,
 //    retry: true
-//  }).on('change', function (change) {
-//    doSync();
 //  }).on('error', function(err) {
 //      // Retry connection every 5 seconds
 //      setTimeout(doSync, 5000);
