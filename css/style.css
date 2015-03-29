@@ -39,7 +39,7 @@ a:hover {
 }
 
 .post,
-.page-editing {
+.page-editing, .reg, .log {
   border-radius: 3px;
   background-color: white;
   padding: 0 8px 8px 8px;
@@ -52,8 +52,17 @@ a:hover {
           transition: all 1000ms;
 }
 
+.post,
+.page-editing{
+    margin: 10px;
+}
+
+.reg, .log{
+    margin: 5px;
+}
+
 .post:hover,
-.page-editing:hover {
+.page-editing:hover, .reg:hover, .log:hover  {
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
 }
 
@@ -63,13 +72,15 @@ a:hover {
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
 }
 
-.post-title {
+.post-title, .reg h1, .log h1 {
   background-color: #03A9F4;
   margin-right: -8px;
   margin-left: -8px;
+  margin-top: 0px;
+  margin-bottom: 10px;
   border-top-left-radius: 3px;
   border-top-right-radius: 3px;
-  padding: 3px 8px 8px 8px;
+  padding: 10px 10px 10px 10px;
   color: white;
   text-decoration: none;
 }
@@ -108,7 +119,8 @@ a .post-title:hover {
 
 .edit {
   border: 0;
-  background: transparent. display: block;
+  background: transparent;
+  display: block;
   position: absolute;
   margin-top: -17px;
   padding: 5px;
@@ -118,9 +130,11 @@ a .post-title:hover {
   transition: all 1000ms;
   background-color: #388E3C;
   right: 60px;
+  width: 34px;
+  height: 34px;
 }
 
-.more:hover, .edit:hover {
+.more:hover, .edit:hover, .pageEdit:hover {
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
 }
 
@@ -258,3 +272,57 @@ a .post-title:hover {
     background-color: #388e3c;
   }
 }
+
+.page{
+  border-radius: 3px;
+  background-color: white;
+  margin-top: -23px;
+  padding: 23px 8px 8px 8px;
+  box-shadow:         0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  -moz-box-shadow:    0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+}
+
+.page h1{
+  background-color: #03A9F4;
+  margin-top: -22px;
+  margin-right: -8px;
+  margin-left: -8px;
+  padding: 5px 10px 10px 10px;
+  color: white;
+  text-decoration: none;
+  text-align: center;
+}
+
+.pageEdit{
+  border: 0;
+  background: transparent;
+  display: block;
+  position: absolute;
+  right: 5%;
+  top: 37px;
+  padding: 5px;
+  border-radius: 50px;
+  -webkit-transition: all 1000ms;
+  -moz-transition: all 1000ms;
+  transition: all 1000ms;
+  background-color: #388E3C;
+  width: 34px;
+  height: 34px;
+}
+
+.woof{
+    position: fixed;
+    bottom: 0px;
+}
+
+.alert{
+    box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
+}
+
+.alert-success {
+    color: #dff0d8;
+    background-color: #4caf50 !important;
+    border-color: #4caf50;
+    background-image: linear-gradient(to bottom,#4caf50 0,#4caf50 100%);
+}  
