@@ -138,7 +138,11 @@
       {{else}}
         {{#link-to 'post' post}}<h1 class="post-title">{{post.title}}</h1>{{/link-to}}
       {{/if}}
-      <p class="excerpt">{{format-markdown post.excerpt}}</p>
+      {{#if single}}
+        <p class="lead excerpt">{{format-markdown post.excerpt}}</p>
+      {{else}}
+        <p class="excerpt">{{format-markdown post.excerpt}}</p>
+      {{/if}}
       <div class="seperator">
           {{#if single}}
             <p class="body">{{format-markdown post.body}}</p>
@@ -364,8 +368,16 @@
   
   <script type="text/x-handlebars" id="register">
     {{#if loggedIn}}
-      <h1>Welcome back</h1>
-      <p>You are currently logged in.</p>
+      <h1>Your Profile</h1>
+      <p>Welcome back - you are currently logged in.</p>
+      <dl class="dl-horizontal">
+        <dt>Username</dt><dd>admin</dd>
+        <dt>Real name</dt><dd>Super Admin</dd>
+        <dt>Email</dt><dd>admin@microsoft.com</dd>
+      </dl>
+      <button class="btn btn-default" onClick="alert('Oops, not working yet!')">
+        <span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit profile
+      </button>
       <button {{action 'doLogout'}} class="btn btn-danger">
         <span class="glyphicon glyphicon-lock" aria-hidden="true"></span> Logout
       </button>
