@@ -23,7 +23,7 @@ function isTooLong(string, maxlength) {
 }
 
 // 3 test if string is to long
-function isSlugUsed(slugstring) {
+function isSlugUsed(slugstring, id) {
     // use global var to save id
     window.curTempId = '';
     App.Post.store.filter('post', function(post) {
@@ -34,6 +34,8 @@ function isSlugUsed(slugstring) {
       }
       return 0;
     });
+    if (curTempId != '') {return 1};
+
     window.curTempId = '';
     App.Page.store.filter('page', function(page) {
       var slug = page.get('slug');
@@ -43,6 +45,7 @@ function isSlugUsed(slugstring) {
       }
       return 0;
     });
+    if (curTempId == id) {return 0};
     if (curTempId != '') {return 1} 
     else {return 0};
 }
@@ -50,7 +53,7 @@ function isSlugUsed(slugstring) {
 // 4 test if string for slug is not allowed
 function isSlugForbidden(slugstring) {
     //%%TODO%% extend the list for forbidden slugs (especially if you can generate new ones by adding pages!)
-    var forbiddenSlugs = ['posts','post','add-post','pages','page','add-page','search']
+    var forbiddenSlugs = ['posts','post','add-post','pages','page','add-page','search', 'cokpit']
     var forbiddenLength = forbiddenSlugs.length;
     for (var i = 0; i < forbiddenLength; i++) {
         if (forbiddenSlugs[i] == slugstring) return 1;
@@ -88,9 +91,9 @@ function validatePassword (string) {
 }
 
 // wrapper method to test string fields
-function validateSlug (slugstring) {
+function validateSlug (slugstring, id) {
     if (isEmpty(slugstring)) return 1;
-    if (isSlugUsed(slugstring)) return 2;
+    if (isSlugUsed(slugstring, id)) return 2;
     if (isSlugInvalid(slugstring)) return 3;
     if (isSlugForbidden(slugstring)) return 4;
     return 0;
