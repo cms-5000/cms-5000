@@ -41,6 +41,7 @@ App.PageController = Ember.ObjectController.extend({
       this.controllerFor('page').set('isEditing', true);
     },
     editPage: function (page) {
+      var id    = page.get('id');
       var title = page.get('title');
       var slug  = page.get('slug');
       var menu  = page.get('menu');
@@ -52,16 +53,16 @@ App.PageController = Ember.ObjectController.extend({
         case 1: this.set('titleError', 'Please choose a title.'); break;
         case 2: this.set('titleError', 'Your title is too long, please make it shorter.'); break;
       }
-      switch (validateSlug(slug)) {
+      switch (validateSlug(slug, id)) {
         case 0: this.set('slugError', false); break;
         case 1: this.set('slugError', 'Please define a slug (short url).'); break;
-        case 2: 
+        case 2: this.set('slugError', 'This slug is already being used. Please choose a different one.'); 
           // FIXME Doesn't work properly -> is validateSlug returning 2 by accident?
-          if (slugHasChanged) {
-            this.set('slugError', 'This slug is already being used. Please choose a different one.'); 
-          } else {
-            this.set('slugError', false);
-          }
+//          if (slugHasChanged) {
+//            this.set('slugError', 'This slug is already being used. Please choose a different one.'); 
+//          } else {
+//            this.set('slugError', false);
+//          }
           break;
         case 3: this.set('slugError', 'Only a-z, A-Z, 0-9 and \"_\" are allowed for your slug.'); break;
         case 4: this.set('slugError', 'Please don\'t use any of the following keywords: post(s), page(s), add-post, add-page or search.'); break;
@@ -146,7 +147,7 @@ App.AddPageController = Ember.ArrayController.extend({
         case 1: this.set('titleError', 'Please choose a title.'); break;
         case 2: this.set('titleError', 'Your title is too long, please make it shorter.'); break;
       }
-      switch (validateSlug(slug)) {
+      switch (validateSlug(slug, '-1')) {
         case 0: this.set('slugError', false); break;
         case 1: this.set('slugError', 'Please define a slug (short url).'); break;
         case 2: this.set('slugError', 'This slug is already being used. Please choose a different one.'); break;

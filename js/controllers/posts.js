@@ -94,6 +94,7 @@ App.PostController = Ember.ObjectController.extend({
       this.controllerFor('post').set('isEditing', true);
     },
     editPost: function (post) {
+      var id      = post.get('id');
       var title   = post.get('title');
       var slug    = post.get('slug');
       var excerpt = post.get('excerpt');
@@ -106,7 +107,7 @@ App.PostController = Ember.ObjectController.extend({
         case 1: this.set('titleError', 'Please choose a title.'); break;
         case 2: this.set('titleError', 'Your title is too long, please make it shorter.'); break;
       }
-      switch (validateSlug(slug)) {
+      switch (validateSlug(slug, id)) {
         case 0: this.set('slugError', false); break;
         case 1: this.set('slugError', 'Please define a slug (short url).'); break;
         case 2:
@@ -209,7 +210,7 @@ App.AddPostController = Ember.ArrayController.extend({
         case 1: this.set('titleError', 'Please choose a title.'); break;
         case 2: this.set('titleError', 'Your title is too long, please make it shorter.'); break;
       }
-      switch (validateSlug(slug)) {
+      switch (validateSlug(slug, '-1')) {
         case 0: this.set('slugError', false); break;
         case 1: this.set('slugError', 'Please define a slug (short url).'); break;
         case 2: this.set('slugError', 'This slug is already being used. Please choose a different one.'); break;
