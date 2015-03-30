@@ -34,8 +34,10 @@ function isSlugUsed(slugstring, id) {
       }
       return 0;
     });
-    if (curTempId != '') {return 1};
 
+    if (curTempId != '') { 
+        if (!(curTempId == id)) {return 1};
+    }
     window.curTempId = '';
     App.Page.store.filter('page', function(page) {
       var slug = page.get('slug');
@@ -45,8 +47,9 @@ function isSlugUsed(slugstring, id) {
       }
       return 0;
     });
-    if (curTempId == id) {return 0};
-    if (curTempId != '') {return 1} 
+    if (if (curTempId != '') {
+        if (!(curTempId == id)) {return 1;}
+    } 
     else {return 0};
 }
 
