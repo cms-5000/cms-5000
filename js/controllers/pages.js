@@ -11,23 +11,19 @@ App.PagesRoute = Ember.Route.extend({
 });
 
 App.PagesController = Ember.ArrayController.extend({
-  model: function () {
-    return this.store.find('page');
-  },
   needs: ['register']
 });
 
 App.PageRoute = Ember.Route.extend({
+  model: function (params) {
+    return this.store.findAsId('page', 'slug', params.page_slug);
+  },
   serialize: function (model) {
     return { page_slug: model.get('slug') };
   }
 });
 
 App.PageController = Ember.ObjectController.extend({
-  model: function (params) {
-    return this.modelFor('pages').findBy('slug', params.page_slug);
-    // return this.store.findAsId('page', 'slug', params.page_slug); // works, too
-  },
   actions: {
     toggleEdit: function () {
       if (this.get('isEditing')) {
@@ -90,7 +86,7 @@ App.PageController = Ember.ObjectController.extend({
         page.save();
 
         if (slugHasChanged) {
-          // TODO Should forward to the new address ('page/new-slug').
+          this.transitionTo('/page/' + page.get('slug'));
         }
         this.woof.success('Your page has been updated.');
       }
@@ -107,7 +103,7 @@ App.PageController = Ember.ObjectController.extend({
         this.set('isEditing', false);
         page.deleteRecord();
         page.save();
-        this.transitionTo('pages');
+        this.transitionTo('cockpit');
         this.woof.success('Your page has been removed.');
       }
     }

@@ -4,17 +4,18 @@ App.PostsRoute = Ember.Route.extend({
     return this.store.filter('post', function(post) {
       // collect all information we need for analysis
       var dataObject = {
-        id: post.get('id'),
-        title: post.get('title'),
+        id:      post.get('id'),
+        title:   post.get('title'),
+        // slug:    post.get('slug'),
         excerpt: post.get('excerpt'),
-        body: post.get('body'),
-        tags: post.get('tags'),
-        date: post.get('date'),
-        words: post.get('words'),
+        body:    post.get('body'),
+        tags:    post.get('tags'),
+        date:    post.get('date'),
+        words:   post.get('words'),
         complex: post.get('complex')
       };
       window.infoArray = addEntry(window.infoArray, dataObject);
-      return (true);
+      return true;
     });
   },
   shortcuts: {
@@ -36,7 +37,7 @@ App.PostsController = Ember.ArrayController.extend({
   sortedPosts: Ember.computed.sort('content.@each.date', function(a, b) {
    var ap = moment(Ember.get(b, 'date')),
        bp = moment(Ember.get(a, 'date'));
-   if(ap !== bp) {
+   if (ap !== bp) {
      return ap - bp;
    }
   }),
@@ -49,10 +50,17 @@ App.PostsController = Ember.ArrayController.extend({
   needs: ['register']
 });
 
+
 App.PostRoute = Ember.Route.extend({
   beforeModel: function (transition) {
     this.controllerFor('post').set('previousTransition', transition);
   },
+//  model: function (params) {
+//    return this.store.findAsId('post', 'slug', params.post_slug);
+//  },
+//  serialize: function (model) {
+//    return { post_slug: model.get('slug') };
+//  },
   shortcuts: {
     'escape': 'returnToPosts'
   },
@@ -78,9 +86,6 @@ App.PostRoute = Ember.Route.extend({
 });
 
 App.PostController = Ember.ObjectController.extend({
-  model: function (params) {
-    return this.store.find('post', params.post_id);
-  },
   actions: {
     toggleEdit: function () {
       if (this.get('isEditing')) {
@@ -90,7 +95,7 @@ App.PostController = Ember.ObjectController.extend({
       }
     },
     goToEditor: function (post) {
-      this.transitionTo('/post/' + post.get('id'));
+      this.transitionTo('/post/' + post.get('id')); // FIXME 'id' -> 'slug'
       this.controllerFor('post').set('isEditing', true);
     },
     editPost: function (post) {
@@ -143,7 +148,8 @@ App.PostController = Ember.ObjectController.extend({
         post.save();
 
         if (slugHasChanged) {
-          this.transitionTo('posts'); // TODO Should rather forward to the new address ('post/new-slug').
+          // TODO Should rather forward to the new address ('post/new-slug') as soon as slug system is working.
+          this.transitionTo('posts');
         }
         this.woof.success('Your post has been updated.');
       }
@@ -168,7 +174,7 @@ App.PostController = Ember.ObjectController.extend({
         var title = post.get('title');
         post.deleteRecord();
         post.save();
-        this.transitionTo('posts');
+        this.transitionToRoute('cockpit');
         this.woof.success('Your post \"' + title + '\" has been removed.');
       }
     }
@@ -179,7 +185,8 @@ App.PostController = Ember.ObjectController.extend({
   titleError: false,
   slugError: false,
   excerptError: false,
-  bodyError: false
+  bodyError: false,
+  previousTransition: ''
 });
 
 
@@ -188,7 +195,9 @@ App.AddPostRoute = Ember.Route.extend({
     'escape': 'returnToPosts'
   },
   actions: {
-    returnToPosts: function () { this.transitionTo('posts'); },
+    returnToPosts: function () { 
+      this.transitionTo('posts'); 
+    },
     startSearch: function (params) { 
       window.mySearchString = params;
       this.transitionTo('search');

@@ -35,8 +35,8 @@ function isSlugUsed(slugstring, id) {
       return 0;
     });
 
-    if (curTempId != '') { 
-        if (!(curTempId == id)) {return 1};
+    if (curTempId != '' && !(curTempId == id)) { 
+      return 1;
     }
     window.curTempId = '';
     App.Page.store.filter('page', function(page) {
@@ -47,10 +47,12 @@ function isSlugUsed(slugstring, id) {
       }
       return 0;
     });
-    if (curTempId != '') {
-        if (!(curTempId == id)) {return 1;}
+    if (curTempId != '' && !(curTempId == id)) {
+      return 1;
     } 
-    else {return 0};
+    else {
+      return 0;
+    }
 }
 
 // 4 test if string for slug is not allowed
