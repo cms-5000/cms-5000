@@ -8,7 +8,7 @@ App.Post = DS.Model.extend({
   rev:     DS.attr('string'),
   
   /* Computed Properties */
-  words:   function() {
+  words: function() {
     var words = this.get('title').split(' ').length;
     words += this.get('excerpt').split(' ').length;
     if (!(this.get('body') === undefined)) {
@@ -16,7 +16,7 @@ App.Post = DS.Model.extend({
     }
     return words;
   }.property('title', 'excerpt', 'body'),
-  complex:  function () {
+  complex: function () {
     return parseFloat((countDifferentPost(this.get('title'), this.get('excerpt'), this.get('body'))/ this.get('words'))).toFixed(2);
   }.property('title', 'excerpt', 'body', 'words')
 });

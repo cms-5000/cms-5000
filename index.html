@@ -100,7 +100,7 @@
   </script>
   
   <script type="text/x-handlebars" id="posts">
-    {{#each post in model itemController="post"}}
+    {{#each post in sortedPosts itemController="post"}}
       {{#if post.isEditing}}
         {{post-editor post=post editPost='editPost' cancelEdit='cancelEdit' removePost='removePost'}}
       {{else}}
@@ -261,7 +261,7 @@
   
   <script type="text/x-handlebars" id="components/page-viewer">
     <article class="page">
-      <h1>{{page.title}}</h1>
+      <h1 class="page-title">{{page.title}}</h1>
       <p class="body">{{format-markdown page.body}}</p>
       {{#if page.loggedIn}}
         <button type="button" {{action 'toggleEdit' page}} class="pageEdit" title="Edit this page.">

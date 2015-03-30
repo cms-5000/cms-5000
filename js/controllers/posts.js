@@ -31,6 +31,15 @@ App.PostsRoute = Ember.Route.extend({
 });
 
 App.PostsController = Ember.ArrayController.extend({
+  sortProperties: ['date'],
+  sortAscending: false,
+  sortedPosts: Ember.computed.sort('content.@each.date', function(a, b) {
+   var ap = moment(Ember.get(b, 'date')),
+       bp = moment(Ember.get(a, 'date'));
+   if(ap !== bp) {
+     return ap - bp;
+   }
+  }),
   actions: {
     startSearch: function (params) { 
       window.mySearchString = params;
@@ -43,7 +52,6 @@ App.PostsController = Ember.ArrayController.extend({
 App.PostRoute = Ember.Route.extend({
   beforeModel: function (transition) {
     this.controllerFor('post').set('previousTransition', transition);
-    // console.log('transition: ' + transition); // DEBUG
   },
   shortcuts: {
     'escape': 'returnToPosts'
@@ -145,7 +153,6 @@ App.PostController = Ember.ObjectController.extend({
       // this.transitionTo('/post/' + post.get('id'));
       // FIXME Transition to last route instead of always to post.
       var thePreviousTransition = this.get('previousTransition');
-      // console.log('previousTransition: ' + thePreviousTransition); // DEBUG
       if (thePreviousTransition) {
         thePreviousTransition.retry();
         this.set('previousTransition', null);

@@ -30,7 +30,6 @@ a:hover {
 
 .post .body a:hover, .post .excerpt a:hover, 
 .page .body a:hover {
-/*  color: #C8E6C9;*/
   text-decoration: none;
 }
 
@@ -72,8 +71,9 @@ a:hover {
   padding-bottom: 3px;
 }
 
-.post-title, .reg h1, .log h1 {
+.post .post-title, .reg h1, .log h1 {
   background-color: #727272;
+  color: white;
   margin-right: -8px;
   margin-left: -8px;
   margin-top: 0px;
@@ -81,10 +81,9 @@ a:hover {
   border-top-left-radius: 3px;
   border-top-right-radius: 3px;
   padding: 10px 10px 10px 10px;
-  color: white;
   text-decoration: none;
 }
-a .post-title:hover {
+.post a .post-title:hover {
   background-color: #4b4b4b;
 }
 
@@ -249,7 +248,7 @@ a .post-title:hover {
   -moz-box-shadow:    0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
   -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
 }
-.page h1 {
+.page .page-title {
   background-color: #727272;
   margin-top: -22px;
   margin-right: -8px;
@@ -258,6 +257,13 @@ a .post-title:hover {
   color: white;
   text-decoration: none;
   text-align: center;
+}
+.post h1, .page h1,
+.post h2, .page h2,
+.post h3, .page h3,
+.post h4, .page h4,
+.post h5, .page h5 {
+  color: #727272;
 }
 
 .woof {
