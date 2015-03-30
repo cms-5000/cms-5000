@@ -280,3 +280,22 @@ a:hover {
   border-color: #4caf50;
   background-image: linear-gradient(to bottom,#4caf50 0,#4caf50 100%);
 }  
+
+.table-hover>tbody>tr:hover {
+  background-color: #4caf50;
+  color: white;
+}
+
+.table-hover>tbody>tr:hover a{
+  background-color: #4caf50;
+  color: white;
+}
+
+table a{
+  color:black;
+}
+
+table a:hover{
+  text-decoration: underline;
+  color: white;
+}
