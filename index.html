@@ -28,7 +28,6 @@
   <script src="js/libs/pouchdb.relational-pouch.min.js"></script>
   <script src="js/libs/ember-pouch-adapter.js"></script>
   <script src="js/libs/bootstrap.min.js"></script>
-  <script src="js/libs/Chart.min.js"></script>
   <script src="js/libs/highchart.min.js"></script>
   <script src="js/libs/velocity.min.js"></script> 
   <script src="js/libs/liquid-fire-0.17.0.js"></script>
@@ -53,48 +52,51 @@
 <body>
   
   <script type="text/x-handlebars" data-template-name="application">
-      <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
-        <div class="container-fluid">
-          <div class="navbar-header">
-            {{#link-to 'posts' class='navbar-brand'}}cms-5000{{/link-to}}
-            
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#collapsable-navbar">
-              <span class="sr-only">Toggle Menu</span>
-              <span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
-            </button>
-          </div>
-          <div class="collapse navbar-collapse" id="collapsable-navbar">
-            <ul class="nav navbar-nav">
-              {{#each page in pages}}
-                <li>{{#link-to 'page' page}}{{page.menu}}{{/link-to}}</li>
-              {{/each}}
-            </ul>
-            <ul class="nav navbar-nav navbar-right">
-              <li>
-                <form class="navbar-form searchbox" role="search">
-                  {{input type="text" value=search id="searchbox-action" class="form-control" placeholder="Search..."}}
-                  <button {{action 'startSearch' search}} type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
-                </form>
-              </li>
-              {{#if controllers.register.loggedIn}}
-                <li>{{#link-to 'cockpit'}}Cockpit{{/link-to}}</li>  
-                <li>{{#link-to 'add-post'}}Add a Post{{/link-to}}</li>
-                <li>{{#link-to 'add-page'}}Add a Page{{/link-to}}</li>
-                <li>{{#link-to 'register'}}Profile{{/link-to}}</li>
-              {{else}}
-                <li>{{#link-to 'register'}}Register/Login{{/link-to}}</li>
-              {{/if}}
-            </ul>
-          </div>
+    <nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          {{#link-to 'posts' class='navbar-brand'}}cms-5000{{/link-to}}
+
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#collapsable-navbar">
+            <span class="sr-only">Toggle Menu</span>
+            <span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
+          </button>
         </div>
-      </nav>
-      <!-- Content -->
-      <div class="row">
-        <div class="col-md-offset-2 col-md-8 col-xs-12">
-          {{liquid-outlet}}
+        <div class="collapse navbar-collapse" id="collapsable-navbar">
+          <ul class="nav navbar-nav">
+            {{#each page in pages}}
+              <li>{{#link-to 'page' page}}{{page.menu}}{{/link-to}}</li>
+            {{/each}}
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li>
+              <form class="navbar-form searchbox" role="search">
+                {{input type="text" value=search id="searchbox-action" class="form-control" placeholder="Search..."}}
+                <button {{action 'startSearch' search}} type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+              </form>
+            </li>
+            {{#if controllers.register.loggedIn}}
+              <li>{{#link-to 'cockpit'}}Cockpit{{/link-to}}</li>  
+              <li>{{#link-to 'add-post'}}Add a Post{{/link-to}}</li>
+              <li>{{#link-to 'add-page'}}Add a Page{{/link-to}}</li>
+              <li>{{#link-to 'register'}}Profile{{/link-to}}</li>
+            {{else}}
+              <li>{{#link-to 'register'}}Register/Login{{/link-to}}</li>
+            {{/if}}
+          </ul>
         </div>
       </div>
-      <div class='woof col-md-offset-2 col-md-8 col-xs-12'>{{x-woof}}</div>
+    </nav>
+    
+    <!-- Content -->
+    <div class="row content-container">
+      <div class="col-md-offset-2 col-md-8 col-xs-12">
+        {{liquid-outlet}}
+      </div>
+    </div>
+    <div class="row">
+      <div class='col-md-offset-2 col-md-8 col-xs-12 woof'>{{x-woof}}</div>
+    </div>
   </script>
   
   <script type="text/x-handlebars" id="posts">
