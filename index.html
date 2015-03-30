@@ -142,7 +142,9 @@
             <p class="body">{{format-markdown post.body}}</p>
           {{else}}
             {{#if post.body}}
-              <p class="more" title="Read more">{{#link-to 'post' post}}<img src="images/more.png">{{/link-to}}</p>
+              {{#link-to 'post' post class='more' title='Read more'}}
+                  <span class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></span>
+              {{/link-to}}
             {{/if}}
           {{/if}}
           {{#if post.loggedIn}}
@@ -367,7 +369,7 @@
       </button>
     {{else}}
       <div class="row">
-        <div class="reg col-xs-12 col-md-5">
+        <div class="col-xs-12 col-md-5 reg">
           <h1>Registration</h1>
           <p>Register a new user account here.</p>
           <div {{bind-attr class=":form-group usernameError:has-error"}}>
@@ -382,7 +384,7 @@
             <span class="glyphicon glyphicon-user" aria-hidden="true"></span> Register
           </button>
         </div>
-        <div class="log col-xs-12 col-md-5">
+        <div class="col-xs-12 col-md-5 col-md-offset-1 log">
           <h1>Login</h1>
           <p>Login with your existing account.</p>
           {{#if loginError}}<div class="form-group has-error"><label class="control-label">{{loginError}}</label></div>{{/if}}

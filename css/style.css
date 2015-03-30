@@ -39,7 +39,7 @@ a:hover {
 }
 
 .post,
-.page-editing, .reg, .log {
+.reg, .log {
   border-radius: 3px;
   background-color: white;
   padding: 0 8px 8px 8px;
@@ -52,17 +52,18 @@ a:hover {
           transition: all 1000ms;
 }
 
-.post,
-.page-editing{
-    margin: 10px;
+.post {
+    margin: 0 auto 20px auto;
 }
-
+/*
 .reg, .log{
     margin: 5px;
 }
+*/
 
 .post:hover,
-.page-editing:hover, .reg:hover, .log:hover  {
+.post-editing:hover, .page-editing:hover, 
+.reg:hover, .log:hover  {
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
 }
 
@@ -70,14 +71,8 @@ a:hover {
     padding-bottom: 3px;
 }
 
-.post-editing {
-  background-color: white;
-  margin-top: 10px;
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
-}
-
 .post-title, .reg h1, .log h1 {
-  background-color: #03A9F4;
+  background-color: #727272;
   margin-right: -8px;
   margin-left: -8px;
   margin-top: 0px;
@@ -89,7 +84,7 @@ a:hover {
   text-decoration: none;
 }
 a .post-title:hover {
-  background-color: #0096d9;
+  background-color: #4b4b4b;
 }
 
 .post .date,
@@ -108,37 +103,42 @@ a .post-title:hover {
   padding-left: 8px;
 }
 
-.more {
+.more, .edit, .pageEdit {
+  color: white;
+  text-align: center;
   display: block;
   position: absolute;
-  margin-top: -17px;
-  padding: 5px;
-  border-radius: 20px;
   -webkit-transition: all 1000ms;
-  -moz-transition: all 1000ms;
-  transition: all 1000ms;
+     -moz-transition: all 1000ms;
+          transition: all 1000ms;
   background-color: #388E3C;
+  border: 0;
+  border-radius: 20px;
+  width:  34px;
+  height: 34px;
+}
+
+.more {
+  padding-top: 8px;
+  margin-top: -17px;
   right: 20px;
 }
 
 .edit {
-  border: 0;
-  background: transparent;
-  display: block;
-  position: absolute;
+  padding-top: 6px;
   margin-top: -17px;
-  padding: 5px;
-  border-radius: 50px;
-  -webkit-transition: all 1000ms;
-  -moz-transition: all 1000ms;
-  transition: all 1000ms;
-  background-color: #388E3C;
   right: 60px;
-  width: 34px;
-  height: 34px;
+}
+
+.pageEdit {
+  padding-top: 6px;
+  right: 5%;
+  top: 37px;
 }
 
 .more:hover, .edit:hover, .pageEdit:hover {
+  color: white;
+  background-color: #3cbe42;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
 }
 
@@ -183,9 +183,12 @@ a .post-title:hover {
 
 .post-editing,
 .page-editing {
+  margin: 20px auto;
   padding: 10px;
   border: 1px solid #ddd;
   border-radius: 5px;
+  background-color: white;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
 }
 
 .navbar-default {
@@ -277,7 +280,7 @@ a .post-title:hover {
   }
 }
 
-.page{
+.page {
   border-radius: 3px;
   background-color: white;
   margin-top: -23px;
@@ -288,7 +291,7 @@ a .post-title:hover {
 }
 
 .page h1{
-  background-color: #03A9F4;
+  background-color: #727272;
   margin-top: -22px;
   margin-right: -8px;
   margin-left: -8px;
@@ -298,29 +301,12 @@ a .post-title:hover {
   text-align: center;
 }
 
-.pageEdit{
-  border: 0;
-  background: transparent;
-  display: block;
-  position: absolute;
-  right: 5%;
-  top: 37px;
-  padding: 5px;
-  border-radius: 50px;
-  -webkit-transition: all 1000ms;
-  -moz-transition: all 1000ms;
-  transition: all 1000ms;
-  background-color: #388E3C;
-  width: 34px;
-  height: 34px;
-}
-
 .woof{
     position: fixed;
     bottom: 0px;
 }
 
-.alert{
+.alert {
     box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
 }
 

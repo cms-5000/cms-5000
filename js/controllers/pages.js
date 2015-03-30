@@ -18,7 +18,7 @@ App.PagesController = Ember.ArrayController.extend({
 });
 
 App.PageRoute = Ember.Route.extend({
-  serialize: function (model, params) {
+  serialize: function (model) {
     return { page_slug: model.get('slug') };
   }
 });
@@ -26,6 +26,7 @@ App.PageRoute = Ember.Route.extend({
 App.PageController = Ember.ObjectController.extend({
   model: function (params) {
     return this.modelFor('pages').findBy('slug', params.page_slug);
+    // return this.store.findAsId('page', 'slug', params.page_slug); // works, too
   },
   actions: {
     toggleEdit: function () {
@@ -36,7 +37,6 @@ App.PageController = Ember.ObjectController.extend({
       }
     },
     goToEditor: function (page) {
-      // this.transitionTo('/page/' + page.get('id'));
       this.transitionTo('/page/' + page.get('slug'));
       this.controllerFor('page').set('isEditing', true);
     },
@@ -98,7 +98,7 @@ App.PageController = Ember.ObjectController.extend({
       page.rollback();
       this.set('isEditing', false);
       // FIXME Transition to last route instead of always to page.
-      this.transitionTo('/page/' + page.get('id'));
+      this.transitionTo('/page/' + page.get('slug'));
     },
     removePage: function (page) {
       var confirmed = confirm("Are you sure you want to remove the page \"" + page.get('title') + "\"?");
@@ -184,7 +184,7 @@ App.AddPageController = Ember.ArrayController.extend({
         this.set('menu',  '');
         this.set('body',  '');
 
-        this.transitionTo('/page/' + page.get('id'));
+        this.transitionTo('/page/' + page.get('slug'));
         this.woof.success('Your page has been created.');
       }
     },
