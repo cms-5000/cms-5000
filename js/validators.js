@@ -47,7 +47,7 @@ function isSlugUsed(slugstring, id) {
       }
       return 0;
     });
-    if (if (curTempId != '') {
+    if (curTempId != '') {
         if (!(curTempId == id)) {return 1;}
     } 
     else {return 0};
