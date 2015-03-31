@@ -1,7 +1,7 @@
 App.CockpitRoute = Ember.Route.extend({
   setupController: function (controller, model) {
     controller.set('diagrams', ['']);
-    controller.set('posts', this.store.find('post'));
+    controller.set('posts', this.store.find('post')); // FIXME Sort by date!
     controller.set('pages', this.store.find('page'));
   },
   actions: {
