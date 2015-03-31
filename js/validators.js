@@ -25,31 +25,37 @@ function isTooLong(string, maxlength) {
 // 3 test if string is to long
 function isSlugUsed(slugstring, id) {
     // use global var to save id
-    window.curTempId = '';
+    window.curTempId = new Array(0);
     App.Post.store.filter('post', function(post) {
       var slug = post.get('slug');
       if (slugstring == slug) {
-        window.curTempId = post.get('id');
+        tempId = post.get('id');
+        window.curTempId.push(tempId)
         return 1;
       }
       return 0;
     });
 
-    if (curTempId != '') { 
-        if (!(curTempId == id)) {return 1};
+    if (curTempId.length > 0) { 
+        for (var i = 0; i < curTempId.length; i++) {
+            if (!(curTempId[i] == id)) {return 1};    
+        }
     }
-    window.curTempId = '';
+    window.curTempId = new Array(0);
     App.Page.store.filter('page', function(page) {
       var slug = page.get('slug');
       if (slugstring == slug) {
-        window.curTempId = page.get('id');
+        var tempId = page.get('id');
+        window.curTempId.push(tempId);
         return 1;
       }
       return 0;
     });
-    if (curTempId != '') {
-        if (!(curTempId == id)) {return 1;}
-    } 
+    if (curTempId.length > 0) { 
+        for (var i = 0; i < curTempId.length; i++) {
+            if (!(curTempId[i] == id)) {return 1};    
+        }
+    }
     else {return 0};
 }
 
