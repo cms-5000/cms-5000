@@ -1,11 +1,11 @@
-//App.RegisterRoute = Ember.Route.extend({ 
-//  actions: {
-//    startSearch: function (params) { 
-//      window.mySearchString = params;
-//      this.transitionTo('search');
-//    }
-//  }
-//});
+App.RegisterRoute = Ember.Route.extend({ 
+  actions: {
+    startSearch: function (params) { 
+      window.mySearchString = params;
+      this.transitionTo('search');
+    }
+  }
+});
 
 App.RegisterController = Ember.ArrayController.extend({
   actions: {
@@ -74,7 +74,7 @@ App.RegisterController = Ember.ArrayController.extend({
       if (inputIsFine) {
         this.set('loggedIn', true);
         $.cookie('logged_in', 'true');
-        this.transitionTo('posts');
+        this.transitionToRoute('posts');
         this.woof.success('You are now logged in.');
       }
     },

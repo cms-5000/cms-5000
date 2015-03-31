@@ -109,7 +109,9 @@
     {{else}}
       <p class="info">There aren&#39;t any posts yet.</p>
       {{#if controllers.register.loggedIn}}
-        {{#link-to 'add-post' class='btn btn-primary'}}Add a Post{{/link-to}}
+        {{#link-to 'add-post' class='btn btn-primary'}}
+          <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add a Post
+        {{/link-to}}
       {{/if}}
     {{/each}}
   </script>
@@ -135,12 +137,9 @@
     <article class="post">
       {{#if single}}
         <h1 class="post-title">{{post.title}}</h1>
-      {{else}}
-        {{#link-to 'post' post}}<h1 class="post-title">{{post.title}}</h1>{{/link-to}}
-      {{/if}}
-      {{#if single}}
         <p class="lead excerpt">{{format-markdown post.excerpt}}</p>
       {{else}}
+        {{#link-to 'post' post}}<h1 class="post-title">{{post.title}}</h1>{{/link-to}}
         <p class="excerpt">{{format-markdown post.excerpt}}</p>
       {{/if}}
       <div class="seperator">
@@ -237,7 +236,9 @@
     {{else}}
       <p class="info">There aren&#39;t any pages yet.</p>
       {{#if controllers.register.loggedIn}}
-        {{#link-to 'add-page' class='btn btn-primary'}}Add a Page{{/link-to}}
+        {{#link-to 'add-page' class='btn btn-primary'}}
+          <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add a Page
+        {{/link-to}}
       {{/if}}
     {{/each}}
   </script>
@@ -451,6 +452,9 @@
       {{else}}
         <p class="info">No posts yet.</p>
       {{/if}}
+      {{#link-to 'add-post' class='btn btn-primary'}}
+        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add a Post
+      {{/link-to}}
     
       <hr>
     
@@ -482,6 +486,9 @@
       {{else}}
         <p class="info">No pages yet.</p>
       {{/if}}
+      {{#link-to 'add-page' class='btn btn-primary'}}
+        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add a Page
+      {{/link-to}}
     
       <hr>
     
