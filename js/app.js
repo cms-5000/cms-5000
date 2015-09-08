@@ -1,26 +1,6 @@
 // General Setup
 window.App = Ember.Application.create({});
 
-App.ApplicationStore = DS.Store.extend({
-  findAsId: function (type, field, value) {
-    Ember.assert("You need to pass a type, field and value.", arguments.length === 3);
-
-    var entity = this.all(type).findBy(field, value);
-    if (Ember.isEmpty(entity)) {
-      var query = {};
-      query[field] = value;
-      return this.find(type, query).then(function (array) {
-        Ember.assert('Must find only one object. Found:' + array.get('length'), array.get('length') === 1);
-        return array.get('firstObject');
-      });
-    } else {
-      return new Ember.RSVP.Promise(function (resolve) {
-        resolve(entity);
-      });
-    }
-  }
-});
-
 App.ApplicationRoute = Ember.Route.extend({
   setupController: function (controller, model) {
     controller.set('posts', this.store.find('post'));
